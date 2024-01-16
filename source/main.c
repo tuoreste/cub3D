@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:20:31 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/01/16 15:02:19 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:28:09 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@
 // 			// speed modifiers
 // 			double moveSpeed = frameTime * 5.0;
 // 				// the constant value is in squares/second
-// 			double rotSpeed = frameTime * 3.0; 
+// 			double rotSpeed = frameTime * 3.0;
 // 				// the constant value is in radians/second
 // 			readKeys();
 // 			// move forward if no wall in front of you
@@ -235,31 +235,44 @@ int	error_exit(t_data *data, char *str)
 {
 	mlx_close_window(data->mlx);
 	mlx_strerror(mlx_errno);
-	write (2, str, ft_strlen(str));
+	write(2, str, ft_strlen(str));
 	return (EXIT_FAILURE);
 }
 
 int	initialization(t_data *data, t_map *map)
 {
-	set_map(map);
 }
+t_map	*set_map_data(char *f)
+{
+	int		fd;
+	char	*c;
+	int		i;
+	char	*line;
 
+	line = NULL;
+	fd = open(f);
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		c = ft_strjoin(c, line);
+		free(line);
+	}
+}
 int	pass_parsing(t_data *data, t_map *map, char **argv)
 {
-	;
+	return (1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_data	*data;
-	t_map	map;
+	t_map	*map;
 
-	if (argc != 2)
-		return (error_exit(data->mlx, "Add one arg (map with ext '.cub')"));
 	data = ft_calloc(sizeof(t_data), 1);
+	if (argc != 2 || !ft_strnstr(argv[1], ".cub", 3))
+		return (error_exit(data->mlx, "Add one arg (map with ext '.cub')"));
 	data->mlx = mlx_init(SCREEN_W, SCREEN_H, "CUBE3D", 100);
-	initialization(&data, &map);
-	pass_parsing(data, &map, argv);
-	
+	map = set_map_data(argv[1]);
+	// initialization(data, &map);
+	// pass_parsing(data, &map, argv);
 	free(data);
 }

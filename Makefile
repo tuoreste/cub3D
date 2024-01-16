@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
+#    By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/08 14:23:29 by otuyishi          #+#    #+#              #
-#    Updated: 2024/01/13 17:34:34 by otuyishi         ###   ########.fr        #
+#    Updated: 2024/01/16 15:49:05 by aguediri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := cub3d
 
-CFLAGS := -Wextra -Wall -Werror -g -O3 -funroll-loops -fsanitize=address
+CFLAGS := -Wextra -Wall -Werror -g -O3 -funroll-loops #-fsanitize=address
 LIBMLX := lib/MLX42
 
 HEADERS := -I ./include -I $(LIBMLX)/include -I ./lib/libft -I ./lib/MLX42/include/MLX42
