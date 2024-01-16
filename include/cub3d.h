@@ -7,6 +7,7 @@
 // # include "libft.h"
 # include "MLX42.h"
 # include "libft.h"
+# include "get_next_line.h"
 
 # define MAP_W 24
 # define MAP_H 24

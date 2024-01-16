@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:20:31 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/01/16 15:02:19 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:31:35 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,9 +239,9 @@ int	error_exit(t_data *data, char *str)
 	return (EXIT_FAILURE);
 }
 
-int	initialization(t_data *data, t_map *map)
+int	initialization(t_data *data)
 {
-	set_map(map);
+	;
 }
 
 int	pass_parsing(t_data *data, t_map *map, char **argv)
@@ -258,8 +258,9 @@ int	main(int argc, char **argv)
 		return (error_exit(data->mlx, "Add one arg (map with ext '.cub')"));
 	data = ft_calloc(sizeof(t_data), 1);
 	data->mlx = mlx_init(SCREEN_W, SCREEN_H, "CUBE3D", 100);
-	initialization(&data, &map);
-	pass_parsing(data, &map, argv);
-	
+	set_map(map);
+	initialization(&data);
+	if (pass_parsing(data, &map, argv))
+		return (1);
 	free(data);
 }
