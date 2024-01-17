@@ -28,15 +28,21 @@ typedef struct s_ray
 	double	ray_dir_y;
 }	t_ray;
 
-typedef struct s_data
+typedef struct s_img
 {
 	void	*img;
+	int		width;
+	int		height;
+	int		endian;
+	int		bits_per_pixel;
+	int		line_len;
+}	t_img;
+
+typedef struct s_data
+{
 	char	*addr;
 	void	*mlx;
 	void	*win_mlx;
-	int		bits_per_pixel;
-	int		line_len;
-	int		endian;
 	float	x0;
 	float	x1;
 	float	y0;

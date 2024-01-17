@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:20:31 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/01/16 16:31:35 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:47:28 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@
 // 			// speed modifiers
 // 			double moveSpeed = frameTime * 5.0;
 // 				// the constant value is in squares/second
-// 			double rotSpeed = frameTime * 3.0; 
+// 			double rotSpeed = frameTime * 3.0;
 // 				// the constant value is in radians/second
 // 			readKeys();
 // 			// move forward if no wall in front of you
@@ -235,32 +235,38 @@ int	error_exit(t_data *data, char *str)
 {
 	mlx_close_window(data->mlx);
 	mlx_strerror(mlx_errno);
-	write (2, str, ft_strlen(str));
+	write(2, str, ft_strlen(str));
 	return (EXIT_FAILURE);
 }
 
-int	initialization(t_data *data)
+int	initialization(t_data *data, t_img *img)
 {
-	;
+	int	i;
+
+	i = 0;
+	data->win_mlx = mlx_image_to_window(data->mlx, img->img, 0, 0);
+	img->img = mlx_new_image(data->mlx, MAP_W, MAP_H);
 }
 
 int	pass_parsing(t_data *data, t_map *map, char **argv)
 {
-	;
+	return (1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_data	*data;
-	t_map	map;
+	t_map	*map;
+	t_img	*img;
 
-	if (argc != 2)
-		return (error_exit(data->mlx, "Add one arg (map with ext '.cub')"));
 	data = ft_calloc(sizeof(t_data), 1);
+	if (argc != 2 || !ft_strnstr(argv[1], ".cub", 3))
+		return (error_exit(data->mlx, "Add one arg (map with ext '.cub')"));
 	data->mlx = mlx_init(SCREEN_W, SCREEN_H, "CUBE3D", 100);
-	set_map(map);
-	initialization(&data);
-	if (pass_parsing(data, &map, argv))
-		return (1);
+	if (!data->mlx)
+		return (error_exit(data->mlx, "MLX Failed to init"));
+	
+	initialization(&data, &img);
+	pass_parsing(data, &map, argv);
 	free(data);
 }
