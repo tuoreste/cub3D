@@ -6,7 +6,7 @@
 /*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:20:31 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/01/19 15:32:54 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:02:16 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,23 +283,52 @@ char	*get_next_line(int fd)
 	line[to_copy] = '\0';
 	return (line);
 }
+void	manage_directions(char *s, t_map *data)
+{
+	char	**t;
+
+	t = ft_split(s, ' ');
+	if (t[0][0] == 'N')
+		data->north = ft_strdup(t[1]);
+	else if (t[0][0] == 'S')
+		data->south = ft_strdup(t[1]);
+	else if (t[0][0] == 'W')
+		data->west = ft_strdup(t[1]);
+	else if (t[0][0] == 'E')
+		data->east = ft_strdup(t[1]);
+}
+void	manage_sfc(char *s, t_map *data)
+{
+	char	**t;
+
+	t = ft_split(s, ' ');
+	if (t[0][0] == 'F')
+		data->f = ft_strdup(t[1]);
+	else if (t[0][0] == 'S')
+		data->s = ft_strdup(t[1]);
+	else if (t[0][0] == 'C')
+		data->c = ft_strdup(t[1]);
+}
 t_map	*manage_data(char *s)
 {
 	int		i;
 	t_map	*data;
 	char	**t;
 	char	**t1;
-	char	*map = "";
+	char	*map;
 
+	data = (t_map *)malloc(sizeof(t_map));
+	map = "";
 	i = 0;
 	t = ft_split(s, '\n');
 	while (t[i])
 	{
 		if (!ft_strnstr(t[i], "NO", 2) || !ft_strnstr(t[i], "SO", 2)
 			|| !ft_strnstr(t[i], "WE", 2) || !ft_strnstr(t[i], "EA", 2))
-			data = manage_directions(t[i]);
-		else if (!ft_strnstr(t[i], "S", 1) || !ft_strnstr(t[i], "C", 1) ||!ft_strnstr(t[i], "F", 1))
-			data = manage_sfc(t[i]);
+			manage_directions(t[i], data);
+		else if (!ft_strnstr(t[i], "S", 1) || !ft_strnstr(t[i], "C", 1)
+			|| !ft_strnstr(t[i], "F", 1))
+			manage_sfc(t[i], data);
 		else if (!ft_strnstr(t[i], "S", 1))
 		{
 			t1 = ft_split(t[i], ' ');
@@ -314,7 +343,7 @@ t_map	*manage_data(char *s)
 		i++;
 	}
 	data->map = ft_split(map, '\n');
-	return(data);
+	return (data);
 }
 t_map	*get_map_data(char *s)
 {
