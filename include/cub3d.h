@@ -53,8 +53,10 @@ typedef struct s_data
 
 typedef struct s_map
 {
+	int		h;
+	int		w;
 	size_t	len_map;
-	char	*map;
+	char	**map;
 	char	*north;
 	char	*south;
 	char	*east;
