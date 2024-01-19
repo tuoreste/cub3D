@@ -5,14 +5,16 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "MLX42.h"
+# include "fcntl.h"
 # include "libft.h"
-# include "get_next_line.h"
 
 # define MAP_W 24
 # define MAP_H 24
 # define SCREEN_W 640
 # define SCREEN_H 480
-
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 42
+#endif
 typedef struct s_ray
 {
 	double	x_dir;
@@ -52,11 +54,15 @@ typedef struct s_data
 typedef struct s_map
 {
 	size_t	len_map;
-	char	**map;
-	void	*north;
-	void	*south;
-	void	*east;
-	void	*west;
+	char	*map;
+	char	*north;
+	char	*south;
+	char	*east;
+	char	*west;
+	char	*s;
+	char	*f;
+	char	*c;
 }	t_map;
+t_map	*get_map_data(char *s);
 
 #endif

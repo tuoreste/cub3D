@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:20:31 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/01/16 17:47:28 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:05:28 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,34 +239,95 @@ int	error_exit(t_data *data, char *str)
 	return (EXIT_FAILURE);
 }
 
-int	initialization(t_data *data, t_img *img)
-{
-	int	i;
+// int	initialization(t_data *data, t_img *img)
+// {
+// 	int	i;
 
-	i = 0;
-	data->win_mlx = mlx_image_to_window(data->mlx, img->img, 0, 0);
-	img->img = mlx_new_image(data->mlx, MAP_W, MAP_H);
+// 	i = 0;
+// 	data->win_mlx = mlx_image_to_window(data->mlx, img->img, 0, 0);
+// 	img->img = mlx_new_image(data->mlx, MAP_W, MAP_H);
+// }
+
+// int	pass_parsing(t_data *data, t_map *map, char **argv)
+// {
+// 	return (1);
+// }
+char	*get_next_line(int fd)
+{
+	static char	buf[BUFFER_SIZE + 1];
+	char		*line;
+	char		*newline;
+	int			countread;
+	int			to_copy;
+
+	line = ft_strdup(buf);
+	while (!(ft_strchr(line, '\n')) && (countread = read(fd, buf, BUFFER_SIZE)) > 0)
+	{
+		buf[countread] = '\0';
+		line = ft_strjoin(line, buf);
+	}
+	if (ft_strlen(line) == 0)
+		return (free(line), NULL);
+
+	newline = ft_strchr(line, '\n');
+	if (newline != NULL)
+	{
+		to_copy = newline - line + 1;
+		ft_strlcpy(buf, newline + 1, BUFFER_SIZE + 1);
+	}
+	else
+	{
+		to_copy = ft_strlen(line);
+		ft_strlcpy(buf, "", BUFFER_SIZE + 1);
+	}
+	line[to_copy] = '\0';
+	return (line);
 }
-
-int	pass_parsing(t_data *data, t_map *map, char **argv)
+t_map *manage_data(char *s)
 {
-	return (1);
+	int i = 0;
+	t_map	*data;
+	char	**t = ft_split(s, '\n');	
+}
+t_map	*get_map_data(char *s)
+{
+	int fd;
+	fd = open(s,O_RDONLY);
+	char *line;
+	char *str = "";
+	t_map		*data = NULL;
+	if(!fd)
+	{
+        perror("Error opening file");
+        return (NULL);
+    }
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        str = ft_strjoin(str, line);
+		free(line);
+    }
+    close(fd);
+	printf("%s", str);
+	data = manage_data(str);
+	return(data);
 }
 
 int	main(int argc, char **argv)
 {
-	t_data	*data;
+	// t_data	*data;
 	t_map	*map;
-	t_img	*img;
+	// t_img	*img;
 
-	data = ft_calloc(sizeof(t_data), 1);
-	if (argc != 2 || !ft_strnstr(argv[1], ".cub", 3))
-		return (error_exit(data->mlx, "Add one arg (map with ext '.cub')"));
-	data->mlx = mlx_init(SCREEN_W, SCREEN_H, "CUBE3D", 100);
-	if (!data->mlx)
-		return (error_exit(data->mlx, "MLX Failed to init"));
+	// data = ft_calloc(sizeof(t_data), 1);
+	if (argc != 2 || ft_strnstr(argv[1], ".cub", 4))
+		printf("error");
+	// 	return (error_exit(data->mlx, "Add one arg (map with ext '.cub')"));
+	// data->mlx = mlx_init(SCREEN_W, SCREEN_H, "CUBE3D", 100);
+	// if (!data->mlx)
+	// 	return (error_exit(data->mlx, "MLX Failed to init"));
 	
-	initialization(&data, &img);
-	pass_parsing(data, &map, argv);
-	free(data);
+	map = get_map_data(argv[1]);
+	// initialization(&data, &img);
+	// pass_parsing(data, &map, argv);
+	// free(data);
 }
