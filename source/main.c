@@ -6,7 +6,7 @@
 /*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:20:31 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/01/19 17:02:16 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/01/21 15:51:47 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,7 +335,8 @@ t_map	*manage_data(char *s)
 			data->h = ft_atoi(t1[1]);
 			data->w = ft_atoi(t1[2]);
 		}
-		else if (!ft_strnstr(t[i], "0", 1) || !ft_strnstr(t[i], "1", 1))
+		else if (!ft_strnstr(t[i], "0", 1) || !ft_strnstr(t[i], "1", 1)
+			|| !ft_strnstr(t[i], "2", 1))
 		{
 			map = ft_strjoin(map, t[i]);
 			map = ft_strjoin(map, "\n");
@@ -370,6 +371,21 @@ t_map	*get_map_data(char *s)
 	data = manage_data(str);
 	return (data);
 }
+int checkmap(char **s)
+{
+	int i = 1;
+	if (ft_strtrim(s[0], " 1 \t"))
+		return (0);
+	while(s[i])
+	{
+		if (ft_strtrim(s[i], "01 \tNSWE"))
+			return(0);
+		i++;
+	}
+	if (ft_strtrim(s[i], " 1 \t"))
+		return (0);
+	return(1);	
+}
 
 int	main(int argc, char **argv)
 {
@@ -385,7 +401,9 @@ int	main(int argc, char **argv)
 	// if (!data->mlx)
 	// 	return (error_exit(data->mlx, "MLX Failed to init"));
 	map = get_map_data(argv[1]);
-	// initialization(&data, &img);
+	if (!checkmap(map->map))
+		return (1);
+		// initialization(&data, &img);
 	// pass_parsing(data, &map, argv);
 	// free(data);
 }
