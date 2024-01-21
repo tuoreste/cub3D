@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:20:31 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/01/21 15:51:47 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:21:16 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,6 +323,7 @@ t_map	*manage_data(char *s)
 	t = ft_split(s, '\n');
 	while (t[i])
 	{
+		char *s = ft_strtrim(t[i], "0123456789 \tNSWE");
 		if (!ft_strnstr(t[i], "NO", 2) || !ft_strnstr(t[i], "SO", 2)
 			|| !ft_strnstr(t[i], "WE", 2) || !ft_strnstr(t[i], "EA", 2))
 			manage_directions(t[i], data);
@@ -335,13 +336,14 @@ t_map	*manage_data(char *s)
 			data->h = ft_atoi(t1[1]);
 			data->w = ft_atoi(t1[2]);
 		}
-		else if (!ft_strnstr(t[i], "0", 1) || !ft_strnstr(t[i], "1", 1)
-			|| !ft_strnstr(t[i], "2", 1))
+		else if (ft_strlen(s) == 0)
 		{
+			printf("%s\n", t[i]); //<--------------<------------
 			map = ft_strjoin(map, t[i]);
 			map = ft_strjoin(map, "\n");
 		}
 		i++;
+			printf("%s\n", map);
 	}
 	data->map = ft_split(map, '\n');
 	return (data);
@@ -367,24 +369,28 @@ t_map	*get_map_data(char *s)
 		free(line);
 	}
 	close(fd);
-	printf("%s", str);
 	data = manage_data(str);
 	return (data);
 }
-int checkmap(char **s)
+int	checkmap(char **s)
 {
-	int i = 1;
-	if (ft_strtrim(s[0], " 1 \t"))
+	int		i;
+	char	*c;
+
+	i = 1;
+	if (ft_strtrim(s[0], " 1 \t") != NULL)
 		return (0);
-	while(s[i])
+	while (s[i])
 	{
-		if (ft_strtrim(s[i], "01 \tNSWE"))
-			return(0);
+		c = ft_strtrim(s[i], " \t");
+		if (ft_strtrim(s[i], "0123456789 \tNSWE") && c[0] != '1'
+			&& c[ft_strlen(c) - 1] != '1')
+			return (0);
 		i++;
 	}
 	if (ft_strtrim(s[i], " 1 \t"))
 		return (0);
-	return(1);	
+	return (1);
 }
 
 int	main(int argc, char **argv)
@@ -401,9 +407,9 @@ int	main(int argc, char **argv)
 	// if (!data->mlx)
 	// 	return (error_exit(data->mlx, "MLX Failed to init"));
 	map = get_map_data(argv[1]);
-	if (!checkmap(map->map))
-		return (1);
-		// initialization(&data, &img);
+	// if (!checkmap(map->map))
+	// 	return (1);
+	// initialization(&data, &img);
 	// pass_parsing(data, &map, argv);
 	// free(data);
 }
