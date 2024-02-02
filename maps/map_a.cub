@@ -1,11 +1,11 @@
-R 1920 1080
+R 1920 1080 //----------->
 
 NO ./textures/north_greystone.xpm
 SO ./textures/south_purplestone.xpm
 WE ./textures/west_redbrick.xpm
 EA ./textures/east_wood.xpm
 
-S ./textures/creeper.xpm
+S ./textures/creeper.xpm //----------->
 F 77,92,53
 C 163,208,230
 
