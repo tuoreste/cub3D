@@ -2,151 +2,97 @@
 # define CUB3D_H
 
 # include "MLX42.h"
-# include "fcntl.h"
-# include "libft.h"
+# include "cub3d.h"
+# include <fcntl.h>
+# include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
-# include "ttslist.h"
-# include "ft_maths.h"
-# include "ft_simplesdl.h"
 
-// # define MAP_W 24
-// # define MAP_H 24
-// # define SCREEN_W 640
-// # define SCREEN_H 480
-// # ifndef BUFFER_SIZE
-// #  define BUFFER_SIZE 42
-// # endif
+# define WINDOW_WIDTH 800
+# define WINDOW_HEIGHT 600
+# define MAX_LINE_LENGTH 100
+# define MAP_WIDTH 24
+# define MAP_HEIGHT 24
+# define TILE_SIZE 64
+# define NUM_RAYS WINDOW_WIDTH
+# define RAY_LENGTH 100.0
+# define MAP_ROWS 10
+# define MAP_COLS 10
+// Field of View angle in radians
+# define FOV_ANGLE (60 * (M_PI / 180))
 
-// typedef struct s_player
-// {
-// 	double		x;
-// 	double		y;
-// 	double		dir_x;
-// 	double		dir_y;
-// 	double		pl_x;
-// 	double		pl_y;
-// 	double		rotations;
-// 	double		dest_x;
-// 	double		dest_y;
-// 	double		tot_rotations;
-// }				t_player;
-
-// typedef struct s_ray
-// {
-// 	double		x_dir;
-// 	double		y_dir;
-// 	double		x_plane;
-// 	double		y_plane;
-// 	double		side_dist_x;
-// 	double		side_dist_y;
-// 	double		delta_dist_x;
-// 	double		delta_dist_y;
-// 	double		camera_x;
-// 	double		ray_dir_x;
-// 	double		ray_dir_y;
-// }				t_ray;
-
-// typedef struct s_img
-// {
-// 	void		*img;
-// 	int			width;
-// 	int			height;
-// 	int			endian;
-// 	int			bits_per_pixel;
-// 	int			line_len;
-// }				t_img;
-
-// typedef struct s_data
-// {
-// 	char		*addr;
-// 	void		*mlx;
-// 	void		*win_mlx;
-// 	float		x0;
-// 	float		x1;
-// 	float		y0;
-// 	float		y1;
-// 	void		*px_img;
-// 	t_img		**img;
-// 	t_ray		*rays;
-// 	t_player	*player;
-// }				t_data;
-
-// typedef struct s_map
-// {
-// 	int			h;
-// 	int			w;
-// 	size_t		len_map;
-// 	char		**map;
-// 	char		*north;
-// 	char		*south;
-// 	char		*east;
-// 	char		*west;
-// 	char		*s;
-// 	char		*f;
-// 	char		*c;
-// }				t_map;
-
-// t_map			*get_map_data(char *s);
-
-# define WINDOW_WIDTH 500
-# define WINDOW_HEIGHT 500
-# define MAP_W 10
-# define MAP_H 10
-# define GRID_SIZE 50
-# define MAX_VIEW_DISTANCE 10000
-# define WALL_HEIGHT_SCALE 50.0
-
-extern	t_sdl_image *g_image;
-extern	t_sdl_env	g_sdl_env;
-extern	int			g_cub_map[MAP_W][MAP_H];
-
-typedef	struct s_ray
+typedef struct s_ray
 {
-	t_vector	origin;
-	t_vector	direction;
-}				t_ray;
-
-typedef struct	s_dda
-{
-	t_vector	current_pos;
-	t_point		pos_on_grid;
-	int			nextX;
-	int			nextY;
-	t_vector	d;
-	double		final_d;
-	t_point		sign;
-	t_intersect	intersection;
-}				t_dda;
-
-
-typedef	struct s_intersect
-{
-	t_vector		pos;
-	t_point			grid_pos;
-	int				grid_value;
+	double			angle;
 	double			distance;
-	unsigned char	does_intersect;
-}				t_intersect;
+}					t_ray;
 
-typedef	struct s_camera
+typedef struct s_player
 {
-	double			projection_plane_distance;
-	double			projection_plane_size;
-	t_ray			ray;
-	t_intersect		intersection;
-}					t_camera;
+	double			x;
+	double			y;
+	double			direction;
+	double			rotation_angle;
+	double			move_speed;
+	double			rotation_speed;
+}					t_player;
 
-typedef	struct s_cub_env
+typedef struct s_maze
 {
-	t_camera	camera;
-}				t_cub_env;
+	char			map[MAP_HEIGHT][MAP_WIDTH + 1];
+}					t_maze;
 
-extern t_cub_env	g_cub_env;
+typedef struct s_texture
+{
+	char			*path;
+	void	*north_texture;
+	void	*south_texture;
+	void	*east_texture;
+	void	*west_texture;
+}					t_texture;
 
-int		init(void);
-int		raycast_main(void);
-void	debug_draw_camera();
+typedef struct s_color
+{
+	int				r;
+	int				g;
+	int				b;
+}					t_color;
+
+typedef struct s_settings
+{
+	t_texture		north_texture;
+	t_texture		south_texture;
+	t_texture		west_texture;
+	t_texture		east_texture;
+	t_color			floor_color;
+	t_color			ceiling_color;
+}					t_settings;
+
+typedef struct s_game
+{
+	void			*mlx;
+	void			*win;
+	char			**map;
+	t_player		player;
+	t_maze			maze;
+	t_settings		settings;
+	t_texture		textures;
+}					t_game;
+
+// Function prototypes
+void				read_scene_file(char *file_path, t_game *game);
+void				setup_game(t_game *game);
+void				update(t_game *game);
+void				render(t_game *game);
+void				draw_rectangle(t_game *game, int x, int y);
+void				draw_player(t_game *game);
+void				draw_maze(t_game *game);
+void				cast_rays(t_game *game);
+void				draw_line(t_game *game, int x1, int y1, int x2, int y2, int color);
+double				normalize_angle(double angle);
+void				move_player(t_game *game, double delta_x, double delta_y);
+void				rotate_player(t_game *game, double rotation);
 
 #endif
