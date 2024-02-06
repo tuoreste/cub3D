@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:44:18 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/02/06 14:09:48 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/06 19:47:33 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	render(t_game *game)
 {
 	// Clear the window
-	mlx_clear_window(game->mlx, game->win);
+	// mlx_close_window(game->mlx, game->win);
+	exit(1);
 	// Draw the maze and player
 	draw_maze(game);
 	draw_player(game);
@@ -29,17 +30,16 @@ void	cast_rays(t_game *game)
 	int		hit_wall;
 	double	dist_to_wall;
 	double	wall_height;
-	int		strip;
 
 	double ray_x, ray_y;
 	double delta_x, delta_y;
 	double side_dist_x, side_dist_y;
 	double step_x, step_y;
-	strip = 0;
-	while (strip < WINDOW_WIDTH)
+	game->raycast.strip = 0;
+	while (game->raycast.strip < WINDOW_WIDTH)
 	{
 		// Calculate ray angle
-		ray_angle = game->player.direction - (FOV_ANGLE / 2) + (strip
+		ray_angle = game->player.direction - (FOV_ANGLE / 2) + (game->raycast.strip
 				* FOV_ANGLE / WINDOW_WIDTH);
 		// Initialize ray variables
 		ray_x = game->player.x;
@@ -98,14 +98,13 @@ void	cast_rays(t_game *game)
 					else
 						dist_to_wall = side_dist_y;
 					// Calculate wall height based on distance
-					wall_height = (TILE_SIZE / dist_to_wall)
-						* game->player.dist_to_projection_plane;
+					wall_height = (TILE_SIZE / dist_to_wall) * game->player.dist_to_projection_plane;
 					// Draw the wall strip
-					draw_wall_strip(game, strip, wall_height);
+					draw_wall_strip(game, game->raycast.strip, wall_height);
 					break ;
 				}
 			}
 		}
-		strip++;
+		game->raycast.strip++;
 	}
 }

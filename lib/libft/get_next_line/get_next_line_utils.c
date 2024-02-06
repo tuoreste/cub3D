@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 21:25:40 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/05/26 00:28:25 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/06 18:59:27 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-char	*ft_strdup(const char *s1)
+void	*ft_strdup(const char *s1)
 {
 	size_t	s_len;
 	char	*s2;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+         #
+#    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/08 14:23:29 by otuyishi          #+#    #+#              #
-#    Updated: 2024/01/19 14:45:26 by aguediri         ###   ########.fr        #
+#    Updated: 2024/02/06 18:55:43 by otuyishi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,14 +15,14 @@ NAME := cub3d
 CFLAGS := -Wextra -Wall -Werror -g -O3 -funroll-loops #-fsanitize=address
 LIBMLX := lib/MLX42
 
-HEADERS := -I./include -I$(LIBMLX)/include -I./lib/libft -I./lib/MLX42/include/MLX42
+HEADERS := -I./include -I$(LIBMLX)/include -I./lib/libft -I./lib/libft/get_next_line -I./lib/MLX42/include/MLX42
 # SRCS = $(wildcard $(SRC_DIR)/*.c)
 LIBS := $(LIBMLX)/build/libmlx42.a
 
 SRC_DIR = source
 SRCS = $(wildcard source/*.c)
 SRCS += $(wildcard lib/libft/*.c)
-SRCS += $(wildcard lib/get_next_line/*.c)
+SRCS += $(wildcard lib/libft/get_next_line/*.c)
 
 LDFLAGS := -ldl -L $(LIBMLX)/glfw_lib/ -lglfw3 -pthread -lm -flto -framework Cocoa -framework OpenGL -framework IOKit -fsanitize=address
 OBJS := $(SRCS:.c=.o) 
