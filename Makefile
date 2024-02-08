@@ -6,13 +6,13 @@
 #    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/08 14:23:29 by otuyishi          #+#    #+#              #
-#    Updated: 2024/02/06 18:55:43 by otuyishi         ###   ########.fr        #
+#    Updated: 2024/02/08 17:01:10 by otuyishi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := cub3d
 
-CFLAGS := -Wextra -Wall -Werror -g -O3 -funroll-loops #-fsanitize=address
+CFLAGS := #-Wextra -Wall -Werror -g -O3 -funroll-loops #-fsanitize=address
 LIBMLX := lib/MLX42
 
 HEADERS := -I./include -I$(LIBMLX)/include -I./lib/libft -I./lib/libft/get_next_line -I./lib/MLX42/include/MLX42

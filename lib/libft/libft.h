@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 10:44:49 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/02/06 19:53:36 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/07 11:23:29 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "./libft.h"
 
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
@@ -39,9 +40,9 @@ char				*ft_strnstr(const char *haystack, const char *needle,
 						size_t len);
 int					ft_atoi(const char *str);
 void				*ft_calloc(size_t count, size_t size);
-char				*ft_strdup(const char *s1);
+void				*ft_strdup(const char *s1);
 char				*ft_substr(char const *str, unsigned int start, size_t len);
-char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoin(char *s1, char *s2);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
 char				*ft_itoa(int n);

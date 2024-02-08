@@ -65,8 +65,8 @@
 // 	dirY = 0;
 // 	planeX = 0;
 // 	planeY = 0.66;
-// 	double time = 0; //time of current frame
-//   	double oldTime = 0; //time of previous frame
+// 	double time = 0;
+//   	double oldTime = 0;
 // 	mlx = mlx_init(SCREEN_W, SCREEN_H, "Raycaster", 0);
 // 	while (!done())
 // 	{
@@ -131,7 +131,6 @@
 // 			else
 // 				perpWallDist = (sideDistY - deltaDistY);
 // 			lineHeight = (int)(h / perpWallDist);
-// 			// calculate lowest and highest pixel to fill in current stripe
 // 			drawStart = -lineHeight / 2 + h / 2;
 // 			if (drawStart < 0)
 // 				drawStart = 0;
@@ -142,39 +141,32 @@
 // 			{
 // 			case 1:
 // 				color = RGB_Red;
-// 				break ; // red
+// 				break ;
 // 			case 2:
 // 				color = RGB_Green;
-// 				break ; // green
+// 				break ;
 // 			case 3:
 // 				color = RGB_Blue;
-// 				break ; // blue
+// 				break ;
 // 			case 4:
 // 				color = RGB_White;
-// 				break ; // white
+// 				break ;
 // 			default:
 // 				color = RGB_Yellow;
-// 				break ; // yellow
+// 				break ;
 // 			}
-// 			// give x and y sides different brightness
 // 			if (side == 1)
 // 				color = color / 2;
-// 			// draw the pixels of the stripe as a vertical line
 // 			verLine(x, drawStart, drawEnd, color);
 // 			oldTime = time;
 // 			time = getTicks();
 // 			double frameTime = (time - oldTime) / 1000.0;
-// 				// frameTime is the time this frame has taken, in seconds
-// 			print(1.0 / frameTime);                       // FPS counter
+// 			print(1.0 / frameTime);
 // 			redraw();
 // 			cls();
-// 			// speed modifiers
 // 			double moveSpeed = frameTime * 5.0;
-// 				// the constant value is in squares/second
 // 			double rotSpeed = frameTime * 3.0;
-// 				// the constant value is in radians/second
 // 			readKeys();
-// 			// move forward if no wall in front of you
 // 			if (keyDown(SDLK_UP))
 // 			{
 // 				if (worldMap[int(posX + dirX * moveSpeed)][int(posY)] == false)
@@ -182,7 +174,6 @@
 // 				if (worldMap[int(posX)][int(posY + dirY * moveSpeed)] == false)
 // 					posY += dirY * moveSpeed;
 // 			}
-// 			// move backwards if no wall behind you
 // 			if (keyDown(SDLK_DOWN))
 // 			{
 // 				if (worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false)
@@ -190,10 +181,8 @@
 // 				if (worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false)
 // 					posY -= dirY * moveSpeed;
 // 			}
-// 			// rotate to the right
 // 			if (keyDown(SDLK_RIGHT))
 // 			{
-// 				// both camera direction and camera plane must be rotated
 // 				oldDirX = dirX;
 // 				dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed);
 // 				dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
@@ -201,10 +190,8 @@
 // 				planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed);
 // 				planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
 // 			}
-// 			// rotate to the left
 // 			if (keyDown(SDLK_LEFT))
 // 			{
-// 				// both camera direction and camera plane must be rotated
 // 				oldDirX = dirX;
 // 				dirX = dirX * cos(rotSpeed) - dirY * sin(rotSpeed);
 // 				dirY = oldDirX * sin(rotSpeed) + dirY * cos(rotSpeed);

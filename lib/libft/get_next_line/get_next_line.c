@@ -6,37 +6,37 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 00:08:01 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/01/02 13:44:54 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/07 12:30:36 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*c_s;
-	size_t	count1;
-	size_t	count2;
+// char	*ft_substr(char const *s, unsigned int start, size_t len)
+// {
+// 	char	*c_s;
+// 	size_t	count1;
+// 	size_t	count2;
 
-	count1 = 0;
-	count2 = 0;
-	if (!s || start >= ft_strlen(s))
-		return (ft_strdup(""));
-	c_s = (char *)malloc(sizeof(*s) * (len + 1));
-	if (!c_s)
-		return (NULL);
-	while (s[count1] && count2 < len)
-	{
-		if (count1 >= start)
-		{
-			c_s[count2] = s[count1];
-			count2++;
-		}
-		count1++;
-	}
-	c_s[count2] = 0;
-	return (c_s);
-}
+// 	count1 = 0;
+// 	count2 = 0;
+// 	if (!s || start >= ft_strlen(s))
+// 		return (ft_strdup(""));
+// 	c_s = (char *)malloc(sizeof(*s) * (len + 1));
+// 	if (!c_s)
+// 		return (NULL);
+// 	while (s[count1] && count2 < len)
+// 	{
+// 		if (count1 >= start)
+// 		{
+// 			c_s[count2] = s[count1];
+// 			count2++;
+// 		}
+// 		count1++;
+// 	}
+// 	c_s[count2] = 0;
+// 	return (c_s);
+// }
 
 char	*get_txt(int fd, char **line)
 {

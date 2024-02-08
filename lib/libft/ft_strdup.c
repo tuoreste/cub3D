@@ -6,13 +6,13 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:42:25 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/02/06 19:53:42 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/07 11:23:38 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+void	*ft_strdup(const char *s1)
 {
 	size_t	s_len;
 	char	*s2;

@@ -6,13 +6,13 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 14:57:47 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/04/23 16:36:36 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/07 11:22:05 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*c_s;
 	size_t	count1;
