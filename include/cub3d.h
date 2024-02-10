@@ -21,6 +21,7 @@
 # define RAY_LENGTH 100.0
 # define MAP_ROWS 10
 # define MAP_COLS 10
+# define PI 3.1415926
 // Field of View angle in radians
 # define FOV_ANGLE (60 * (M_PI / 180))
 
@@ -38,11 +39,18 @@ typedef struct s_point
 {
 	double				x;
 	double				y;
+	int					mapx;
+	int					mapy;
 }						t_point;
 
 typedef struct s_camera
 {
 }						t_camera;
+
+typedef struct s_image
+{
+	void				*img;
+}						t_image;
 
 typedef struct s_ray
 {
@@ -70,12 +78,16 @@ typedef struct s_keys
 	int					down;
 	int					left;
 	int					right;
+	keys_t				*key;
 }						t_keys;
 
 typedef struct s_player
 {
+	struct mlx_image	*img;
 	double				x;
 	double				y;
+	double				pos_x;
+	double				pos_y;
 	double				direction;
 	double				rotation_angle;
 	double				move_speed;
@@ -117,7 +129,7 @@ typedef struct s_settings
 
 typedef struct s_game
 {
-	void				*mlx;
+	mlx_t				*mlx;
 	void				*img;
 	void				*addr;
 	void				*win;
@@ -127,9 +139,11 @@ typedef struct s_game
 	char				**map;
 	int					line_length;
 	long long int		bits_per_pixel;
+	t_point				pt;
+	t_image				*image;
 	t_ray				ray;
 	t_parse				parse;
-	t_player			player;
+	t_player			*player;
 	t_maze				maze;
 	t_settings			settings;
 	t_texture			textures;
