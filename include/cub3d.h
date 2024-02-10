@@ -49,7 +49,21 @@ typedef struct s_camera
 
 typedef struct s_image
 {
+	int					x;
+	int					y;
 	void				*img;
+	float				angle;
+	unsigned int		*rotated_data;
+	int					relative_x;
+	int					relative_y;
+	int					new_x;
+	int					new_y;
+	int					center_x;
+	int					center_y;
+	int					img_width;
+	int					img_height;
+	float				radians;
+	float				player_orient;
 }						t_image;
 
 typedef struct s_ray
@@ -84,12 +98,12 @@ typedef struct s_keys
 typedef struct s_player
 {
 	struct mlx_image	*img;
-	double				x;
-	double				y;
-	double				pos_x;
-	double				pos_y;
+	double				p_x;
+	double				p_y;
+	double				delta_x;
+	double				delta_y;
+	double				p_angle;
 	double				direction;
-	double				rotation_angle;
 	double				move_speed;
 	double				rotation_speed;
 	double				dist_to_projection_plane;
