@@ -6,7 +6,7 @@
 /*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:20:31 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/01/21 15:51:47 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/02/11 21:22:33 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,20 +323,19 @@ t_map	*manage_data(char *s)
 	t = ft_split(s, '\n');
 	while (t[i])
 	{
-		if (!ft_strnstr(t[i], "NO", 2) || !ft_strnstr(t[i], "SO", 2)
-			|| !ft_strnstr(t[i], "WE", 2) || !ft_strnstr(t[i], "EA", 2))
+		if (ft_strnstr(t[i], "NO", 2) || ft_strnstr(t[i], "SO", 2)
+			|| ft_strnstr(t[i], "WE", 2) || ft_strnstr(t[i], "EA", 2))
 			manage_directions(t[i], data);
-		else if (!ft_strnstr(t[i], "S", 1) || !ft_strnstr(t[i], "C", 1)
-			|| !ft_strnstr(t[i], "F", 1))
+		else if (ft_strnstr(t[i], "S", 1) || ft_strnstr(t[i], "C", 1)
+			|| ft_strnstr(t[i], "F", 1))
 			manage_sfc(t[i], data);
-		else if (!ft_strnstr(t[i], "S", 1))
+		else if (ft_strnstr(t[i], "S", 1))
 		{
 			t1 = ft_split(t[i], ' ');
 			data->h = ft_atoi(t1[1]);
 			data->w = ft_atoi(t1[2]);
 		}
-		else if (!ft_strnstr(t[i], "0", 1) || !ft_strnstr(t[i], "1", 1)
-			|| !ft_strnstr(t[i], "2", 1))
+		else if (ft_strlen(ft_strtrim(t[i], " \t012NSWE")) == 0)
 		{
 			map = ft_strjoin(map, t[i]);
 			map = ft_strjoin(map, "\n");
@@ -367,24 +366,90 @@ t_map	*get_map_data(char *s)
 		free(line);
 	}
 	close(fd);
-	printf("%s", str);
+	// printf("%s", str);
 	data = manage_data(str);
 	return (data);
 }
-int checkmap(char **s)
+int	checkfirstline(char **s)
 {
-	int i = 1;
-	if (ft_strtrim(s[0], " 1 \t"))
-		return (0);
-	while(s[i])
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (ft_strlen(ft_strtrim(s[0], "1 \t")))
 	{
-		if (ft_strtrim(s[i], "01 \tNSWE"))
+		return (0);
+	}
+	while (s[0][j])
+	{
+		if (s[0][j] == ' ' || s[0][j] == '\t')
+		{
+			while (s[i][j] == ' ' || s[i][j] == '\t')
+			{
+				i++;
+			}
+			if (s[i][j] == '0')
+				return (0);
+			i = 0;
+		}
+		j++;
+	}
+	return (1);
+}
+int	checklastline(char **s)
+{
+	int	i;
+	int	j;
+	int	last_line_index;
+
+	j = 0;
+	last_line_index = 0;
+	while (s[last_line_index + 1] != NULL)
+		last_line_index++;
+	i = last_line_index;
+
+	if (ft_strlen(ft_strtrim(s[last_line_index], "1 \t")))
+		return (0);
+	while (s[last_line_index][j])
+	{
+		if (s[last_line_index][j] == ' ' || s[last_line_index][j] == '\t')
+		{
+			while (s[i][j] == ' ' || s[i][j] == '\t')
+				i--;
+			if (s[i][j] == '0')
+				return(0);
+			i = last_line_index;
+		}
+		j++;
+	}
+	return (1);
+}
+
+int	checkmap(char **s)
+{
+	int	i;
+	int	r;
+
+	i = 1;
+	r = 1;
+	if (!ft_strlen(s[0]))
+		return (0);
+	r = checkfirstline(s);
+	if (r)
+		r = checklastline(s); 
+	while (s[i])
+	{
+		if (ft_strlen(ft_strtrim(s[i], "01 \tNSWE")))
+			return (0);
+		char *s1 = ft_strtrim(s[i], " \t");
+		if (s1[ft_strlen(s1) - 1] != '1' || s1[0] != '1')
 			return(0);
 		i++;
 	}
-	if (ft_strtrim(s[i], " 1 \t"))
+	if (ft_strlen(ft_strtrim(s[i - 1], " 1\t")))
 		return (0);
-	return(1);	
+	return (r);
 }
 
 int	main(int argc, char **argv)
@@ -402,8 +467,10 @@ int	main(int argc, char **argv)
 	// 	return (error_exit(data->mlx, "MLX Failed to init"));
 	map = get_map_data(argv[1]);
 	if (!checkmap(map->map))
-		return (1);
-		// initialization(&data, &img);
+		printf("not valid");
+	else
+		printf("valid af");
+	// initialization(&data, &img);
 	// pass_parsing(data, &map, argv);
 	// free(data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 14:17:37 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/04/06 10:09:32 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/11 20:18:04 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ size_t	ft_strlen(const char *str)
 	int	count;
 
 	count = 0;
-	while (*str != '\0')
+	if (!str)
+		return (0);
+	while (str[count])
 	{
 		count++;
-		str++;
 	}
 	return (count);
 }
