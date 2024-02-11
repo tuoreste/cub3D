@@ -65,6 +65,15 @@ typedef struct s_map
 	char	*f;
 	char	*c;
 }	t_map;
-t_map	*get_map_data(char *s);
 
+int		error_exit(t_data *data, char *str);
+char	*get_next_line(int fd);
+void	manage_directions(char *s, t_map *data);
+void	manage_sfc(char *s, t_map *data);
+t_map	*manage_data(char *s);
+t_map	*get_map_data(char *s);
+int		checkfirstline(char **s);
+int		checklastline(char **s);
+int		checkh(char *s);
+int		checkmap(char **s);
 #endif
