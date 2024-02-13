@@ -23,17 +23,13 @@
 # define MAP_COLS 10
 # define PI 3.1415926
 // Field of View angle in radians
-# define FOV_ANGLE (60 * (M_PI / 180))
+# define FOV_ANGLE ((60 * M_PI) / 180)
+# define ROT 0.174533 // 10 degrees in radians
 
-typedef struct s_parse
-{
-	int					fd;
-	char				*line;
-	size_t				len;
-	int					map_start;
-	int					line_number;
-	char				*token;
-}						t_parse;
+typedef struct s_vector {
+	double x;
+	double y;
+} t_vector;
 
 typedef struct s_point
 {
@@ -42,10 +38,6 @@ typedef struct s_point
 	int					mapx;
 	int					mapy;
 }						t_point;
-
-typedef struct s_camera
-{
-}						t_camera;
 
 typedef struct s_image
 {
@@ -98,8 +90,12 @@ typedef struct s_keys
 typedef struct s_player
 {
 	struct mlx_image	*img;
-	double				p_x;
-	double				p_y;
+	int				x;
+	int				y;
+	// double				dir_x;
+	// double				dir_y;
+	t_vector			pos;
+	t_vector			dir;
 	double				delta_x;
 	double				delta_y;
 	double				p_angle;
@@ -141,6 +137,17 @@ typedef struct s_settings
 	t_color				ceiling_color;
 }						t_settings;
 
+
+typedef struct s_parse
+{
+	int					fd;
+	char				*line;
+	size_t				len;
+	int					map_start;
+	int					line_number;
+	char				*token;
+}						t_parse;
+
 typedef struct s_game
 {
 	mlx_t				*mlx;
@@ -153,7 +160,11 @@ typedef struct s_game
 	char				**map;
 	int					line_length;
 	long long int		bits_per_pixel;
+	float				pa;
+	float				pdx;
+	float				pdy;
 	t_point				pt;
+	t_vector			*vec;
 	t_image				*image;
 	t_ray				ray;
 	t_parse				parse;
@@ -194,4 +205,131 @@ int						main(void);
 // void					draw_wall_strip(t_game *game, int strip,
 // 							int wall_height);
 
+
+
+
 #endif
+
+// #ifndef CUB3D_H
+// # define CUB3D_H
+
+// # include "MLX42.h"
+// # include "get_next_line.h"
+// # include "libft.h"
+// # include <fcntl.h>
+// # include <math.h>
+// # include <stdio.h>
+// # include <stdlib.h>
+// # include <string.h>
+// # include <unistd.h>
+
+// typedef struct t_vector {
+//     double x;
+//     double y;
+//     double dir;
+// } t_vector;
+// // Structure definitions
+
+// typedef struct t_ray {
+//     t_vector origin;       // Ray origin
+//     t_vector dir;          // Ray direction
+//     double wall_dist;      // Distance to hit wall
+//     int wall_hit;      // Whether a wall was hit
+// 	double dir_x;
+// 	double dir_y;
+// 	int hit_x;
+// 	double camera_plane_x;
+// 	double camera_plane_y;
+// 	double max_distance;
+//     // ... (Add other ray-related data members as needed)
+// } t_ray;
+
+// typedef struct t_texture {
+//     // Data members representing your texture data format
+//     unsigned char *data; // Assuming raw pixel data
+//     int width;
+//     int height;
+// } t_texture;
+
+// typedef struct s_image
+// {
+// 	int					x;
+// 	int					y;
+// 	void				*imag;
+// 	float				angle;
+// 	unsigned int		*rotated_data;
+// 	int					relative_x;
+// 	int					relative_y;
+// 	int					new_x;
+// 	int					new_y;
+// 	int					center_x;
+// 	int					center_y;
+// 	int					img_width;
+// 	int					img_height;
+// 	float				radians;
+// 	float				player_orient;
+// 	mlx_instance_t		*instances;
+// }						t_image;
+
+// typedef struct t_player {
+// 	void	*imag;
+//     t_image *img;             // Player image
+// 	t_vector			pos;
+
+//     // ... (Add other player-related data members as needed)
+// } t_player;
+
+// typedef struct s_point
+// {
+// 	double				x;
+// 	double				y;
+// 	int					mapx;
+// 	int					mapy;
+// }						t_point;
+
+// typedef struct t_game {
+//     void *img;          // Image for rendering
+//     void *mlx;          // MLX pointer
+//     t_vector *player_pos; // Player position
+//     t_player *player;    // Player struct pointer
+// 	t_point	*pt;
+// 	t_texture		floor_texture;
+// 	t_texture		ceiling_texture;
+// 	int		ceiling_height;
+//     // ... (Add other game-related data members as needed)
+// } t_game;
+
+// // Function prototypes for texture loading/handling (if needed)
+// int load_texture(const char *file_path, t_texture *texture);
+// void free_texture(t_texture *texture);
+
+// // Function prototypes
+// void draw_map2d(t_game *game);
+// void draw_player(void *param);
+// void buttons(void *param);
+
+// // Additional function prototypes for texture access (to be filled in)
+// int get_wall_texture_color(int wall_hit, t_texture wall_texture, double hit_x);
+// int get_ceiling_texture_color(int x, int y, t_texture *ceiling_texture);
+// int get_floor_texture_color(int x, int y, t_texture *floor_texture);
+
+// # define WINDOW_WIDTH 840
+// # define WINDOW_HEIGHT 720
+// # define MAP_WIDTH 24
+// # define MAP_HEIGHT 24
+// # define TILE_SIZE 30
+// # define MAX_LINE_LENGTH 100
+// # define NUM_RAYS WINDOW_WIDTH
+// # define RAY_LENGTH 100.0
+// # define MAP_ROWS 10
+// # define MAP_COLS 10
+// # define PI 3.1415926
+// // Field of View angle in radians
+// # define FOV_ANGLE ((60 * M_PI) / 180)
+// # define ROT 0.174533 // 10 degrees in radians
+// #define FLOOR_SCALE 0.1
+// #define CEILING_SCALE 0.8
+
+// // Include other header files as needed
+
+// #endif /* GAME_H */

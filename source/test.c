@@ -1,205 +1,230 @@
-// void	map_scan(void)
-// {
 
+// void	rotate(t_vector *vectors, short sign)
+// {
+// 	double	cos_a;
+// 	double	sin_a;
+// 	double	old_dir_x;
+
+// 	cos_a = cos(sign * ROT);
+// 	sin_a = sin(sign * ROT);
+// 	old_dir_x = vectors->x;
+// 	vectors->x = vectors->x * cos_a - vectors->y * sin_a;
+// 	vectors->y = old_dir_x * sin_a + vectors->y * cos_a;
 // }
 
-// void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+// void mlx_draw_line(void *mlx_ptr, int x0, int y0, int x1, int y1, int color)
 // {
-// 	char	*dst;
+// 	int	dx;
+// 	int	dy;
+// 	int	sx;
+// 	int	sy;
+// 	int	err;
+// 	int	e2;
 
-// 	dst = data->addr + ((y * data->line_len) + (x * (data->bits_per_pixel/8)));
-// 	*(unsigned int *)dst = color;
+// 	if (x0 < 0 || x0 >= WINDOW_WIDTH || y0 < 0 || y0 >= WINDOW_HEIGHT ||
+// 		x1 < 0 || x1 >= WINDOW_WIDTH || y1 < 0 || y1 >= WINDOW_HEIGHT)
+// 		return ;
+// 	dx = abs(x1 - x0);
+// 	dy = abs(y1 - y0);
+// 	if (x0 < x1)
+// 		sx = 1;
+// 	else
+// 		sx = -1;
+// 	if (y0 < y1)
+// 		sy = 1;
+// 	else
+// 		sy = -1;
+// 	if (dx > dy)
+// 		err = dx / 2;
+// 	else
+// 		err = -dy / 2;
+// 	while (1)
+// 	{
+// 		if (x0 >= 0 && x0 < WINDOW_WIDTH && y0 >= 0 && y0 < WINDOW_HEIGHT)
+// 			mlx_put_pixel(mlx_ptr, x0, y0, color);
+// 		if (x0 == x1 && y0 == y1)
+// 			break ;
+// 		e2 = err;
+// 		if (e2 > -dx)
+// 		{
+// 			err -= dy;
+// 			x0 += sx;
+// 		}
+// 		if (e2 < dy)
+// 		{
+// 			err += dx;
+// 			y0 += sy;
+// 		}
+// 	}
 // }
+
+// void	buttons(void *param)
+// {
+// 	t_game	*game;
+
+// 	game = (t_game *)param;
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+// 		mlx_close_window(game->mlx);
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
+// 		game->player->img->instances[0].y -= 5;
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
+// 		game->player->img->instances[0].y += 5;
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
+// 		game->player->img->instances[0].x -= 5;
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+// 		game->player->img->instances[0].x += 5;
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
+// 	{
+// 		double old_dir_x = game->player->dir.x;
+// 		game->player->dir.x = game->player->dir.x * cos(-ROT) - game->player->dir.y * sin(-ROT);
+// 		game->player->dir.y = old_dir_x * sin(-ROT) + game->player->dir.y * cos(-ROT);
+// 	}
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+// 	{
+// 		double old_dir_x = game->player->dir.x;
+// 		game->player->dir.x = game->player->dir.x * cos(ROT) - game->player->dir.y * sin(ROT);
+// 		game->player->dir.y = old_dir_x * sin(ROT) + game->player->dir.y * cos(ROT);
+// 	}
+// }
+
+// void	draw_player(void *param)
+// {
+// 	t_game	*game;
+// 	int		x;
+// 	int		y;
+// 	int		radiusError;
+// 	int		end_x;
+// 	int		end_y;
+
+// 	game = (t_game *)param;
+// 	game->player->img = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+// 	int radius = 5;
+// 	int centerX = WINDOW_WIDTH / 2;
+// 	int centerY = WINDOW_HEIGHT / 2;
+// 	x = radius;
+// 	y = 0;
+// 	radiusError = 1 - x;
+// 	while (x >= y)
+// 	{
+// 		mlx_put_pixel(game->player->img, centerX + x, centerY + y, 0xFF0000FF);
+// 		mlx_put_pixel(game->player->img, centerX - x, centerY + y, 0xFF0000FF);
+// 		mlx_put_pixel(game->player->img, centerX + x, centerY - y, 0xFF0000FF);
+// 		mlx_put_pixel(game->player->img, centerX - x, centerY - y, 0xFF0000FF);
+// 		mlx_put_pixel(game->player->img, centerX + y, centerY + x, 0xFF0000FF);
+// 		mlx_put_pixel(game->player->img, centerX - y, centerY + x, 0xFF0000FF);
+// 		mlx_put_pixel(game->player->img, centerX + y, centerY - x, 0xFF0000FF);
+// 		mlx_put_pixel(game->player->img, centerX - y, centerY - x, 0xFF0000FF);
+// 		y++;
+// 		if (radiusError < 0)
+// 		{
+// 			radiusError += 2 * y + 1;
+// 		}
+// 		else
+// 		{
+// 			x--;
+// 			radiusError += 2 * (y - x + 1);
+// 		}
+// 	}
+// 	double angle = atan2(game->player->dir.y, game->player->dir.x);
+// 	for (int i = 0; i < WINDOW_WIDTH; i++) {
+// 		double ray_x = game->player->pos.x + i * cos(angle);
+// 		double ray_y = game->player->pos.y + i * sin(angle);
+// 		if (ray_x >= 0 && ray_y >= 0 && ray_x < MAP_WIDTH && ray_y < MAP_HEIGHT)
+// 		{
+// 			mlx_draw_line(game->mlx, centerX, centerY, ray_x, ray_y, 0xFF0000FF);
+// 			break;
+// 		}
+// 	}
+// }
+
+// // void	draw_map2d(t_game *game)
+// // {
+// // 	game->pt.y = 0;
+// // 	game->pt.mapx = 0;
+// // 	game->pt.mapy = 0;
+// // 	game->img = (t_image *)malloc(sizeof(t_image));
+// // 	game->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "THIS IS CUBE3D", 100);
+// // 	game->img = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+// // 	mlx_image_to_window(game->mlx, game->img, 0, 0);
+// // 	game->player->pos.x = 5;
+// // 	game->player->pos.y = 5;
+// // 	game->player->dir.x = 1;
+// // 	game->player->dir.y = 0;
+// // 	game->pt.y = 0;
+// // 	while (game->pt.y < WINDOW_HEIGHT)
+// // 	{
+// // 		game->pt.x = 0;
+// // 		while (game->pt.x < WINDOW_WIDTH)
+// // 		{
+// // 			game->pt.mapx = game->pt.x * MAP_WIDTH / WINDOW_WIDTH;
+// // 			game->pt.mapy = game->pt.y * MAP_HEIGHT / WINDOW_HEIGHT;
+// // 			if (world_map[game->pt.mapx][game->pt.mapy] == 1)
+// // 				mlx_put_pixel(game->img, game->pt.x, game->pt.y, 0xFFFFFFFF);
+// // 			else
+// // 				mlx_put_pixel(game->img, game->pt.x, game->pt.y, 0x00000000);
+// // 			game->pt.x++;
+// // 		}
+// // 		game->pt.y++;
+// // 	}
+// // }
+
+// void draw_map2d(t_game *game)
+// {
+// 	game->pt.y = 0;
+// 	game->pt.mapx = 0;
+// 	game->pt.mapy = 0;
+// 	game->player->pos.x = 5;
+// 	game->player->pos.y = 5;
+// 	game->player->dir.x = 1;
+// 	game->player->dir.y = 0;
+// 	game->img = (t_image *)calloc(sizeof(t_image), 1);
+// 	game->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "THIS IS CUBE3D", 100);
+// 	game->img = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+// 	mlx_image_to_window(game->mlx, game->img, 0, 0);
+
+// 	// Check if game->player is initialized
+// 	if (game->player == NULL) {
+// 		// Initialize game->player if not already initialized
+// 		game->player = (t_player *)malloc(sizeof(t_player));
+// 		if (game->player == NULL) {
+// 			// Handle allocation failure
+// 			fprintf(stderr, "Error: Memory allocation failed for game->player\n");
+// 			exit(EXIT_FAILURE);
+// 		}
+// 		// Initialize game->player fields
+// 	}
+
+// 	game->pt.y = 0;
+// 	while (game->pt.y < WINDOW_HEIGHT) {
+// 		game->pt.x = 0;
+// 		while (game->pt.x < WINDOW_WIDTH) {
+// 			game->pt.mapx = game->pt.x * MAP_WIDTH / WINDOW_WIDTH;
+// 			game->pt.mapy = game->pt.y * MAP_HEIGHT / WINDOW_HEIGHT;
+// 			if (world_map[game->pt.mapx][game->pt.mapy] == 1)
+// 				mlx_put_pixel(game->img, game->pt.x, game->pt.y, 0xFFFFFFFF);
+// 			else
+// 				mlx_put_pixel(game->img, game->pt.x, game->pt.y, 0x00000000);
+// 			game->pt.x++;
+// 		}
+// 		game->pt.y++;
+// 	}
+// }
+
 
 // int	main(void)
 // {
-// 	void	*mlx;
-// 	t_data	*img = NULL;
+// 	t_game	*game;
 
-// 	img = (t_data *)malloc(sizeof(t_data));
-// 	mlx = mlx_init(1920, 1080, "THIS IS CUBE3D", 100);
-// 	img->img = mlx_new_image(mlx, 1920, 1080);
-// 	int i = 0;
-// 	mlx_image_to_window(mlx, img->img, 0, 0);
-// 	while (i++ < 1000)
-// 		mlx_put_pixel(img->img, i, i, 0x00FF00FF);
-// 	mlx_loop(mlx);
-// }
-
-// int	main(int argc, char *argv[])
-// {
-// 	double	posX;
-// 	double	posY;
-// 	double	dirX;
-// 	double	dirY;
-// 	double	planeX;
-// 	double	planeY;
-// 	int		x;
-// 	double	cameraX;
-// 	double	rayDirX;
-// 	double	rayDirY;
-// 	int		mapX;
-// 	int		mapY;
-// 	double	sideDistX;
-// 	double	sideDistY;
-// 	double	deltaDistX;
-// 	double	deltaDistY;
-// 	double	perpWallDist;
-// 	int		stepX;
-// 	int		stepY;
-// 	int		hit;
-// 	int		side;
-// 	int		lineHeight;
-// 	int		drawStart;
-// 	int		drawEnd;
-// 			ColorRGB color;
-// 	double	oldDirX;
-// 	double	oldPlaneX;
-// 	double	oldDirX;
-// 	double	oldPlaneX;
-// 	void	*mlx;
-
-// 	posX = 22;
-// 	posY = 12;
-// 	dirX = -1;
-// 	dirY = 0;
-// 	planeX = 0;
-// 	planeY = 0.66;
-// 	double time = 0;
-//   	double oldTime = 0;
-// 	mlx = mlx_init(SCREEN_W, SCREEN_H, "Raycaster", 0);
-// 	while (!done())
-// 	{
-// 		x = 0;
-// 		while (x < w)
-// 		{
-// 			cameraX = 2 * x / double (w) - 1;
-// 			rayDirX = dirX + planeX * cameraX;
-// 			rayDirY = dirY + planeY * cameraX;
-// 			deltaDistX = abs(1 / rayDirX);
-// 			deltaDistY = abs(1 / rayDirY);
-// 			if (rayDirX == 0)
-// 				deltaDistX = 1e30;
-// 			else
-// 				deltaDistX = abs(1 / rayDirX);
-// 			if (rayDirY == 0)
-// 				deltaDistY = 1e30;
-// 			else
-// 				deltaDistX = abs(1 / rayDirY);
-// 			mapX = int (posX);
-// 			mapY = int (posY);
-// 			hit = 0;
-// 			if (rayDirX < 0)
-// 			{
-// 				stepX = -1;
-// 				sideDistX = (posX - mapX) * deltaDistX;
-// 			}
-// 			else
-// 			{
-// 				stepX = 1;
-// 				sideDistX = (mapX + 1.0 - posX) * deltaDistX;
-// 			}
-// 			if (rayDirY < 0)
-// 			{
-// 				stepY = -1;
-// 				sideDistY = (posY - mapY) * deltaDistY;
-// 			}
-// 			else
-// 			{
-// 				stepY = 1;
-// 				sideDistY = (mapY + 1.0 - posY) * deltaDistY;
-// 			}
-// 			while (hit == 0)
-// 			{
-// 				if (sideDistX < sideDistY)
-// 				{
-// 					sideDistX += deltaDistX;
-// 					mapX += stepX;
-// 					side = 0;
-// 				}
-// 				else
-// 				{
-// 					sideDistY += deltaDistY;
-// 					mapY += stepY;
-// 					side = 1;
-// 				}
-// 				if (worldMap[mapX][mapY] > 0)
-// 					hit = 1;
-// 			}
-// 			if (side == 0)
-// 				perpWallDist = (sideDistX - deltaDistX);
-// 			else
-// 				perpWallDist = (sideDistY - deltaDistY);
-// 			lineHeight = (int)(h / perpWallDist);
-// 			drawStart = -lineHeight / 2 + h / 2;
-// 			if (drawStart < 0)
-// 				drawStart = 0;
-// 			drawEnd = lineHeight / 2 + h / 2;
-// 			if (drawEnd >= h)
-// 				drawEnd = h - 1;
-// 			switch (worldMap[mapX][mapY])
-// 			{
-// 			case 1:
-// 				color = RGB_Red;
-// 				break ;
-// 			case 2:
-// 				color = RGB_Green;
-// 				break ;
-// 			case 3:
-// 				color = RGB_Blue;
-// 				break ;
-// 			case 4:
-// 				color = RGB_White;
-// 				break ;
-// 			default:
-// 				color = RGB_Yellow;
-// 				break ;
-// 			}
-// 			if (side == 1)
-// 				color = color / 2;
-// 			verLine(x, drawStart, drawEnd, color);
-// 			oldTime = time;
-// 			time = getTicks();
-// 			double frameTime = (time - oldTime) / 1000.0;
-// 			print(1.0 / frameTime);
-// 			redraw();
-// 			cls();
-// 			double moveSpeed = frameTime * 5.0;
-// 			double rotSpeed = frameTime * 3.0;
-// 			readKeys();
-// 			if (keyDown(SDLK_UP))
-// 			{
-// 				if (worldMap[int(posX + dirX * moveSpeed)][int(posY)] == false)
-// 					posX += dirX * moveSpeed;
-// 				if (worldMap[int(posX)][int(posY + dirY * moveSpeed)] == false)
-// 					posY += dirY * moveSpeed;
-// 			}
-// 			if (keyDown(SDLK_DOWN))
-// 			{
-// 				if (worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false)
-// 					posX -= dirX * moveSpeed;
-// 				if (worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false)
-// 					posY -= dirY * moveSpeed;
-// 			}
-// 			if (keyDown(SDLK_RIGHT))
-// 			{
-// 				oldDirX = dirX;
-// 				dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed);
-// 				dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
-// 				oldPlaneX = planeX;
-// 				planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed);
-// 				planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
-// 			}
-// 			if (keyDown(SDLK_LEFT))
-// 			{
-// 				oldDirX = dirX;
-// 				dirX = dirX * cos(rotSpeed) - dirY * sin(rotSpeed);
-// 				dirY = oldDirX * sin(rotSpeed) + dirY * cos(rotSpeed);
-// 				oldPlaneX = planeX;
-// 				planeX = planeX * cos(rotSpeed) - planeY * sin(rotSpeed);
-// 				planeY = oldPlaneX * sin(rotSpeed) + planeY * cos(rotSpeed);
-// 			}
-// 			x++;
-// 		}
-// 	}
+// 	game = (t_game *)ft_calloc(sizeof(t_game), 1);
+// 	game->player = (t_player *)ft_calloc(sizeof(t_player), 1);
+// 	game->vec = (t_vector *)ft_calloc(sizeof(t_vector), 1);
+// 	draw_map2d(game);
+// 	draw_player(game);
+// 	mlx_loop_hook(game->mlx, buttons, game);
+// 	mlx_loop(game->mlx);
+//     //mlx_destroy_display(game->mlx);
+// 	free(game->player);
+// 	free(game->img);
+// 	free(game);
+// 	return (0);
 // }
