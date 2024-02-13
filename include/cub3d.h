@@ -155,6 +155,7 @@ typedef struct s_game
 	void				*addr;
 	void				*win;
 	int					size;
+	int					i;
 	int					width;
 	int					height;
 	char				**map;
