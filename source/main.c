@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:54:14 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/02/13 15:50:17 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:30:59 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,49 +82,19 @@ void	ray_rotation(void *param)
 	}
 }
 
-// void	draw_line(t_game *game)
-// {
-// 	int dx = fabs(game->pdx - game->player->img->instances[0].x);
-// 	int dy = fabs(game->pdy - game->player->img->instances[0].y);
-// 	int sx = game->player->img->instances[0].x < game->pdx ? 1 : -1;
-// 	int sy = game->player->img->instances[0].y < game->pdx ? 1 : -1;
-// 	int err = dx - dy;
-// 	int e2;
-// 	while (1)
-// 	{
-// 		mlx_put_pixel(game->img, game->player->img->instances[0].x,
-			// game->player->img->instances[0].y, 0xFF0000FF);
-// 		if (game->player->img->instances[0].x == game->pdx
-			// && game->player->img->instances[0].y == game->pdy) break ;
-// 		e2 = 2 * err;
-// 		if (e2 > -dy)
-// 		{
-// 			err -= dy;
-// 			game->player->img->instances[0].x += sx;
-// 		}
-// 		if (e2 < dx) {
-// 			err += dx;
-// 			game->player->img->instances[0].y += sy;
-// 		}
-// 	}
-// }
 int is_collision_with_wall(t_game *game, int x1, int y1, int x2, int y2)
 {
-    // Iterate through all points between (x1, y1) and (x2, y2)
     for (int x = x1; x != x2; x += (x2 - x1 > 0) ? 1 : -1) {
         for (int y = y1; y != y2; y += (y2 - y1 > 0) ? 1 : -1) {
-            // Calculate map coordinates for current point
             int mapx = x * MAP_WIDTH / WINDOW_WIDTH;
             int mapy = y * MAP_HEIGHT / WINDOW_HEIGHT;
-
-            // Check if current point is a wall
             if (world_map[mapx][mapy] == 1) {
 				printf("collision detected");
-                return 1; // Collision detected
+                return 1;
             }
         }
     }
-    return 0; // No collision detected
+    return 0;
 }
 void	buttons(void *param)
 {
@@ -146,19 +116,7 @@ void	buttons(void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
 		game->i -= 10;
 }
-// int is_wall_collision(t_game *game, int x, int y)
-// {
-//     // Calculate map coordinates for current point
-//     int mapx = x * MAP_WIDTH / WINDOW_WIDTH;
-//     int mapy = y * MAP_HEIGHT / WINDOW_HEIGHT;
 
-//     // Check if the current point is a wall
-//     if (world_map[mapx][mapy] == 1) {
-//         return 1; // Collision detected
-//     }
-
-//     return 0; // No collision detected
-// }
 void	draw_line(t_game *game, int x1, int y1, int x2, int y2)
 {
 
@@ -174,12 +132,8 @@ void	draw_line(t_game *game, int x1, int y1, int x2, int y2)
 		if (!is_collision_with_wall(game, x1, y1, x2, y2))
         	mlx_put_pixel(game->player->img, x1 , y1 , 0xFF0000FF);
 		printf("x1 = %d\n y1 = %d\n", x1,y1);
-
-        // If the endpoint is reached, exit the loop
-        if (x1 == x2 && y1 == y2) {
+        if (x1 == x2 && y1 == y2)
             break;
-        }
-
         e2 = 2 * err;
         if (e2 > -dy) {
             err -= dy;
@@ -192,26 +146,22 @@ void	draw_line(t_game *game, int x1, int y1, int x2, int y2)
     }
 
 }
+
 void draw_lines_10_degrees(mlx_key_data_t keydata, void *param)
 {
 	t_game *game = (t_game*)param;
 	
-    int x1 = game->player->img->instances[0].x;
-    int y1 = game->player->img->instances[0].y;
-	int x_center = WINDOW_WIDTH / 2; // Calculate the x-coordinate of the center of the screen
+    int x1 = game->player->x;
+    int y1 = game->player->y;
+	int x_center = WINDOW_WIDTH / 2;
     int y_center = WINDOW_HEIGHT / 2;
-    int radius = 200; // Or whatever length you want the lines to be
+    int radius = 400;
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
 	{
 		game->i+=10;
     for (int angle = 0 + game->i; angle < 90 + game->i; angle += 7) {
-        // Calculate endpoint coordinates based on angle and radius
-        int x2 = x_center + radius * cos(angle * M_PI / 180);
-        int y2 = y_center + radius * sin(angle * M_PI / 180);
-
-        // Check for collision with walls
-        // if (!is_collision_with_wall(game, x1, y1, x2, y2)) {
-        //     // Draw line between (x1, y1) and (x2, y2)
+        	int x2 = x_center + radius * cos(angle * M_PI / 180);
+        	int y2 = y_center + radius * sin(angle * M_PI / 180);
             draw_line(game, x1, y1, x2, y2);
          }
 		
@@ -219,16 +169,11 @@ void draw_lines_10_degrees(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
 	{
 		game->i-=10;
-    for (int angle = 0 + game->i; angle < 90 + game->i; angle += 7) {
-        // Calculate endpoint coordinates based on angle and radius
-        int x2 = x_center + radius * cos(angle * M_PI / 180);
-        int y2 = y_center + radius * sin(angle * M_PI / 180);
-
-        // Check for collision with walls
-        // if (!is_collision_with_wall(game, x1, y1, x2, y2)) {
-        //     // Draw line between (x1, y1) and (x2, y2)
-            draw_line(game, x1, y1, x2, y2);
-         }
+		for (int angle = 0 + game->i; angle < 90 + game->i; angle += 7) {
+			int x2 = x_center + radius * cos(angle * M_PI / 180);
+			int y2 = y_center + radius * sin(angle * M_PI / 180);
+				draw_line(game, x1, y1, x2, y2);
+			}
 		
 	}
 }
@@ -251,8 +196,6 @@ void	draw_player(void *param)
 		}
 		game->player->y++;
 	}
-	// draw_lines_10_degrees(game);
-
 }
 
 void	draw_map2d(t_game *game)
