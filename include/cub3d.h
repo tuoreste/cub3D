@@ -26,10 +26,11 @@
 # define FOV_ANGLE ((60 * M_PI) / 180)
 # define ROT 0.174533 // 10 degrees in radians
 
-typedef struct s_vector {
-	double x;
-	double y;
-} t_vector;
+typedef struct s_vector
+{
+	double				x;
+	double				y;
+}						t_vector;
 
 typedef struct s_point
 {
@@ -90,8 +91,8 @@ typedef struct s_keys
 typedef struct s_player
 {
 	struct mlx_image	*img;
-	int				x;
-	int				y;
+	int					x;
+	int					y;
 	// double				dir_x;
 	// double				dir_y;
 	t_vector			pos;
@@ -137,7 +138,6 @@ typedef struct s_settings
 	t_color				ceiling_color;
 }						t_settings;
 
-
 typedef struct s_parse
 {
 	int					fd;
@@ -164,6 +164,9 @@ typedef struct s_game
 	float				pa;
 	float				pdx;
 	float				pdy;
+	int					x2;
+	int					y2;
+	int					radius;
 	t_point				pt;
 	t_vector			*vec;
 	t_image				*image;
@@ -177,11 +180,18 @@ typedef struct s_game
 	t_intersection		intersect;
 	t_raycast_result	raycast;
 }						t_game;
-
+void getcollpoint(t_game *game, int x1, int y1);
 void					error_return(char *str);
 void					error_format(char *str, int line_n);
 void					ft_check_format(t_game *game, char *c);
 void					read_scene_file(char *file_path, t_game *game);
+// void					draw_lines_10_degrees(void *param);
+int						is_collision_with_wall(t_game *game, int x1, int y1,
+							int x2, int y2);
+void					draw_line(void *param);
+void					draw_player(void *param);
+void					draw_map2d(void *param);
+void					buttons(mlx_key_data_t keydata, void *param);
 int						main(void);
 
 // Function prototypes
@@ -205,9 +215,6 @@ int						main(void);
 // void					rotate_player_right(t_game *game);
 // void					draw_wall_strip(t_game *game, int strip,
 // 							int wall_height);
-
-
-
 
 #endif
 
@@ -310,7 +317,7 @@ int						main(void);
 // void buttons(void *param);
 
 // // Additional function prototypes for texture access (to be filled in)
-// int get_wall_texture_color(int wall_hit, t_texture wall_texture, double hit_x);
+// int get_wall_texture_color(int wall_hit, t_texture wall_texture,double hit_x);
 // int get_ceiling_texture_color(int x, int y, t_texture *ceiling_texture);
 // int get_floor_texture_color(int x, int y, t_texture *floor_texture);
 
