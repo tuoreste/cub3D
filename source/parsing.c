@@ -6,7 +6,7 @@
 /*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 21:48:34 by aguediri          #+#    #+#             */
-/*   Updated: 2024/02/11 21:48:51 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/02/15 16:48:09 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,9 +211,11 @@ int	checkmap(char **s)
 {
 	int	i;
 	int	r;
+	int	u;
 
-	i = 1;
+	i = 0;
 	r = 1;
+	u = 0;
 	if (!ft_strlen(s[0]))
 		return (0);
 	r = checkfirstline(s);
@@ -221,6 +223,9 @@ int	checkmap(char **s)
 		r = checklastline(s); 
 	while (s[i])
 	{
+		printf("%s\n",s[i]);
+		if (ft_strlen(ft_strtrim(s[i], "01 \tNSWE")) != ft_strlen(ft_strtrim(s[i], "01 \t")))
+			u++;
 		if (ft_strlen(ft_strtrim(s[i], "01 \tNSWE")) || !checkh(s[i]))
 			return (0);
 		char *s1 = ft_strtrim(s[i], " \t");
@@ -229,6 +234,8 @@ int	checkmap(char **s)
 		i++;
 	}
 	if (ft_strlen(ft_strtrim(s[i - 1], " 1\t")))
+		return (0);
+	if (u != 1)
 		return (0);
 	return (r);
 }
