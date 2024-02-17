@@ -1,6 +1,8 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+//=================start of defs=================
+
 # include "MLX42.h"
 # include "get_next_line.h"
 # include "libft.h"
@@ -11,333 +13,151 @@
 # include <string.h>
 # include <unistd.h>
 
-# define WINDOW_WIDTH 840
-# define WINDOW_HEIGHT 720
-# define MAP_WIDTH 24
-# define MAP_HEIGHT 24
-# define TILE_SIZE 30
-# define MAX_LINE_LENGTH 100
-# define NUM_RAYS WINDOW_WIDTH
-# define RAY_LENGTH 100.0
-# define MAP_ROWS 10
-# define MAP_COLS 10
-# define PI 3.1415926
-// Field of View angle in radians
-# define FOV_ANGLE ((60 * M_PI) / 180)
-# define ROT 0.174533 // 10 degrees in radians
+# define WINDOW_HEIGHT 640
+# define WINDOW_WIDTH 480
+# define MOV_SPEED 0.1
+# define ROT_SP 0.05
+# define TILE 64
 
-typedef struct s_vector
-{
-	double				x;
-	double				y;
-}						t_vector;
+//=================end of defs===================
+//=================start of structs=========
 
-typedef struct s_point
+typedef struct s_render
 {
-	double				x;
-	double				y;
-	int					mapx;
-	int					mapy;
-}						t_point;
-
-typedef struct s_image
-{
-	int					x;
-	int					y;
-	void				*img;
-	float				angle;
-	unsigned int		*rotated_data;
-	int					relative_x;
-	int					relative_y;
-	int					new_x;
-	int					new_y;
-	int					center_x;
-	int					center_y;
-	int					img_width;
-	int					img_height;
-	float				radians;
-	float				player_orient;
-}						t_image;
+	int			h_line;
+	int			draw_strt;
+	int			draw_end;
+	double		ratio;
+	int			pix_texture[2];
+	double		pos_texture;
+	short		dir_wall;
+}				t_render;
 
 typedef struct s_ray
 {
-	t_point				origin;
-	double				angle;
-}						t_ray;
+	int				s;
+	double			perp_wall_dist;
+	double			cam_x;
+	short			wall_dir;
+	double			dir_ray[2];
+	unsigned short	step[2];
+	unsigned short	tile[2];
+	short			wall_wards[2];
+	unsigned short	dist_to_nxt_contour[2];
+	unsigned short	portion_of_rem_tile[2];
+}					t_ray;
 
-typedef struct s_intersection
+typedef struct s_vector
 {
-	double				distance;
-	double				distance_to_wall;
-	t_point				crossed;
-}						t_intersection;
+	double	x;
+	double	y;
+	double	z;
+}	t_vector;
 
-typedef struct s_raycast_result
+typedef struct s_maps
 {
-	double				distance;
-	int					texture_id;
-	int					strip;
-}						t_raycast_result;
-
-typedef struct s_keys
-{
-	int					up;
-	int					down;
-	int					left;
-	int					right;
-	keys_t				*key;
-}						t_keys;
-
-typedef struct s_player
-{
-	struct mlx_image	*img;
-	int					x;
-	int					y;
-	// double				dir_x;
-	// double				dir_y;
-	t_vector			pos;
-	t_vector			dir;
-	double				delta_x;
-	double				delta_y;
-	double				p_angle;
-	double				direction;
-	double				move_speed;
-	double				rotation_speed;
-	double				dist_to_projection_plane;
-
-}						t_player;
-
-typedef struct s_maze
-{
-	char				map[MAP_HEIGHT][MAP_WIDTH + 1];
-}						t_maze;
-
-typedef struct s_texture
-{
-	char				*path;
-	void				*no_tex;
-	void				*so_tex;
-	void				*ea_tex;
-	void				*we_tex;
-}						t_texture;
-
-typedef struct s_color
-{
-	int					r;
-	int					g;
-	int					b;
-}						t_color;
-
-typedef struct s_settings
-{
-	t_texture			*no_tex;
-	t_texture			*so_tex;
-	t_texture			*we_tex;
-	t_texture			*ea_tex;
-	t_color				floor_color;
-	t_color				ceiling_color;
-}						t_settings;
-
-typedef struct s_parse
-{
-	int					fd;
-	char				*line;
-	size_t				len;
-	int					map_start;
-	int					line_number;
-	char				*token;
-}						t_parse;
+	int				floor[2];
+	int				etage;
+	int				ceil[2];
+	int				plafo;
+	char			texture[4];
+	char			**map;
+	t_vector		vect[3];
+	t_ray			ray;
+	t_game			*game;
+}	t_maps;
 
 typedef struct s_game
 {
-	mlx_t				*mlx;
-	void				*img;
-	void				*addr;
-	void				*win;
-	int					size;
-	int					i;
-	int					width;
-	int					height;
-	char				**map;
-	int					line_length;
-	long long int		bits_per_pixel;
-	float				pa;
-	float				pdx;
-	float				pdy;
-	int					x2;
-	int					y2;
-	int					radius;
-	t_point				pt;
-	t_vector			*vec;
-	t_image				*image;
-	t_ray				ray;
-	t_parse				parse;
-	t_player			*player;
-	t_maze				maze;
-	t_settings			settings;
-	t_texture			textures;
-	t_keys				keys;
-	t_intersection		intersect;
-	t_raycast_result	raycast;
-}						t_game;
-void getcollpoint(t_game *game, int x1, int y1);
-void					error_return(char *str);
-void					error_format(char *str, int line_n);
-void					ft_check_format(t_game *game, char *c);
-void					read_scene_file(char *file_path, t_game *game);
-// void					draw_lines_10_degrees(void *param);
-int						is_collision_with_wall(t_game *game, int x1, int y1,
-							int x2, int y2);
-void					draw_line(void *param);
-void					draw_player(void *param);
-void					draw_map2d(void *param);
-void					buttons(mlx_key_data_t keydata, void *param);
-int						main(void);
+	int 			color;
+	int				hit;
+	int				x_texture;
+	int				y_texture;
+	mlx_t			*mlx;
+	int32_t			scrn_h;
+	int32_t			scrn_w;
+	mlx_image_t		*img;
+	mlx_texture_t	*walls[4];
+	t_maps			*map;
+}	t_game;
 
-// Function prototypes
-// void					read_scene_file(char *file_path, t_game *game);
-// void					setup_game(t_game *game);
-// void					update(t_game *game);
-// void					render(t_game *game);
-// void					draw_rectangle(t_game *game, int x, int y);
-// void					draw_player(t_game *game);
-// void					draw_maze(t_game *game);
-// void					cast_rays(t_game *game);
-// void					draw_line(t_game *game, int x1, int y1, int x2, int y2,
-// 							int color);
-// double					normalize_angle(double angle);
-// void					move_player(t_game *game, double delta_x,
-// 							double delta_y);
-// void					rotate_player(t_game *game, double rotation);
-// void					move_player_forward(t_game *game);
-// void					move_player_backward(t_game *game);
-// void					rotate_player_left(t_game *game);
-// void					rotate_player_right(t_game *game);
-// void					draw_wall_strip(t_game *game, int strip,
-// 							int wall_height);
+//=================end of structs=========
+//=================start of enums=================
 
-#endif
+enum e_keys
+{
+	NO = 0,
+	SO = 1,
+	WE = 2,
+	EA = 3,
+	C = 4,
+	F = 5
+};
 
-// #ifndef CUB3D_H
-// # define CUB3D_H
+enum e_rgb
+{
+	R = 0,
+	G = 1,
+	B = 2
+};
 
-// # include "MLX42.h"
-// # include "get_next_line.h"
-// # include "libft.h"
-// # include <fcntl.h>
-// # include <math.h>
-// # include <stdio.h>
-// # include <stdlib.h>
-// # include <string.h>
-// # include <unistd.h>
+enum e_axis
+{
+	X = 0,
+	Y = 1
+};
 
-// typedef struct t_vector {
-//     double x;
-//     double y;
-//     double dir;
-// } t_vector;
-// // Structure definitions
+enum e_vectors
+{
+	POS = 0,
+	DIR = 1,
+	CAM = 2
+};
 
-// typedef struct t_ray {
-//     t_vector origin;       // Ray origin
-//     t_vector dir;          // Ray direction
-//     double wall_dist;      // Distance to hit wall
-//     int wall_hit;      // Whether a wall was hit
-// 	double dir_x;
-// 	double dir_y;
-// 	int hit_x;
-// 	double camera_plane_x;
-// 	double camera_plane_y;
-// 	double max_distance;
-//     // ... (Add other ray-related data members as needed)
-// } t_ray;
+enum e_dimensions
+{
+	S_WIDTH = 1920,
+	S_HEIGHT = 1080
+};
 
-// typedef struct t_texture {
-//     // Data members representing your texture data format
-//     unsigned char *data; // Assuming raw pixel data
-//     int width;
-//     int height;
-// } t_texture;
+//=================end of enums=============
+//=================start of protos========
 
-// typedef struct s_image
-// {
-// 	int					x;
-// 	int					y;
-// 	void				*imag;
-// 	float				angle;
-// 	unsigned int		*rotated_data;
-// 	int					relative_x;
-// 	int					relative_y;
-// 	int					new_x;
-// 	int					new_y;
-// 	int					center_x;
-// 	int					center_y;
-// 	int					img_width;
-// 	int					img_height;
-// 	float				radians;
-// 	float				player_orient;
-// 	mlx_instance_t		*instances;
-// }						t_image;
+//------main.c-------|
+int			main(int argc, char **argv);
+int			error_gen(void);
 
-// typedef struct t_player {
-// 	void	*imag;
-//     t_image *img;             // Player image
-// 	t_vector			pos;
+//------cub3D.c-------|
+void		maze(void *param);
+void		build_game(t_game *game);
+void		game_init(game);
 
-//     // ... (Add other player-related data members as needed)
-// } t_player;
+//------parser.c------|
+void		parser(char **argv, t_maps *map);
 
-// typedef struct s_point
-// {
-// 	double				x;
-// 	double				y;
-// 	int					mapx;
-// 	int					mapy;
-// }						t_point;
+//------motion.c------|
+void		move(void *param);
+void		rotation(t_game *game);
+void		camera(t_game *game);
+void		direction(t_game *game);
 
-// typedef struct t_game {
-//     void *img;          // Image for rendering
-//     void *mlx;          // MLX pointer
-//     t_vector *player_pos; // Player position
-//     t_player *player;    // Player struct pointer
-// 	t_point	*pt;
-// 	t_texture		floor_texture;
-// 	t_texture		ceiling_texture;
-// 	int		ceiling_height;
-//     // ... (Add other game-related data members as needed)
-// } t_game;
+//------decorate.c------|
+void		select_color(t_game *game);
+int			color_rgba(int r, int g, int b);
+int			pull_color_texture(mlx_texture_t *texture, int x_texture, \
+			int y_texture);
 
-// // Function prototypes for texture loading/handling (if needed)
-// int load_texture(const char *file_path, t_texture *texture);
-// void free_texture(t_texture *texture);
+//------render.c------|
+t_render	feed_info_to_render(t_maps *map, t_ray *ray);
+void		initiate_rays(t_maps *map, t_ray *ray, int x);
+void		compute_ray_steps(t_maps *map, t_ray *ray);
 
-// // Function prototypes
-// void draw_map2d(t_game *game);
-// void draw_player(void *param);
-// void buttons(void *param);
 
-// // Additional function prototypes for texture access (to be filled in)
-// int get_wall_texture_color(int wall_hit, t_texture wall_texture,double hit_x);
-// int get_ceiling_texture_color(int x, int y, t_texture *ceiling_texture);
-// int get_floor_texture_color(int x, int y, t_texture *floor_texture);
+//------cast.c------|
+void		draw_line_dda(t_maps *map, t_ray *ray, t_game *game);
+void		reciprocate_dir_vec(t_maps *map, t_ray *ray, int x);
 
-// # define WINDOW_WIDTH 840
-// # define WINDOW_HEIGHT 720
-// # define MAP_WIDTH 24
-// # define MAP_HEIGHT 24
-// # define TILE_SIZE 30
-// # define MAX_LINE_LENGTH 100
-// # define NUM_RAYS WINDOW_WIDTH
-// # define RAY_LENGTH 100.0
-// # define MAP_ROWS 10
-// # define MAP_COLS 10
-// # define PI 3.1415926
-// // Field of View angle in radians
-// # define FOV_ANGLE ((60 * M_PI) / 180)
-// # define ROT 0.174533 // 10 degrees in radians
-// #define FLOOR_SCALE 0.1
-// #define CEILING_SCALE 0.8
 
-// // Include other header files as needed
+//=================end of protos==========
 
-// #endif /* GAME_H */
+#endif /* GAME_H */
