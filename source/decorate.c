@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 09:51:20 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/02/17 13:26:06 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/18 16:39:43 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,19 @@ int	upload_texture(t_game *game)
 {
 	int	i;
 
-	i = 0;
-	while (i <= 4)
+	i = -1;
+	if (game->map->north)
+	{
+		game->map->texture[0] = ft_strdup(game->map->north);
+		game->map->texture[1] = ft_strdup(game->map->south);
+		game->map->texture[2] = ft_strdup(game->map->east);
+		game->map->texture[3] = ft_strdup(game->map->west);
+	}
+	while (++i < 4)
 	{
 		game->walls[i] = mlx_load_png(game->map->texture[i]);
-		if (game->walls[i] == 0)
-			return (mlx_strerror(1));
-		i++;
+		if (game->walls[i] == NULL)
+			return (error_gen("Error: Texture upload failed\n"));
 	}
 	return (0);
 }
@@ -61,8 +67,10 @@ void	select_color(t_game *game)
 			mlx_put_pixel(game->img, x, y, game->map->etage);
 	}
 	y = game->scrn_h / 2;
-	game->map->etage = color_rgba(game->map->floor[0], game->map->floor[1], game->map->floor[2]);
-	game->map->plafo = color_rgba(game->map->ceil[0], game->map->ceil[1], game->map->ceil[2]);
+	game->map->etage = color_rgba(game->map->floor[0], game->map->floor[1],
+			game->map->floor[2]);
+	game->map->plafo = color_rgba(game->map->ceil[0], game->map->ceil[1],
+			game->map->ceil[2]);
 	while (y < game->scrn_h)
 	{
 		x = -1;
@@ -70,6 +78,8 @@ void	select_color(t_game *game)
 			mlx_put_pixel(game->img, x, y, game->map->plafo);
 		y++;
 	}
-	game->map->etage = color_rgba(game->map->floor[0], game->map->floor[1], game->map->floor[2]);
-	game->map->plafo = color_rgba(game->map->ceil[0], game->map->ceil[1], game->map->ceil[2]);
+	game->map->etage = color_rgba(game->map->floor[0], game->map->floor[1],
+			game->map->floor[2]);
+	game->map->plafo = color_rgba(game->map->ceil[0], game->map->ceil[1],
+			game->map->ceil[2]);
 }

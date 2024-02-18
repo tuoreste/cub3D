@@ -4,7 +4,7 @@
 //=================start of defs=================
 
 # include "MLX42.h"
-# include "get_next_line.h"
+//# include "get_next_line.h"
 # include "libft.h"
 # include <fcntl.h>
 # include <math.h>
@@ -13,7 +13,9 @@
 # include <string.h>
 # include <unistd.h>
 
+
 # define WINDOW_HEIGHT 640
+# define BUFFER_SIZE 10
 # define WINDOW_WIDTH 480
 # define MOV_SPEED 0.1
 # define ROT_SP 0.05
@@ -56,19 +58,36 @@ typedef struct s_vector
 
 typedef struct s_maps
 {
-	int				floor[2];
-	int				etage;
-	int				ceil[2];
-	int				plafo;
-	char			texture[4];
+	int				h;
+	int				w;
+	size_t			len_map;
 	char			**map;
+	char			*north;
+	char			*south;
+	char			*east;
+	char			*west;
+	char			*s;
+	char			*f;
+	char			*c;
+	//-----------------------;
+	int				floor[3];
+	int				etage;
+	int				ceil[3];
+	int				plafo;
+	char			*texture[4];
 	t_vector		vect[3];
 	t_ray			ray;
-	t_game			*game;
-}	t_maps;
+}					t_maps;
 
 typedef struct s_game
 {
+	char	*addr;
+	void	*win_mlx;
+	float	x0;
+	float	x1;
+	float	y0;
+	float	y1;
+	//---------------------
 	int 			color;
 	int				hit;
 	int				x_texture;
@@ -125,15 +144,25 @@ enum e_dimensions
 
 //------main.c-------|
 int			main(int argc, char **argv);
-int			error_gen(void);
+int			error_gen(char *err);
+
+//------parser.c-------|
+int			parser(char *argv, t_maps *map);
+char		*get_next_line(int fd);
+void		manage_directions(char *s, t_maps *data);
+void		manage_sfc(char *s, t_maps *data);
+t_maps		*manage_data(char *s);
+t_maps		*get_map_data(char *s);
+int			checkfirstline(char **s);
+int			checklastline(char **s);
+int			checkh(char *s);
+int			checkmap(char **s);
 
 //------cub3D.c-------|
 void		maze(void *param);
-void		build_game(t_game *game);
-void		game_init(game);
+int			build_game(t_game *game);
+void		*launch_game(t_game *game);
 
-//------parser.c------|
-void		parser(char **argv, t_maps *map);
 
 //------motion.c------|
 void		move(void *param);
@@ -142,6 +171,7 @@ void		camera(t_game *game);
 void		direction(t_game *game);
 
 //------decorate.c------|
+int			upload_texture(t_game *game);
 void		select_color(t_game *game);
 int			color_rgba(int r, int g, int b);
 int			pull_color_texture(mlx_texture_t *texture, int x_texture, \
@@ -156,7 +186,6 @@ void		compute_ray_steps(t_maps *map, t_ray *ray);
 //------cast.c------|
 void		draw_line_dda(t_maps *map, t_ray *ray, t_game *game);
 void		reciprocate_dir_vec(t_maps *map, t_ray *ray, int x);
-
 
 //=================end of protos==========
 

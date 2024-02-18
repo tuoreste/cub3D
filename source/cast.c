@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 13:28:02 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/02/17 13:28:35 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/17 20:32:00 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	draw_line_dda(t_maps *map, t_ray *ray, t_game *game)
 
 	while (!game->hit)
 	{
-		if (ray->dist_to_nxt_contour[X] < ray->dist_to_nxt_contour[X])
+		if (ray->dist_to_nxt_contour[X] < ray->dist_to_nxt_contour[Y])
 		{
 			ray->dist_to_nxt_contour[X] += ray->dist_to_nxt_contour[X];
 			ray->tile[X] += ray->step[X];

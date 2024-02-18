@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:17:36 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/02/15 18:23:17 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/18 13:58:17 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ void	move(void *param)
 	game = (t_game *)param;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 	{
-		free_all(); //make sure to free everything allocated before exit
+		//free_all(); //make sure to free everything allocated before exit
 		mlx_close_window(game->mlx);
 	}
 	direction(game);
 	camera(game);
 	rotation(game);
-	mlx_get_monitor_size(0, update_w, update_h);
-	ray_casting(game);
+	//mlx_get_monitor_size(0, update_w, update_h);
+	//ray_casting(game);
 }
