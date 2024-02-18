@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   decorate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 09:51:20 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/02/18 16:39:43 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/18 19:29:35 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	upload_texture(t_game *game)
 	}
 	while (++i < 4)
 	{
-		game->walls[i] = mlx_load_png(game->map->texture[i]);
+		game->walls[i] = mlx_load_xpm42(game->map->texture[i]);
+		//---------------------------------->>converts from binary to texture
 		if (game->walls[i] == NULL)
 			return (error_gen("Error: Texture upload failed\n"));
 	}

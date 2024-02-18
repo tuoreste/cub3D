@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:54:40 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/02/18 16:46:07 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/02/18 18:51:59 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ void	manage_directions(char *s, t_maps *data)
 	char	**t;
 
 	t = ft_split(s, ' ');
-	if (t[0][0] == 'N')
+	printf("%s\n\n\n\n", t[1]);
+	if (ft_strnstr(t[0], "NO", 2))
 		data->north = ft_strdup(t[1]);
-	else if (t[0][0] == 'S')
+	else if (ft_strnstr(t[0], "SO", 2))
 		data->south = ft_strdup(t[1]);
-	else if (t[0][0] == 'W')
+	else if (ft_strnstr(t[0], "WE", 2))
 		data->west = ft_strdup(t[1]);
-	else if (t[0][0] == 'E')
+	else if (ft_strnstr(t[0], "EA", 2))
 		data->east = ft_strdup(t[1]);
-	printf("%s", t[1]);
 }
 void	manage_sfc(char *s, t_maps *data)
 {
@@ -90,7 +90,6 @@ t_maps	*manage_data(char *s)
 			|| ft_strnstr(t[i], "WE", 2) || ft_strnstr(t[i], "EA", 2))
 		{
 			manage_directions(t[i], data);
-			printf("%s \n", t[i]);
 		}
 		else if (ft_strnstr(t[i], "S", 1) || ft_strnstr(t[i], "C", 1)
 			|| ft_strnstr(t[i], "F", 1))

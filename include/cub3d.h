@@ -96,7 +96,7 @@ typedef struct s_game
 	int32_t			scrn_h;
 	int32_t			scrn_w;
 	mlx_image_t		*img;
-	mlx_texture_t	*walls[4];
+	mlx_image_t		*walls[4];
 	t_maps			*map;
 }	t_game;
 
