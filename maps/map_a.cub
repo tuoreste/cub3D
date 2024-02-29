@@ -1,11 +1,11 @@
 R 1920 1080
 
-NO ./textures/texture1.xpm
-SO ./textures/texture2.xpm
-WE ./textures/texture3.xpm
-EA ./textures/texture4.xpm
+NO ./textures/photo1.png
+SO ./textures/photo2.png
+WE ./textures/photo3.png
+EA ./textures/photo4.png
 
-S ./textures/special.xpm
+S ./textures/photo1.png
 F 77,92,53
 C 163,208,230
 

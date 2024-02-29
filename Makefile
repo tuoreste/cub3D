@@ -6,7 +6,7 @@
 #    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/08 14:23:29 by otuyishi          #+#    #+#              #
-#    Updated: 2024/02/17 21:21:20 by otuyishi         ###   ########.fr        #
+#    Updated: 2024/02/29 13:12:54 by otuyishi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ HEADERS := -I./include -I$(LIBMLX)/include -I./lib/libft -I./lib/libft/get_next_
 # SRCS = $(wildcard $(SRC_DIR)/*.c)
 LIBS := $(LIBMLX)/build/libmlx42.a
 
-SRC_DIR = source
-SRCS = $(wildcard source/*.c)
+SRC_DIR = src
+SRCS = $(wildcard src/*.c)
 SRCS += $(wildcard lib/libft/*.c)
 SRCS += $(wildcard lib/libft/get_next_line/*.c)
 
