@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 11:54:16 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/01 17:38:33 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:35:01 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,15 @@ t_data	*args_init(void)
 int	within_the_arc(float angle, char axi)
 {
 	if (axi == 'x')
-		return (angle > 0 && angle < M_PI);
+	{
+		if (angle > 0 && angle < M_PI)
+			return (1);
+	}
 	else if (axi == 'y')
-		return (angle > (M_PI / 2) && angle < (3 * M_PI) / 2);
+	{
+		if (angle > (M_PI / 2) && angle < (3 * M_PI) / 2)
+			return (1);
+	}
 	return (0);
 }
 
@@ -174,9 +180,9 @@ float	vert_axi_intersect(t_mlx *mlx, float angle)
 	climb_x = floor(mlx->player->player_x / TILE) * TILE;
 	pixel = is_intersecting(angle, &climb_x, &forward_x, 0);
 	climb_y = mlx->player->player_y + (climb_x - mlx->player->player_x)
-		/ tan(angle);
-	if ((within_the_arc(angle, 'x') && forward_y > 0) || (!within_the_arc(angle,
-				'x') && forward_y < 0))
+		* tan(angle);
+	if ((within_the_arc(angle, 'x') && forward_y < 0) || (!within_the_arc(angle,
+				'x') && forward_y > 0))
 		forward_y *= -1;
 	while (did_ray_hit_wall(climb_x - pixel, climb_y, mlx))
 	{
@@ -218,21 +224,13 @@ void	ray_casting(t_mlx *mlx)
 void	pixel_put(t_mlx *mlx, int x, int y, int color)
 {
 	if (x < 0)
-	{
 		return ;
-	}
 	else if (x >= W_W)
-	{
 		return ;
-	}
 	if (y < 0)
-	{
 		return ;
-	}
 	else if (y >= W_H)
-	{
 		return ;
-	}
 	mlx_put_pixel(mlx->img, x, y, color);
 }
 

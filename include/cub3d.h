@@ -197,9 +197,9 @@
 // # include "get_next_line.h"
 # include "libft.h"
 
-# define W_W 1080
-# define W_H 1200
-# define TILE 50
+# define W_W 1900
+# define W_H 1000
+# define TILE 30
 # define FOV 60
 # define ROT_SP 0.045
 # define PLY_SP 4
