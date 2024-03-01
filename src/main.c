@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 11:54:16 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/01 16:18:16 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:38:33 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ t_data	*args_init(void)
 	data = ft_calloc(1, sizeof(t_data));
 	data->map_2d = calloc(10, sizeof(char *));
 	data->map_2d[0] = ft_strdup("1111111111111111111111111");
-	data->map_2d[1] = ft_strdup("1000000000000000000100001");
-	data->map_2d[2] = ft_strdup("1001000000000P00000000001");
-	data->map_2d[3] = ft_strdup("1001000000000000001000001");
-	data->map_2d[4] = ft_strdup("1001000000000000001000001");
-	data->map_2d[5] = ft_strdup("1001000000100000001000001");
-	data->map_2d[6] = ft_strdup("1001000000000000001000001");
-	data->map_2d[7] = ft_strdup("1001000000001000001000001");
+	data->map_2d[1] = ft_strdup("1000000000000000000000001");
+	data->map_2d[2] = ft_strdup("1000000000000000000000001");
+	data->map_2d[3] = ft_strdup("1000000000000000000000001");
+	data->map_2d[4] = ft_strdup("1000000000000000000000001");
+	data->map_2d[5] = ft_strdup("1000000000000000000000001");
+	data->map_2d[6] = ft_strdup("1000000000000000000000001");
+	data->map_2d[7] = ft_strdup("1000000000000000000000001");
 	data->map_2d[8] = ft_strdup("1111111111111111111111111");
 	data->map_2d[9] = NULL;
 	data->pos_y = 3;
@@ -350,7 +350,7 @@ void	rotate_player(t_mlx *mlx, int i)
 {
 	if (i == 1)
 	{
-		mlx->player->angle -= ROT_SP;
+		mlx->player->angle += ROT_SP;
 		if (mlx->player->angle > 2 * M_PI)
 			mlx->player->angle -= 2 * M_PI;
 	}
