@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "locale": "cpp",
+        "cub3d.h": "c"
+    }
+}

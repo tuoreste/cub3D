@@ -1,6 +1,8 @@
 #ifndef CUB3D_H
 # define CUB3D_H
-
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 // //=================start of defs=================
 
 // # include "MLX42.h"
@@ -12,7 +14,6 @@
 // # include <stdlib.h>
 // # include <string.h>
 // # include <unistd.h>
-
 
 // # define WINDOW_HEIGHT 640
 // # define BUFFER_SIZE 10
@@ -163,7 +164,6 @@
 // int			build_game(t_game *game);
 // void		*launch_game(t_game *game);
 
-
 // //------motion.c------|
 // void		move(void *param);
 // void		rotation(t_game *game);
@@ -182,85 +182,185 @@
 // void		initiate_rays(t_maps *map, t_ray *ray, int x);
 // void		compute_ray_steps(t_maps *map, t_ray *ray);
 
-
 // //------cast.c------|
 // void		draw_line_dda(t_maps *map, t_ray *ray, t_game *game);
 // void		reciprocate_dir_vec(t_maps *map, t_ray *ray, int x);
 
 // //=================end of protos==========
 
-# include <string.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <math.h>
 # include "MLX42.h"
+# include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <fcntl.h>
 // # include "get_next_line.h"
 # include "libft.h"
 
-# define W_W 1900
-# define W_H 1000
-# define TILE 30
-# define FOV 60
-# define ROT_SP 0.045
-# define PLY_SP 4
+# define S_W 1900             // screen width
+# define S_H 1000             // screen height
+# define TILE_SIZE 30         // tile size
+# define FOV 60               // field of view
+# define ROTATION_SPEED 0.045 // rotation speed
+# define PLAYER_SPEED 4       // player speed
 
-typedef struct s_player
-{
-	int player_x;
-	int player_y;
-	double angle;
-	float fov_radius;
-	int rotate; //bool
-	int left_right; //bool
-	int up_down; //bool
-}		t_player;
 
-typedef struct s_ray
+typedef struct s_map
 {
-	double ray_angle;
-	double dist_to_wall;
-	int wall_flg; //bool
-}		t_ray;
+	int		h;
+	int		w;
+	size_t	len_map;
+	char	**map;
+	char	*north;
+	char	*south;
+	char	*east;
+	char	*west;
+	char	*s;
+	char	*f;
+	char	*c;
+	int p_x;    // player x position in the map
+	int p_y;    // player y position in the map
+	int w_map;  // map width
+	int		h_map;
+}			t_map;
+typedef struct s_player // the player structure
+{
+	int player_x; // player x position in pixels
+	int player_y; // player y position in pixels
+	double angle; // player angle
+	float fov;    // field of view in radians
+	int rot;      // rotation f
+	int l_r;      // left right f
+	int u_d;      // up down f
+}			t_player;
 
-typedef struct s_data
+typedef struct s_ray // the ray structure
 {
-	char **map_2d;
-	int	pos_x;
-	int	pos_y;
-	int map_wid;
-	int map_hei;
-}			t_data;
+	double r_angle; // ray angle
+	double dist;    // dist to the wall
+	int f;          // f for the wall
+}			t_ray;
 
-typedef struct s_mlx
+// typedef struct s_data // the data structure
+// {
+// 	char **map; // the map
+// 	int p_x;    // player x position in the map
+// 	int p_y;    // player y position in the map
+// 	int w_map;  // map width
+// 	int h_map;  // map height
+// }			t_map;
+
+typedef struct s_mlx // the mlx structure
 {
-	mlx_image_t	*img;
-	mlx_t		*mlx;
-	t_ray		*ray;
-	t_data		*data;
-	t_player	*player;
+	mlx_image_t *img; // the image
+	mlx_t *mlx_p;     // the mlx pointer
+	t_ray *ray;       // the ray structure
+	t_map *dt;       // the data structure
+	t_player *player; // the player structure
 }			t_mlx;
 
-void	game(void *m);
-void	begin(t_data *data);
-t_data	*args_init();
-int		within_the_arc(float angle, char axi);
-int		is_intersecting(float angle, float *intersect, float *step, int x_axi);
-int		did_ray_hit_wall(float x, float y, t_mlx *mlx);
-float	horizo_axi_intersect(t_mlx *mlx, float angle);
-float	horizo_axi_intersect(t_mlx *mlx, float angle);
-float	vert_axi_intersect(t_mlx *mlx, float angle);
-void	ray_casting(t_mlx *mlx);
-void	pixel_put(t_mlx *mlx, int x, int y, int color);
-float	adjust_angle(float angle);
-void	paint_ceil_floor(t_mlx *mlx, int ray, int ceil_pixel, int floor_pixel);
-int		fetch_colors(t_mlx *mlx, int boool);
-void	paint_wall(t_mlx *mlx, int ray, int ceil_pixel, int floor_pixel);
-void	rendering(t_mlx *mlx, int ray);
-void	releasing_button(mlx_key_data_t keydata, t_mlx *mlx);
-void	mlx_key(mlx_key_data_t keydata, void *m);
-void	rotate_player(t_mlx *mlx, int i);
-void	player_movements(t_mlx *mlx, double x_mov, double y_mov);
-void	hooking(t_mlx *mlx, double x_mov, double y_mov);
-int		main();
+// # define W_W 1900
+// # define W_H 1000
+// # define TILE 30
+// # define FOV 60
+// # define ROT_SP 0.045
+// # define PLY_SP 4
+
+// typedef struct s_player
+// {
+// 	int player_x;
+// 	int player_y;
+// 	double angle;
+// 	float fov_radius;
+// 	int rotate; //bool
+// 	int left_right; //bool
+// 	int up_down; //bool
+// }		t_player;
+
+// typedef struct s_ray
+// {
+// 	double ray_angle;
+// 	double dist_to_wall;
+// 	int wall_flg; //bool
+// }		t_ray;
+
+// typedef struct s_data
+// {
+// 	char **map_2d;
+// 	int	pos_x;
+// 	int	pos_y;
+// 	int map_wid;
+// 	int map_hei;
+// }			t_map;
+
+// typedef struct s_mlx
+// {
+// 	mlx_image_t	*img;
+// 	mlx_t		*mlx;
+// 	t_ray		*ray;
+// 	t_map		*data;
+// 	t_player	*player;
+// }			t_mlx;
+
+// void	game(void *m);
+// void	begin(t_map *data);
+// t_map	*args_init(void);
+// int		within_the_arc(float angle, char axi);
+// int		is_intersecting(float angle, float *intersect, float *step,int x_axi);
+// int		did_ray_hit_wall(float x, float y, t_mlx *mlx);
+// float	horizo_axi_intersect(t_mlx *mlx, float angle);
+// float	horizo_axi_intersect(t_mlx *mlx, float angle);
+// float	vert_axi_intersect(t_mlx *mlx, float angle);
+// void	ray_casting(t_mlx *mlx);
+// void	pixel_put(t_mlx *mlx, int x, int y, int color);
+// float	adjust_angle(float angle);
+// void	paint_ceil_floor(t_mlx *mlx, int ray, int ceil_pixel, int floor_pixel);
+// int		fetch_colors(t_mlx *mlx, int boool);
+// void	paint_wall(t_mlx *mlx, int ray, int ceil_pixel, int floor_pixel);
+// void	rendering(t_mlx *mlx, int ray);
+// void	releasing_button(mlx_key_data_t keydata, t_mlx *mlx);
+// void	mlx_key(mlx_key_data_t keydata, void *m);
+// void	rotate_player(t_mlx *mlx, int i);
+// void	player_movements(t_mlx *mlx, double x_mov, double y_mov);
+// void	hooking(t_mlx *mlx, double x_mov, double y_mov);
+// int		main(void);
+
+void		ft_exit(t_mlx *mlx);
+void		ft_initkeys(mlx_key_data_t keydata, t_mlx *mlx);
+void		mlx_key(mlx_key_data_t keydata, void *ml);
+void		rotate_player(t_mlx *mlx, int i);
+void		move_player(t_mlx *mlx, double move_x, double move_y);
+void		hook(t_mlx *mlx, double move_x, double move_y);
+void		put_pixel_accordingly(t_mlx *mlx, int x, int y, int color);
+float		fix_angles(float angle);
+void		draw_floor_ceiling(t_mlx *mlx, int ray, int t_pix, int b_pix);
+int			get_color(t_mlx *mlx, int f);
+void		draw_wall(t_mlx *mlx, int ray, int t_pix, int b_pix);
+void		render_wall(t_mlx *mlx, int ray);
+int			check_circle(float angle, char c);
+int			check_intersection(float angle, float *inter, float *step,
+				int is_horizon);
+int			check_wall_hit(float x, float y, t_mlx *mlx);
+float		get_horizontal_int(t_mlx *mlx, float angl);
+float		get_vertical_int(t_mlx *mlx, float angl);
+void		raycast(t_mlx *mlx);
+void		game_loop(void *ml);
+void		init_the_player(t_mlx mlx);
+void		start_the_game(t_map *dt);
+// t_map		*init_argumet(void);
+void		v(void);
+
+// parsing
+
+
+char		*get_next_line(int fd);
+void		manage_directions(char *s, t_map *data);
+void		manage_sfc(char *s, t_map *data);
+t_map		*manage_data(char *s);
+t_map		*get_map_data(char *s);
+int			checkfirstline(char **s);
+int			checklastline(char **s);
+int			checkh(char *s);
+int			checkmap(char **s);
 
 #endif /* GAME_H */
