@@ -251,7 +251,7 @@ float	horizo_axi_intersect(t_mlx *mlx, float angle);
 float	vert_axi_intersect(t_mlx *mlx, float angle);
 void	ray_casting(t_mlx *mlx);
 void	pixel_put(t_mlx *mlx, int x, int y, int color);
-float	normalize_angle(float angle);
+float	adjust_angle(float angle);
 void	paint_ceil_floor(t_mlx *mlx, int ray, int ceil_pixel, int floor_pixel);
 int		fetch_colors(t_mlx *mlx, int boool);
 void	paint_wall(t_mlx *mlx, int ray, int ceil_pixel, int floor_pixel);
