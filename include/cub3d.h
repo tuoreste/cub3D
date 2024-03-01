@@ -202,7 +202,7 @@
 # define TILE 30
 # define FOV 60
 # define ROT_SP 0.045
-# define PLY_SP
+# define PLY_SP 4
 
 typedef struct s_player
 {
@@ -240,6 +240,27 @@ typedef struct s_mlx
 	t_player	*player;
 }			t_mlx;
 
-
+void	game(void *m);
+void	begin(t_data *data);
+t_data	*args_init();
+int		within_the_arc(float angle, char axi);
+int		is_intersecting(float angle, float *intersect, float *step, int x_axi);
+int		did_ray_hit_wall(float x, float y, t_mlx *mlx);
+float	horizo_axi_intersect(t_mlx *mlx, float angle);
+float	horizo_axi_intersect(t_mlx *mlx, float angle);
+float	vert_axi_intersect(t_mlx *mlx, float angle);
+void	ray_casting(t_mlx *mlx);
+void	pixel_put(t_mlx *mlx, int x, int y, int color);
+float	normalize_angle(float angle);
+void	paint_ceil_floor(t_mlx *mlx, int ray, int ceil_pixel, int floor_pixel);
+int		fetch_colors(t_mlx *mlx, int boool);
+void	paint_wall(t_mlx *mlx, int ray, int ceil_pixel, int floor_pixel);
+void	rendering(t_mlx *mlx, int ray);
+void	releasing_button(mlx_key_data_t keydata, t_mlx *mlx);
+void	mlx_key(mlx_key_data_t keydata, void *m);
+void	rotate_player(t_mlx *mlx, int i);
+void	player_movements(t_mlx *mlx, double x_mov, double y_mov);
+void	hooking(t_mlx *mlx, double x_mov, double y_mov);
+int		main();
 
 #endif /* GAME_H */
