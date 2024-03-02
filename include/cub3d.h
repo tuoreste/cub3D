@@ -204,25 +204,6 @@
 # define ROTATION_SPEED 0.045 // rotation speed
 # define PLAYER_SPEED 4       // player speed
 
-
-typedef struct s_map
-{
-	int		h;
-	int		w;
-	size_t	len_map;
-	char	**map;
-	char	*north;
-	char	*south;
-	char	*east;
-	char	*west;
-	char	*s;
-	char	*f;
-	char	*c;
-	int p_x;    // player x position in the map
-	int p_y;    // player y position in the map
-	int w_map;  // map width
-	int		h_map;
-}			t_map;
 typedef struct s_player // the player structure
 {
 	int player_x; // player x position in pixels
@@ -238,8 +219,49 @@ typedef struct s_ray // the ray structure
 {
 	double r_angle; // ray angle
 	double dist;    // dist to the wall
+	double horiz_x;    // dist to the wall
+	double horiz_y;    // dist to the wall
+	double vert_x;    // dist to the wall
+	double vert_y;    // dist to the wall
 	int f;          // f for the wall
+	int index;          // f for the wall
 }			t_ray;
+typedef struct s_mlx // the mlx structure
+{
+	mlx_image_t *img; // the image
+	mlx_t *mlx_p;     // the mlx pointer
+	t_ray *ray;       // the ray structure
+	// t_map *dt;       // the data structure
+	t_player *player; // the player structure
+}			t_mlx;
+typedef struct s_texture
+{
+	mlx_texture_t *no;
+	mlx_texture_t *so;
+	mlx_texture_t *we;
+	mlx_texture_t *ea;
+}t_texture;
+
+typedef struct s_map
+{
+	int		h;
+	int		w;
+	size_t	len_map;
+	t_texture *texture;
+	char	**map;
+	char	*north;
+	char	*south;
+	char	*east;
+	char	*west;
+	char	*s;
+	char	*f;
+	char	*c;
+	int p_x;    // player x position in the map
+	int p_y;    // player y position in the map
+	int w_map;  // map width
+	int		h_map;
+	t_mlx mlx;
+}			t_map;
 
 // typedef struct s_data // the data structure
 // {
@@ -249,15 +271,6 @@ typedef struct s_ray // the ray structure
 // 	int w_map;  // map width
 // 	int h_map;  // map height
 // }			t_map;
-
-typedef struct s_mlx // the mlx structure
-{
-	mlx_image_t *img; // the image
-	mlx_t *mlx_p;     // the mlx pointer
-	t_ray *ray;       // the ray structure
-	t_map *dt;       // the data structure
-	t_player *player; // the player structure
-}			t_mlx;
 
 // # define W_W 1900
 // # define W_H 1000
@@ -325,27 +338,27 @@ typedef struct s_mlx // the mlx structure
 // void	hooking(t_mlx *mlx, double x_mov, double y_mov);
 // int		main(void);
 
-void		ft_exit(t_mlx *mlx);
-void		ft_initkeys(mlx_key_data_t keydata, t_mlx *mlx);
+void		ft_exit(t_map *data);
+void		ft_initkeys(mlx_key_data_t keydata, t_map *data);
 void		mlx_key(mlx_key_data_t keydata, void *ml);
-void		rotate_player(t_mlx *mlx, int i);
-void		move_player(t_mlx *mlx, double move_x, double move_y);
-void		hook(t_mlx *mlx, double move_x, double move_y);
-void		put_pixel_accordingly(t_mlx *mlx, int x, int y, int color);
+void		rotate_player(t_map *data, int i);
+void		move_player(t_map *data, double move_x, double move_y);
+void		hook(t_map *data, double move_x, double move_y);
+void		put_pixel_accordingly(t_map *data, int x, int y, int color);
 float		fix_angles(float angle);
-void		draw_floor_ceiling(t_mlx *mlx, int ray, int t_pix, int b_pix);
+void		draw_floor_ceiling(t_map *data, int ray, int t_pix, int b_pix);
 int			get_color(t_mlx *mlx, int f);
-void		draw_wall(t_mlx *mlx, int ray, int t_pix, int b_pix);
-void		render_wall(t_mlx *mlx, int ray);
+void		draw_wall(t_map *data, int ray, int t_pix, int b_pix, double wall_h);
+void		render_wall(t_map *data, int ray);
 int			check_circle(float angle, char c);
 int			check_intersection(float angle, float *inter, float *step,
 				int is_horizon);
-int			check_wall_hit(float x, float y, t_mlx *mlx);
-float		get_horizontal_int(t_mlx *mlx, float angl);
-float		get_vertical_int(t_mlx *mlx, float angl);
-void		raycast(t_mlx *mlx);
+int			check_wall_hit(float x, float y, t_map *data);
+float		get_horizontal_int(t_map *data, float angl);
+float		get_vertical_int(t_map *data, float angl);
+void		raycast(t_map *data);
 void		game_loop(void *ml);
-void		init_the_player(t_mlx mlx);
+void		init_the_player(t_map *data);
 void		start_the_game(t_map *dt);
 // t_map		*init_argumet(void);
 void		v(void);
@@ -362,5 +375,6 @@ int			checkfirstline(char **s);
 int			checklastline(char **s);
 int			checkh(char *s);
 int			checkmap(char **s);
+int	reverse_bytes(int c);
 
 #endif /* GAME_H */
