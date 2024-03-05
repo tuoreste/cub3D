@@ -6,7 +6,7 @@
 /*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:30:07 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/01 23:25:04 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/03/04 18:32:44 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,10 @@ t_map	*manage_data(char *s)
 	}
 	data->map = ft_split(map, '\n');
 	getmapcord(data);
+	if (!data->c)
+		data->c = ft_strdup("163,208,230");
+	if (!data->f)
+		data->f = ft_strdup("163,208,230");
 	return (data);
 }
 t_map	*get_map_data(char *s)

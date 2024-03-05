@@ -1,12 +1,12 @@
 F 173,164,140
 C 225,30,0
-NO ./textures/texture1.xpm
-SO ./textures/texture2.xpm
-WE ./textures/texture3.xpm
-EA ./textures/texture4.xpm
+NO ./textures/photo1.png
+SO ./textures/photo2.png
+WE ./textures/photo3.png
+EA ./textures/photo4.png
 
 1111111111
-1N00000001
 1000000001
+1000N00001
 1000000001
 1111111111

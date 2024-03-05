@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:02:26 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/03 21:29:53 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/04 20:04:46 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void ft_exit(t_map *data)  
+void	ft_exit(t_map *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (data->map[i])
@@ -30,28 +30,29 @@ void ft_exit(t_map *data)
 	exit(0);
 }
 
-void ft_initkeys(mlx_key_data_t keydata, t_map *data)
+void	ft_initkeys(mlx_key_data_t keydata, t_map *data)
 {
- if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
-  data->mlx.player->l_r = 0;
- else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
-  data->mlx.player->l_r = 0;
- else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
-  data->mlx.player->u_d = 0;
- else if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
-  data->mlx.player->u_d = 0;
- else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
-  data->mlx.player->rot = 0;
- else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
-  data->mlx.player->rot = 0;
+	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
+		data->mlx.player->l_r = 0;
+	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
+		data->mlx.player->l_r = 0;
+	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
+		data->mlx.player->u_d = 0;
+	else if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
+		data->mlx.player->u_d = 0;
+	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
+		data->mlx.player->rot = 0;
+	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
+		data->mlx.player->rot = 0;
 }
 
-void mlx_key(mlx_key_data_t keydata, void *ml)
+void	mlx_key(mlx_key_data_t keydata, void *ml)
 {
-	t_map *data;
+	t_map	*data;
 
 	data = ml;
-	if (keydata.key == MLX_KEY_ESCAPE && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+	if (keydata.key == MLX_KEY_ESCAPE && (keydata.action == MLX_PRESS
+			|| keydata.action == MLX_REPEAT))
 		ft_exit(data);
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS))
 		data->mlx.player->l_r = -1;
@@ -68,7 +69,7 @@ void mlx_key(mlx_key_data_t keydata, void *ml)
 	ft_initkeys(keydata, data);
 }
 
-void rotate_player(t_map *data, int i)
+void	rotate_player(t_map *data, int i)
 {
 	if (i == 1)
 	{
@@ -84,27 +85,28 @@ void rotate_player(t_map *data, int i)
 	}
 }
 
-void move_player(t_map *data, double move_x, double move_y)
+void	move_player(t_map *data, double move_x, double move_y)
 {
-	int  map_grid_y;
-	int  map_grid_x;
-	int  new_x;
-	int  new_y;
+	int	map_grid_y;
+	int	map_grid_x;
+	int	new_x;
+	int	new_y;
 
 	new_x = roundf(data->mlx.player->player_x + move_x);
 	new_y = roundf(data->mlx.player->player_y + move_y);
 	map_grid_x = (new_x / TILE_SIZE);
 	map_grid_y = (new_y / TILE_SIZE);
-	if (data->map[map_grid_y][map_grid_x] != '1' && \
-	(data->map[map_grid_y][data->mlx.player->player_x / TILE_SIZE] != '1' && \
-	data->map[data->mlx.player->player_y / TILE_SIZE][map_grid_x] != '1'))
+	if (data->map[map_grid_y][map_grid_x] != '1'
+		&& (data->map[map_grid_y][data->mlx.player->player_x / TILE_SIZE] != '1'
+			&& data->map[data->mlx.player->player_y
+			/ TILE_SIZE][map_grid_x] != '1'))
 	{
 		data->mlx.player->player_x = new_x;
 		data->mlx.player->player_y = new_y;
 	}
 }
 
-void hook(t_map *data, double move_x, double move_y)
+void	hook(t_map *data, double move_x, double move_y)
 {
 	if (data->mlx.player->rot == 1)
 		rotate_player(data, 1);
@@ -133,8 +135,7 @@ void hook(t_map *data, double move_x, double move_y)
 	move_player(data, move_x, move_y);
 }
 
-
-void put_pixel_accordingly(t_map *data, int x, int y, int color)
+void	put_pixel_accordingly(t_map *data, int x, int y, int color)
 {
 	if (x < 0)
 		return ;
@@ -147,7 +148,7 @@ void put_pixel_accordingly(t_map *data, int x, int y, int color)
 	mlx_put_pixel(data->mlx.img, x, y, color);
 }
 
-float fix_angles(float angle)
+float	fix_angles(float angle)
 {
 	if (angle < 0)
 		angle += (2 * M_PI);
@@ -156,20 +157,27 @@ float fix_angles(float angle)
 	return (angle);
 }
 
-void draw_floor_ceiling(t_map *data, int ray, int t_pix, int b_pix)
+int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+{
+	return (r << 24 | g << 16 | b << 8 | a);
+}
+
+void	draw_floor_ceiling(t_map *data, int ray, int t_pix, int b_pix)
 {
 	int	i;
 	int	c;
 
 	i = b_pix;
+	char **t = ft_split(data->f, ',');
+	char **t2 = ft_split(data->c, ',');
 	while (i < S_H)
-		put_pixel_accordingly(data, ray, i++, 0xB99470FF);
+		put_pixel_accordingly(data, ray, i++, ft_pixel(ft_atoi(t[0]),ft_atoi(t[1]),ft_atoi(t[2]), 255));
 	i = 0;
 	while (i < t_pix)
-		put_pixel_accordingly(data, ray, i++, 0x89CFF3FF);
+		put_pixel_accordingly(data, ray, i++, ft_pixel(ft_atoi(t2[0]),ft_atoi(t2[1]),ft_atoi(t2[2]), 255));
 }
 
-int get_color(t_mlx *mlx, int f)
+int	get_color(t_mlx *mlx, int f)
 {
 	mlx->ray->r_angle = fix_angles(mlx->ray->r_angle);
 	if (f == 0)
@@ -192,7 +200,8 @@ mlx_texture_t	*get_texture(t_map *data, int flag)
 	data->mlx.ray->r_angle = fix_angles(data->mlx.ray->r_angle);
 	if (flag == 0)
 	{
-		if (data->mlx.ray->r_angle > M_PI / 2 && data->mlx.ray->r_angle < 3 * (M_PI / 2))
+		if (data->mlx.ray->r_angle > M_PI / 2 && data->mlx.ray->r_angle < 3
+			* (M_PI / 2))
 			return (data->texture->ea);
 		else
 			return (data->texture->so);
@@ -205,16 +214,16 @@ mlx_texture_t	*get_texture(t_map *data, int flag)
 			return (data->texture->no);
 	}
 }
-double	get_x_o(mlx_texture_t	*texture, t_map *data)
+double	get_x_o(mlx_texture_t *texture, t_map *data)
 {
 	double	x_o;
 
 	if (data->mlx.ray->f == 1)
-		x_o = (int)fmodf((data->mlx.ray->horiz_x * \
-		(texture->width / TILE_SIZE)), texture->width);
+		x_o = (int)fmodf((data->mlx.ray->horiz_x * (texture->width
+					/ TILE_SIZE)), texture->width);
 	else
-		x_o = (int)fmodf((data->mlx.ray->vert_y * \
-		(texture->width / TILE_SIZE)), texture->width);
+		x_o = (int)fmodf((data->mlx.ray->vert_y * (texture->width / TILE_SIZE)),
+			texture->width);
 	return (x_o);
 }
 int	reverse_bytes(int c)
@@ -228,12 +237,9 @@ int	reverse_bytes(int c)
 	b |= (c & 0xFF000000) >> 24;
 	return (b);
 }
-
-
-//+++++++++++++++++++++++++++------------------------++++++++++++++++++++++++++
-void draw_wall(t_map *data, int ray, int t_pix, int b_pix, double wall_h)
+void	draw_wall(t_map *data, int ray, int t_pix, int b_pix, double wall_h)
 {
-	int color;
+	int				color;
 	double			x_o;
 	double			y_o;
 	mlx_texture_t	*texture;
@@ -251,21 +257,23 @@ void draw_wall(t_map *data, int ray, int t_pix, int b_pix, double wall_h)
 		y_o = 0;
 	while (t_pix < b_pix)
 	{
-		put_pixel_accordingly(data, data->mlx.ray->index, t_pix, reverse_bytes \
-		(arr[(int)y_o * texture->width + (int)x_o]));
+		put_pixel_accordingly(data, data->mlx.ray->index, t_pix,
+			reverse_bytes(arr[(int)y_o * texture->width + (int)x_o]));
 		y_o += factor;
 		t_pix++;
 	}
 }
 
-void render_wall(t_map *data, int ray)
+void	render_wall(t_map *data, int ray)
 {
-	double wall_h;
-	double b_pix;
-	double t_pix;
+	double	wall_h;
+	double	b_pix;
+	double	t_pix;
 
-	data->mlx.ray->dist *= cos(fix_angles(data->mlx.ray->r_angle - data->mlx.player->angle));
-	wall_h = (TILE_SIZE / data->mlx.ray->dist) * ((S_W / 2) / tan(data->mlx.player->fov / 2));
+	data->mlx.ray->dist *= cos(fix_angles(data->mlx.ray->r_angle
+			- data->mlx.player->angle));
+	wall_h = (TILE_SIZE / data->mlx.ray->dist) * ((S_W / 2)
+		/ tan(data->mlx.player->fov / 2));
 	b_pix = (S_H / 2) + (wall_h / 2);
 	t_pix = (S_H / 2) - (wall_h / 2);
 	if (b_pix > S_H)
@@ -277,8 +285,7 @@ void render_wall(t_map *data, int ray)
 	draw_floor_ceiling(data, ray, t_pix, b_pix);
 }
 
-
-int check_circle(float angle, char c)
+int	check_circle(float angle, char c)
 {
 	if (c == 'x')
 	{
@@ -293,7 +300,7 @@ int check_circle(float angle, char c)
 	return (0);
 }
 
-int check_intersection(float angle, float *inter, float *step, int is_horizon)
+int	check_intersection(float angle, float *inter, float *step, int is_horizon)
 {
 	if (is_horizon)
 	{
@@ -306,7 +313,7 @@ int check_intersection(float angle, float *inter, float *step, int is_horizon)
 	}
 	else
 	{
-		if (!(angle > M_PI / 2 && angle < 3 * M_PI / 2)) 
+		if (!(angle > M_PI / 2 && angle < 3 * M_PI / 2))
 		{
 			*inter += TILE_SIZE;
 			return (-1);
@@ -316,37 +323,46 @@ int check_intersection(float angle, float *inter, float *step, int is_horizon)
 	return (1);
 }
 
-int check_wall_hit(float x, float y, t_map *dt)
+int	check_wall_hit(float x, float y, t_map *dt)
 {
-	int  x_m;
-	int  y_m;
+	int	x_m;
+	int	y_m;
 
 	if (x < 0 || y < 0)
 		return (0);
-	x_m = floor (x / TILE_SIZE);
-	y_m = floor (y / TILE_SIZE);
+	x_m = floor(x / TILE_SIZE);
+	y_m = floor(y / TILE_SIZE);
+	
 	if ((y_m >= dt->h_map || x_m >= dt->w_map))
 		return (0);
-	if (dt->map[y_m] && x_m <= (int)strlen(dt->map[y_m]))
+	else if (!dt->map[y_m])
+		return(1);
+	else if (dt->map[y_m] && x_m <= (int)strlen(dt->map[y_m]))
+	{
 		if (dt->map[y_m][x_m] == '1')
 			return (0);
+		else
+			return (1);
+	}
 	return (1);
 }
 
-float get_horizontal_int(t_map *data, float angl)
+float	get_horizontal_int(t_map *data, float angl)
 {
-	float h_x;
-	float h_y;
-	float x_step;
-	float y_step;
-	int  pixel;
+	float	h_x;
+	float	h_y;
+	float	x_step;
+	float	y_step;
+	int		pixel;
 
 	y_step = TILE_SIZE;
 	x_step = TILE_SIZE / tan(angl);
 	h_y = floor(data->mlx.player->player_y / TILE_SIZE) * TILE_SIZE;
 	pixel = check_intersection(angl, &h_y, &y_step, 1);
-	h_x = data->mlx.player->player_x + (h_y - data->mlx.player->player_y) / tan(angl);
-	if ((check_circle(angl, 'y') && x_step > 0) || (!check_circle(angl, 'y') && x_step < 0))
+	h_x = data->mlx.player->player_x + (h_y - data->mlx.player->player_y)
+		/ tan(angl);
+	if ((check_circle(angl, 'y') && x_step > 0) || (!check_circle(angl, 'y')
+			&& x_step < 0))
 		x_step *= -1;
 	while (check_wall_hit(h_x, h_y - pixel, data))
 	{
@@ -355,23 +371,26 @@ float get_horizontal_int(t_map *data, float angl)
 	}
 	data->mlx.ray->horiz_x = h_x;
 	data->mlx.ray->horiz_y = h_y;
-	return (sqrt(pow(h_x - data->mlx.player->player_x, 2) + pow(h_y - data->mlx.player->player_y, 2)));
+	return (sqrt(pow(h_x - data->mlx.player->player_x, 2) + pow(h_y
+				- data->mlx.player->player_y, 2)));
 }
 
-float get_vertical_int(t_map *data, float angl)
+float	get_vertical_int(t_map *data, float angl)
 {
-	float v_x;
-	float v_y;
-	float x_step;
-	float y_step;
-	int  pixel;
+	float	v_x;
+	float	v_y;
+	float	x_step;
+	float	y_step;
+	int		pixel;
 
-	x_step = TILE_SIZE; 
+	x_step = TILE_SIZE;
 	y_step = TILE_SIZE * tan(angl);
 	v_x = floor(data->mlx.player->player_x / TILE_SIZE) * TILE_SIZE;
 	pixel = check_intersection(angl, &v_x, &x_step, 0);
-	v_y = data->mlx.player->player_y + (v_x - data->mlx.player->player_x) * tan(angl);
-	if ((check_circle(angl, 'x') && y_step < 0) || (!check_circle(angl, 'x') && y_step > 0))
+	v_y = data->mlx.player->player_y + (v_x - data->mlx.player->player_x)
+		* tan(angl);
+	if ((check_circle(angl, 'x') && y_step < 0) || (!check_circle(angl, 'x')
+			&& y_step > 0))
 		y_step *= -1;
 	while (check_wall_hit(v_x - pixel, v_y, data))
 	{
@@ -380,17 +399,19 @@ float get_vertical_int(t_map *data, float angl)
 	}
 	data->mlx.ray->horiz_x = v_x;
 	data->mlx.ray->horiz_y = v_y;
-	return (sqrt(pow(v_x - data->mlx.player->player_x, 2) + pow(v_y - data->mlx.player->player_y, 2)));
+	return (sqrt(pow(v_x - data->mlx.player->player_x, 2) + pow(v_y
+				- data->mlx.player->player_y, 2)));
 }
 
-void raycast(t_map *data)
+void	raycast(t_map *data)
 {
-	double h_inter;
-	double v_inter;
-	int  ray;
+	double	h_inter;
+	double	v_inter;
+	int		ray;
 
 	ray = 0;
-	data->mlx.ray->r_angle = data->mlx.player->angle - (data->mlx.player->fov / 2);
+	data->mlx.ray->r_angle = data->mlx.player->angle - (data->mlx.player->fov
+		/ 2);
 	while (ray < S_W)
 	{
 		data->mlx.ray->f = 0;
@@ -398,21 +419,20 @@ void raycast(t_map *data)
 		v_inter = get_vertical_int(data, fix_angles(data->mlx.ray->r_angle));
 		if (v_inter <= h_inter)
 			data->mlx.ray->dist = v_inter;
-	else
-	{
-		data->mlx.ray->dist = h_inter;
-		data->mlx.ray->f = 1;
-	}
-	render_wall(data, ray);
-	ray++;
-	data->mlx.ray->r_angle += (data->mlx.player->fov / S_W);
+		else
+		{
+			data->mlx.ray->dist = h_inter;
+			data->mlx.ray->f = 1;
+		}
+		render_wall(data, ray);
+		ray++;
+		data->mlx.ray->r_angle += (data->mlx.player->fov / S_W);
 	}
 }
 
-
-void game_loop(void *ml)
+void	game_loop(void *ml)
 {
-	t_map *data;
+	t_map	*data;
 
 	data = ml;
 	mlx_delete_image(data->mlx.mlx_p, data->mlx.img);
@@ -422,22 +442,22 @@ void game_loop(void *ml)
 	mlx_image_to_window(data->mlx.mlx_p, data->mlx.img, 0, 0);
 }
 
-void init_the_player(t_map *data)
+void	init_the_player(t_map *data)
 {
 	data->mlx.player->player_x = data->p_x * TILE_SIZE + TILE_SIZE / 2;
 	data->mlx.player->player_y = data->p_y * TILE_SIZE + TILE_SIZE / 2;
 	data->mlx.player->fov = (FOV * M_PI) / 180;
 	data->mlx.player->angle = M_PI;
 }
-void get_texture_data(t_map *data)
+void	get_texture_data(t_map *data)
 {
-	data->texture = (t_texture *)ft_calloc(1, sizeof(t_texture)); 
+	data->texture = (t_texture *)ft_calloc(1, sizeof(t_texture));
 	data->texture->ea = mlx_load_png(data->east);
 	data->texture->so = mlx_load_png(data->south);
 	data->texture->no = mlx_load_png(data->north);
 	data->texture->we = mlx_load_png(data->west);
 }
-void start_the_game(t_map *dt)
+void	start_the_game(t_map *dt)
 {
 	dt->mlx.player = calloc(1, sizeof(t_player));
 	dt->mlx.ray = calloc(1, sizeof(t_ray));
@@ -450,15 +470,16 @@ void start_the_game(t_map *dt)
 	ft_exit(dt);
 }
 
-void v()
+void	v(void)
 {
- system("leaks cub3D");
+	system("leaks cub3D");
 }
 
 int	check_sec_arg(char *argv)
 {
-	//we can improve this to take any new created map
-	if (ft_strnstr(argv, "maps/map_a.cub", 14) || ft_strnstr(argv, "maps/map_b.cub", 14) || ft_strnstr(argv, "maps/map_c.cub", 14))
+	// we can improve this to take any new created map
+	if (ft_strnstr(argv, "maps/map_a.cub", 14) || ft_strnstr(argv,
+			"maps/map_b.cub", 14) || ft_strnstr(argv, "maps/map_c.cub", 14))
 		return (1);
 	return (0);
 }
@@ -466,15 +487,14 @@ int	check_sec_arg(char *argv)
 int	main(int argc, char **argv)
 {
 	t_map	*data;
+
 	if (argc != 2)
 		return (printf("Wrong Number of args"), 1);
 	if (!check_sec_arg(argv[1]))
-		return (printf("Map name error,\nchoose btn:\n1.maps/map_a.cub,\n2.maps/map_b.cub,\n3.maps/map_c.cub\n"), 1);
+		return (printf("Map name error,\nchoose btn:\n1.maps/map_a.cub,\n2.maps/map_b.cub,\n3.maps/map_c.cub\n"),
+			1);
 	data = get_map_data(argv[1]);
-	printf("\n\n\n%d\n\n\n",data->h_map);
-	printf("\n\n\n%d\n\n\n",data->w_map);
- 	atexit(v);
-	start_the_game(data);
+	atexit(v);
 	if (!checkmap(data->map))
 	{
 		printf("not valid");
@@ -482,5 +502,6 @@ int	main(int argc, char **argv)
 	}
 	else
 		printf("valid af");
+	start_the_game(data);
 	return (0);
 }
