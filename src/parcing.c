@@ -6,7 +6,7 @@
 /*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:30:07 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/04 18:32:44 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/03/06 15:43:21 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	manage_sfc(char *s, t_map *data)
 	else if (t[0][0] == 'C')
 		data->c = ft_strdup(t[1]);
 }
-int get_y(char *s)
+int get_x(char *s)
 {
     int i = 0;
     while(s[i])
@@ -85,19 +85,19 @@ void	getmapcord(t_map *data)
 	int	i;
 
 	i = 0;
-    data->h_map = 0;
+    data->w_map = 0;
 	while (data->map[i])
 	{
-        if (ft_strlen(data->map[i]) < data->w_map)
-            data->h_map = ft_strlen(data->map[i]);
+        if (ft_strlen(data->map[i]) > data->w_map)
+            data->w_map = ft_strlen(data->map[i]);
 		if (ft_strlen(ft_strtrim(data->map[i], " \t01")))
 		{
 			data->p_y = i;
-            data->p_x = get_y(data->map[i]);
+            data->p_x = get_x(data->map[i]);
 		}
         i++;
 	}
-    data->w_map = i;
+    data->h_map = i - 1;
 }
 t_map	*manage_data(char *s)
 {
@@ -161,7 +161,6 @@ t_map	*get_map_data(char *s)
 		free(line);
 	}
 	close(fd);
-	// printf("%s", str);
 	data = manage_data(str);
 	// data->p_y = 3;
 	// data->p_x = 14;
@@ -255,7 +254,6 @@ int	checkmap(char **s)
 		r = checklastline(s);
 	while (s[i])
 	{
-		printf("%s\n", s[i]);
 		if (ft_strlen(ft_strtrim(s[i],
 					"01 \tNSWE")) != ft_strlen(ft_strtrim(s[i], "01 \t")))
 			u++;

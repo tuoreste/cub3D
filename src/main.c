@@ -6,7 +6,7 @@
 /*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:02:26 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/04 20:04:46 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/03/06 15:47:33 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,8 +250,6 @@ void	draw_wall(t_map *data, int ray, int t_pix, int b_pix, double wall_h)
 	arr = (uint32_t *)texture->pixels;
 	factor = (double)texture->height / wall_h;
 	x_o = get_x_o(texture, data);
-	//  while (t_pix < b_pix)
-	//   put_pixel_accordingly(mlx, ray, t_pix++, color);
 	y_o = (t_pix - (S_H / 2) + (wall_h / 2)) * factor;
 	if (y_o < 0)
 		y_o = 0;
@@ -335,9 +333,7 @@ int	check_wall_hit(float x, float y, t_map *dt)
 	
 	if ((y_m >= dt->h_map || x_m >= dt->w_map))
 		return (0);
-	else if (!dt->map[y_m])
-		return(1);
-	else if (dt->map[y_m] && x_m <= (int)strlen(dt->map[y_m]))
+	if (dt->map[y_m] && x_m <= (int)strlen(dt->map[y_m]))
 	{
 		if (dt->map[y_m][x_m] == '1')
 			return (0);
@@ -477,7 +473,6 @@ void	v(void)
 
 int	check_sec_arg(char *argv)
 {
-	// we can improve this to take any new created map
 	if (ft_strnstr(argv, "maps/map_a.cub", 14) || ft_strnstr(argv,
 			"maps/map_b.cub", 14) || ft_strnstr(argv, "maps/map_c.cub", 14))
 		return (1);
