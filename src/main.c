@@ -6,7 +6,7 @@
 /*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:02:26 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/06 15:47:33 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:11:18 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void	move_player(t_map *data, double move_x, double move_y)
 	int	new_x;
 	int	new_y;
 
-	new_x = roundf(data->mlx.player->player_x + move_x);
-	new_y = roundf(data->mlx.player->player_y + move_y);
+	new_x = round(data->mlx.player->player_x + move_x);
+	new_y = round(data->mlx.player->player_y + move_y);
 	map_grid_x = (new_x / TILE_SIZE);
 	map_grid_y = (new_y / TILE_SIZE);
 	if (data->map[map_grid_y][map_grid_x] != '1'
@@ -251,12 +251,11 @@ void	draw_wall(t_map *data, int ray, int t_pix, int b_pix, double wall_h)
 	factor = (double)texture->height / wall_h;
 	x_o = get_x_o(texture, data);
 	y_o = (t_pix - (S_H / 2) + (wall_h / 2)) * factor;
-	if (y_o < 0)
-		y_o = 0;
+	if (y_o <= 0)
+		y_o = 0.1;
 	while (t_pix < b_pix)
 	{
-		put_pixel_accordingly(data, data->mlx.ray->index, t_pix,
-			reverse_bytes(arr[(int)y_o * texture->width + (int)x_o]));
+			put_pixel_accordingly(data, data->mlx.ray->index, t_pix, reverse_bytes(arr[(int)y_o * texture->width + (int)x_o]));
 		y_o += factor;
 		t_pix++;
 	}
@@ -270,8 +269,7 @@ void	render_wall(t_map *data, int ray)
 
 	data->mlx.ray->dist *= cos(fix_angles(data->mlx.ray->r_angle
 			- data->mlx.player->angle));
-	wall_h = (TILE_SIZE / data->mlx.ray->dist) * ((S_W / 2)
-		/ tan(data->mlx.player->fov / 2));
+	wall_h = (TILE_SIZE / data->mlx.ray->dist) * ((S_W / 2) / tan(data->mlx.player->fov / 2));
 	b_pix = (S_H / 2) + (wall_h / 2);
 	t_pix = (S_H / 2) - (wall_h / 2);
 	if (b_pix > S_H)
@@ -367,8 +365,9 @@ float	get_horizontal_int(t_map *data, float angl)
 	}
 	data->mlx.ray->horiz_x = h_x;
 	data->mlx.ray->horiz_y = h_y;
+	// printf("%f %d\n\n", h_y, data->mlx.player->player_y);
 	return (sqrt(pow(h_x - data->mlx.player->player_x, 2) + pow(h_y
-				- data->mlx.player->player_y, 2)));
+				- data->mlx.player->player_y, 2))+0.00001);
 }
 
 float	get_vertical_int(t_map *data, float angl)
@@ -408,18 +407,19 @@ void	raycast(t_map *data)
 	ray = 0;
 	data->mlx.ray->r_angle = data->mlx.player->angle - (data->mlx.player->fov
 		/ 2);
-	while (ray < S_W)
+	while (ray <= S_W)
 	{
 		data->mlx.ray->f = 0;
 		h_inter = get_horizontal_int(data, fix_angles(data->mlx.ray->r_angle));
 		v_inter = get_vertical_int(data, fix_angles(data->mlx.ray->r_angle));
-		if (v_inter <= h_inter)
+		if (v_inter < h_inter)
 			data->mlx.ray->dist = v_inter;
 		else
 		{
 			data->mlx.ray->dist = h_inter;
 			data->mlx.ray->f = 1;
 		}
+		// printf("%f \n\n",v_inter);
 		render_wall(data, ray);
 		ray++;
 		data->mlx.ray->r_angle += (data->mlx.player->fov / S_W);
@@ -468,7 +468,7 @@ void	start_the_game(t_map *dt)
 
 void	v(void)
 {
-	system("leaks cub3D");
+	system("leaks cub3d");
 }
 
 int	check_sec_arg(char *argv)

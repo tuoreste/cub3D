@@ -12,8 +12,8 @@
 # include <fcntl.h>
 # include "libft.h"
 
-# define S_W 1900            
-# define S_H 1000            
+# define S_W 1920           
+# define S_H 1080            
 # define TILE_SIZE 15       
 # define FOV 60              
 # define ROTATION_SPEED 0.045
