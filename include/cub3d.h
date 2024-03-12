@@ -113,6 +113,6 @@ int			checkfirstline(char **s);
 int			checklastline(char **s);
 int			checkh(char *s);
 int			checkmap(char **s);
-int	reverse_bytes(int c);
+unsigned int	reverse_bytes(int c);
 
 #endif /* GAME_H */

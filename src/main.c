@@ -6,7 +6,7 @@
 /*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:02:26 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/10 17:11:18 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/03/11 18:10:13 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,17 +164,21 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 
 void	draw_floor_ceiling(t_map *data, int ray, int t_pix, int b_pix)
 {
-	int	i;
-	int	c;
+	int		i;
+	int		c;
+	char	**t;
+	char	**t2;
 
 	i = b_pix;
-	char **t = ft_split(data->f, ',');
-	char **t2 = ft_split(data->c, ',');
+	t = ft_split(data->f, ',');
+	t2 = ft_split(data->c, ',');
 	while (i < S_H)
-		put_pixel_accordingly(data, ray, i++, ft_pixel(ft_atoi(t[0]),ft_atoi(t[1]),ft_atoi(t[2]), 255));
+		put_pixel_accordingly(data, ray, i++, ft_pixel(ft_atoi(t[0]),
+				ft_atoi(t[1]), ft_atoi(t[2]), 255));
 	i = 0;
 	while (i < t_pix)
-		put_pixel_accordingly(data, ray, i++, ft_pixel(ft_atoi(t2[0]),ft_atoi(t2[1]),ft_atoi(t2[2]), 255));
+		put_pixel_accordingly(data, ray, i++, ft_pixel(ft_atoi(t2[0]),
+				ft_atoi(t2[1]), ft_atoi(t2[2]), 255));
 }
 
 int	get_color(t_mlx *mlx, int f)
@@ -214,19 +218,17 @@ mlx_texture_t	*get_texture(t_map *data, int flag)
 			return (data->texture->no);
 	}
 }
-double	get_x_o(mlx_texture_t *texture, t_map *data)
+double	get_x_o(mlx_texture_t *texture, t_map *data, double wall_h)
 {
 	double	x_o;
 
 	if (data->mlx.ray->f == 1)
-		x_o = (int)fmodf((data->mlx.ray->horiz_x * (texture->width
-					/ TILE_SIZE)), texture->width);
+		x_o = (int)fmodf((data->mlx.player->player_y + wall_h * cos(texture->width / TILE_SIZE)), texture->width);
 	else
-		x_o = (int)fmodf((data->mlx.ray->vert_y * (texture->width / TILE_SIZE)),
-			texture->width);
+		x_o = (int)fmodf((data->mlx.player->player_y + wall_h * sin(texture->width / TILE_SIZE)), texture->width);
 	return (x_o);
 }
-int	reverse_bytes(int c)
+unsigned int	reverse_bytes(int c)
 {
 	unsigned int	b;
 
@@ -235,27 +237,58 @@ int	reverse_bytes(int c)
 	b |= (c & 0xFF00) << 8;
 	b |= (c & 0xFF0000) >> 8;
 	b |= (c & 0xFF000000) >> 24;
-	return (b);
+	return ((int)b);
 }
+
+// void	draw_wall(t_map *data, int ray, int t_pix, int b_pix, double wall_h)
+// {
+// 	int				color;
+// 	double			x_o;
+// 	double			y_o;
+// 	mlx_texture_t	*texture;
+// 	uint32_t		*arr;
+// 	double			factor;
+
+// 	texture = get_texture(data, data->mlx.ray->f);
+// 	arr = (uint32_t *)texture->pixels;
+// 	factor = (double)texture->height / wall_h;
+// 	x_o = get_x_o(texture, data);
+// 	y_o = (t_pix - (S_H / 2) + (wall_h / 2)) * factor;
+// 	if (y_o < 0)
+// 		y_o = 0.1;
+// 	while (t_pix < b_pix)
+// 	{
+// 			put_pixel_accordingly(data, data->mlx.ray->index, t_pix, reverse_bytes(arr[(int)y_o * texture->width + (int)x_o]));
+// 		y_o += factor;
+// 		t_pix++;
+// 	}
+// }
 void	draw_wall(t_map *data, int ray, int t_pix, int b_pix, double wall_h)
 {
-	int				color;
-	double			x_o;
-	double			y_o;
 	mlx_texture_t	*texture;
 	uint32_t		*arr;
 	double			factor;
+	double			x_o;
+	double			y_o;
+	int				texture_index;
 
 	texture = get_texture(data, data->mlx.ray->f);
+	if (texture == NULL)
+	{
+		return ;
+	}
 	arr = (uint32_t *)texture->pixels;
 	factor = (double)texture->height / wall_h;
-	x_o = get_x_o(texture, data);
+	x_o = get_x_o(texture, data, wall_h);
 	y_o = (t_pix - (S_H / 2) + (wall_h / 2)) * factor;
-	if (y_o <= 0)
+	if (y_o < 0)
 		y_o = 0.1;
 	while (t_pix < b_pix)
 	{
-			put_pixel_accordingly(data, data->mlx.ray->index, t_pix, reverse_bytes(arr[(int)y_o * texture->width + (int)x_o]));
+		y_o = fmax(0.1, y_o);
+		texture_index = (int)y_o * texture->width + (int)x_o;
+		put_pixel_accordingly(data, data->mlx.ray->index, t_pix,
+			reverse_bytes(arr[texture_index]));
 		y_o += factor;
 		t_pix++;
 	}
@@ -269,7 +302,8 @@ void	render_wall(t_map *data, int ray)
 
 	data->mlx.ray->dist *= cos(fix_angles(data->mlx.ray->r_angle
 			- data->mlx.player->angle));
-	wall_h = (TILE_SIZE / data->mlx.ray->dist) * ((S_W / 2) / tan(data->mlx.player->fov / 2));
+	wall_h = (TILE_SIZE / data->mlx.ray->dist) * ((S_W / 2)
+		/ tan(data->mlx.player->fov / 2));
 	b_pix = (S_H / 2) + (wall_h / 2);
 	t_pix = (S_H / 2) - (wall_h / 2);
 	if (b_pix > S_H)
@@ -328,7 +362,6 @@ int	check_wall_hit(float x, float y, t_map *dt)
 		return (0);
 	x_m = floor(x / TILE_SIZE);
 	y_m = floor(y / TILE_SIZE);
-	
 	if ((y_m >= dt->h_map || x_m >= dt->w_map))
 		return (0);
 	if (dt->map[y_m] && x_m <= (int)strlen(dt->map[y_m]))
@@ -367,7 +400,7 @@ float	get_horizontal_int(t_map *data, float angl)
 	data->mlx.ray->horiz_y = h_y;
 	// printf("%f %d\n\n", h_y, data->mlx.player->player_y);
 	return (sqrt(pow(h_x - data->mlx.player->player_x, 2) + pow(h_y
-				- data->mlx.player->player_y, 2))+0.00001);
+				- data->mlx.player->player_y, 2)) + 0.00001);
 }
 
 float	get_vertical_int(t_map *data, float angl)
