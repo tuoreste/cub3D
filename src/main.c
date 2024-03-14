@@ -6,7 +6,7 @@
 /*   By: aguediri <aguediri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:02:26 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/11 18:10:13 by aguediri         ###   ########.fr       */
+/*   Updated: 2024/03/14 15:02:10 by aguediri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	hook(t_map *data, double move_x, double move_y)
 	move_player(data, move_x, move_y);
 }
 
-void	put_pixel_accordingly(t_map *data, int x, int y, int color)
+void	put_pixel_accordingly(t_map *data, int x, int y, unsigned int color)
 {
 	if (x < 0)
 		return ;
@@ -218,16 +218,30 @@ mlx_texture_t	*get_texture(t_map *data, int flag)
 			return (data->texture->no);
 	}
 }
+
 double	get_x_o(mlx_texture_t *texture, t_map *data, double wall_h)
 {
 	double	x_o;
+	double	dist_to_wall;
+	double	wall_hit_x;
+	double	wall_hit_y;
 
+	dist_to_wall = data->mlx.ray->dist;
 	if (data->mlx.ray->f == 1)
-		x_o = (int)fmodf((data->mlx.player->player_y + wall_h * cos(texture->width / TILE_SIZE)), texture->width);
+	{
+		wall_hit_x = data->mlx.player->player_x + (dist_to_wall
+			* cos(data->mlx.ray->r_angle));
+		x_o = fmod(wall_hit_x, TILE_SIZE) / TILE_SIZE * texture->width;
+	}
 	else
-		x_o = (int)fmodf((data->mlx.player->player_y + wall_h * sin(texture->width / TILE_SIZE)), texture->width);
+	{
+		wall_hit_y = data->mlx.player->player_y + (dist_to_wall
+			* sin(data->mlx.ray->r_angle));
+		x_o = fmod(wall_hit_y, TILE_SIZE) / TILE_SIZE * texture->width;
+	}
 	return (x_o);
 }
+
 unsigned int	reverse_bytes(int c)
 {
 	unsigned int	b;
@@ -258,7 +272,7 @@ unsigned int	reverse_bytes(int c)
 // 		y_o = 0.1;
 // 	while (t_pix < b_pix)
 // 	{
-// 			put_pixel_accordingly(data, data->mlx.ray->index, t_pix, reverse_bytes(arr[(int)y_o * texture->width + (int)x_o]));
+// 			put_pixel_accordingly(data, data->mlx.ray->index, t_pix,reverse_bytes(arr[(int)y_o * texture->width + (int)x_o]));
 // 		y_o += factor;
 // 		t_pix++;
 // 	}
@@ -287,8 +301,9 @@ void	draw_wall(t_map *data, int ray, int t_pix, int b_pix, double wall_h)
 	{
 		y_o = fmax(0.1, y_o);
 		texture_index = (int)y_o * texture->width + (int)x_o;
-		put_pixel_accordingly(data, data->mlx.ray->index, t_pix,
-			reverse_bytes(arr[texture_index]));
+		if (texture_index < texture->height * texture->width)
+			put_pixel_accordingly(data, data->mlx.ray->index, t_pix,
+				reverse_bytes(arr[texture_index]));
 		y_o += factor;
 		t_pix++;
 	}

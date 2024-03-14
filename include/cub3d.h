@@ -84,7 +84,7 @@ void		mlx_key(mlx_key_data_t keydata, void *ml);
 void		rotate_player(t_map *data, int i);
 void		move_player(t_map *data, double move_x, double move_y);
 void		hook(t_map *data, double move_x, double move_y);
-void		put_pixel_accordingly(t_map *data, int x, int y, int color);
+void		put_pixel_accordingly(t_map *data, int x, int y, unsigned int color);
 float		fix_angles(float angle);
 void		draw_floor_ceiling(t_map *data, int ray, int t_pix, int b_pix);
 int			get_color(t_mlx *mlx, int f);
@@ -113,6 +113,6 @@ int			checkfirstline(char **s);
 int			checklastline(char **s);
 int			checkh(char *s);
 int			checkmap(char **s);
-unsigned int	reverse_bytes(int c);
+uint32_t	reverse_bytes(int c);
 
 #endif /* GAME_H */
