@@ -1,8 +1,8 @@
 F 97,247,67
-NO ./textures/photo1.png
-SO ./textures/photo2.png
-WE ./textures/photo3.png
-EA ./textures/photo4.png
+NO ./textures/water1.png
+SO ./textures/water2.png
+WE ./textures/water3.png
+EA ./textures/water4.png
 C 235,115,115
 
   111111111111111111

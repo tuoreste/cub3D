@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 10:44:49 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/02/07 11:23:29 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/17 11:14:19 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "./libft.h"
+# include "./get_next_line.h"
 
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
@@ -48,10 +48,10 @@ char				**ft_split(char const *s, char c);
 char				*ft_itoa(int n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
-void				ft_putchar_fd(char c, int fd);
-void				ft_putstr_fd(char *s, int fd);
-void				ft_putendl_fd(char *s, int fd);
-void				ft_putnbr_fd(int n, int fd);
+// void				ft_putchar_fd(char c, int fd);
+// void				ft_putstr_fd(char *s, int fd);
+// void				ft_putendl_fd(char *s, int fd);
+// void				ft_putnbr_fd(int n, int fd);
 typedef struct s_list
 {
 	void			*content;
