@@ -4,6 +4,7 @@
 #  define BUFFER_SIZE 42
 # endif
 
+# include "malloc.h"
 # include "MLX42.h"
 # include "libft.h"
 # include <fcntl.h>
@@ -81,7 +82,7 @@ typedef struct s_map
 // main.c
 int					check_sec_arg(char *argv);
 void				game_loop(void *ml);
-void				start_game(t_map *dt);
+void				start_game(t_map *data);
 int					main(int argc, char **argv);
 
 // gen_utils.c

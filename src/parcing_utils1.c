@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:01:11 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/17 16:35:03 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/18 15:10:51 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_map	*manage_data(char *s)
 	char	**t;
 	char	**t1;
 	char	*map;
+	char	*temp;
 
 	data = (t_map *)malloc(sizeof(t_map));
 	map = "";
@@ -26,6 +27,7 @@ t_map	*manage_data(char *s)
 	t = ft_split(s, '\n');
 	while (t[i])
 	{
+		temp = ft_strtrim(t[i], " \t012NSWE");
 		if (ft_strnstr(t[i], "NO", 2) || ft_strnstr(t[i], "SO", 2)
 			|| ft_strnstr(t[i], "WE", 2) || ft_strnstr(t[i], "EA", 2))
 			manage_directions(t[i], data);
@@ -39,11 +41,12 @@ t_map	*manage_data(char *s)
 			data->w = ft_atoi(t1[2]);
 			free_split(t1);
 		}
-		else if (ft_strlen(ft_strtrim(t[i], " \t012NSWE")) == 0)
+		else if (ft_strlen(temp) == 0)
 		{
 			map = ft_strjoin(map, t[i]);
 			map = ft_strjoin(map, "\n");
 		}
+		free (temp);
 		i++;
 	}
 	free_split(t);
@@ -75,10 +78,9 @@ t_map	*get_map_data(char *s)
 	line = get_next_line(fd);
 	while ((line) != NULL)
 	{
-		line = get_next_line(fd);
 		str = ft_strjoin(str, line);
-		//garbage(str);
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	data = manage_data(str);

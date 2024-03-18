@@ -6,11 +6,16 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:18:19 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/17 11:31:41 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/18 17:06:00 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+// void	v(void)
+// {
+// 	system("leaks cub3d");
+// }
 
 void	free_split(char **arr)
 {
@@ -27,37 +32,49 @@ void	ft_exit(t_map *data, char *sms)
 	int	i;
 
 	i = 0;
-	free(data->c);
-	free(data->f);
-	free(data->s);
-	free(data->north);
-	free(data->south);
-	free(data->east);
-	free(data->west);
-	if (data->texture->ea)
+	// if (data->c)
+		free(data->c);
+	// if (data->s)
+		free(data->s);
+	// if (data->f)
+		free(data->f);
+	// if (data->north)
+		free(data->north);
+	// if (data->south)
+		free(data->south);
+	// if (data->east)
+		free(data->east);
+	// if (data->west)
+		free(data->west);
+	// if (data->texture->ea)
 		free(data->texture->ea);
-	if (!data->texture->no)
+	// if (!data->texture->no)
 		free(data->texture->no);
-	if (data->texture->we)
+	// if (data->texture->we)
 		free(data->texture->we);
-	if (data->texture->so)
+	// if (data->texture->so)
 		free(data->texture->so);
-	if (data->texture)
+	// if (data->texture)
 		free(data->texture);
-	mlx_delete_image(data->mlx.mlx_p, data->mlx.img);
-	mlx_close_window(data->mlx.mlx_p);
+	// if (data->mlx.img)
+		mlx_delete_image(data->mlx.mlx_p, data->mlx.img);
+	// if (data->mlx.mlx_p)
+		mlx_close_window(data->mlx.mlx_p);
 	mlx_terminate(data->mlx.mlx_p);
 	//  free(mlx->dt);
-	free(data->mlx.player);
-	free(data->mlx.ray);
+	// if (data->mlx.player)
+		free(data->mlx.player);
+	// if (data->mlx.ray)
+		free(data->mlx.ray);
 	while (data->map[i])
-	{
-		printf("%p\n", data->map[i]);
 		free(data->map[i++]);
-	}
 	free(data->map);
 	free(data);
 	printf("%s\n", sms);
+	// system("leaks cub3d");
+	// atexit(v);
+	// show_alloc_mem_ex();
+	// print_leaks();
 	exit(0);
 }
 

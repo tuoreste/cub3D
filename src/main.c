@@ -6,10 +6,11 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:02:26 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/17 18:12:26 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/18 16:14:08 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "malloc.h"
 #include "cub3d.h"
 
 // garbage(address)
@@ -27,10 +28,10 @@
 // 		address = malloc()
 // }
 
-void	v(void)
-{
-	system("leaks cub3d");
-}
+// void	v(void)
+// {
+// 	system("leaks cub3d");
+// }
 
 int	check_sec_arg(char *argv)
 {
@@ -54,24 +55,24 @@ void	game_loop(void *ml)
 	mlx_image_to_window(data->mlx.mlx_p, data->mlx.img, 0, 0);
 }
 
-void	start_game(t_map *dt)
+void	start_game(t_map *data)
 {
-	dt->mlx.mlx_p = mlx_init(S_W, S_H, "Cub3D", 0);
-	if (!get_texture_data(dt))
-		return (ft_exit(dt, "Texture Loading Error"));
-	dt->mlx.player->player_x = dt->p_x * TILE_SIZE + TILE_SIZE / 2;
-	dt->mlx.player->player_y = dt->p_y * TILE_SIZE + TILE_SIZE / 2;
-	dt->mlx.player->fov = (FOV * M_PI) / 180;
-	dt->mlx.player->angle = M_PI;
-	mlx_loop_hook(dt->mlx.mlx_p, &game_loop, dt);
-	mlx_key_hook(dt->mlx.mlx_p, &mlx_key, dt);
-	mlx_loop(dt->mlx.mlx_p);
+	data->mlx.mlx_p = mlx_init(S_W, S_H, "Cub3D", 0);
+	if (!get_texture_data(data))
+		return (ft_exit(data, "Texture Loading Error"));
+	data->mlx.player->player_x = data->p_x * TILE_SIZE + TILE_SIZE / 2;
+	data->mlx.player->player_y = data->p_y * TILE_SIZE + TILE_SIZE / 2;
+	data->mlx.player->fov = (FOV * M_PI) / 180;
+	data->mlx.player->angle = M_PI;
+	mlx_loop_hook(data->mlx.mlx_p, &game_loop, data);
+	mlx_key_hook(data->mlx.mlx_p, &mlx_key, data);
+	mlx_loop(data->mlx.mlx_p);
 }
 
 
 int	main(int argc, char **argv)
 {
-	atexit(v);
+	//atexit(v);
 	t_map	*data;
 
 	if (argc != 2)
@@ -93,7 +94,7 @@ int	main(int argc, char **argv)
 		start_game(data);
 	}
 	else
-		return (printf("Invalid data"), 1);
+		return (ft_exit(data, "Invalid data"), 1);
 	ft_exit(data, "Game over!!");
 	return (0);
 }
