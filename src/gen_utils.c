@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:18:19 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/18 17:06:00 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/20 21:00:14 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,46 +32,27 @@ void	ft_exit(t_map *data, char *sms)
 	int	i;
 
 	i = 0;
-	// if (data->c)
-		free(data->c);
-	// if (data->s)
-		free(data->s);
-	// if (data->f)
-		free(data->f);
-	// if (data->north)
-		free(data->north);
-	// if (data->south)
-		free(data->south);
-	// if (data->east)
-		free(data->east);
-	// if (data->west)
-		free(data->west);
-	// if (data->texture->ea)
-		free(data->texture->ea);
-	// if (!data->texture->no)
-		free(data->texture->no);
-	// if (data->texture->we)
-		free(data->texture->we);
-	// if (data->texture->so)
-		free(data->texture->so);
-	// if (data->texture)
-		free(data->texture);
-	// if (data->mlx.img)
-		mlx_delete_image(data->mlx.mlx_p, data->mlx.img);
-	// if (data->mlx.mlx_p)
-		mlx_close_window(data->mlx.mlx_p);
+	free(data->c);
+	free(data->s);
+	free(data->f);
+	free(data->north);
+	free(data->south);
+	free(data->east);
+	free(data->west);
+	free(data->texture->ea);
+	free(data->texture->no);
+	free(data->texture->we);
+	free(data->texture->so);
+	free(data->texture);
+	mlx_delete_image(data->mlx.mlx_p, data->mlx.img);
+	mlx_close_window(data->mlx.mlx_p);
 	mlx_terminate(data->mlx.mlx_p);
-	//  free(mlx->dt);
-	// if (data->mlx.player)
-		free(data->mlx.player);
-	// if (data->mlx.ray)
-		free(data->mlx.ray);
+	free(data->mlx.player);
+	free(data->mlx.ray);
 	while (data->map[i])
 		free(data->map[i++]);
 	free(data->map);
-	free(data);
 	printf("%s\n", sms);
-	// system("leaks cub3d");
 	// atexit(v);
 	// show_alloc_mem_ex();
 	// print_leaks();

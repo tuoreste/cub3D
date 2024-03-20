@@ -6,7 +6,7 @@
 #    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/08 14:23:29 by otuyishi          #+#    #+#              #
-#    Updated: 2024/03/18 15:44:43 by otuyishi         ###   ########.fr        #
+#    Updated: 2024/03/20 13:55:47 by otuyishi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,8 @@ NAME := cub3d
 
 CFLAGS := -g -Wextra -Wall -Werror  -O3 -funroll-loops  #-fsanitize=address
 LIBMLX := lib/MLX42
-LEAK_FINDER := ./leak_finder
 
-HEADERS := -I./include -I./${LEAK_FINDER}/includes -I$(LIBMLX)/include -I./lib/libft -I./lib/libft/get_next_line -I./lib/MLX42/include/MLX42
+HEADERS := -I./include -I$(LIBMLX)/include -I./lib/libft -I./lib/libft/get_next_line -I./lib/MLX42/include/MLX42
 # SRCS = $(wildcard $(SRC_DIR)/*.c)
 LIBS := $(LIBMLX)/build/libmlx42.a
 
@@ -25,7 +24,7 @@ SRCS = $(wildcard src/*.c)
 SRCS += $(wildcard lib/libft/*.c)
 SRCS += $(wildcard lib/libft/get_next_line/*.c)
 
-LDFLAGS := -ldl -L $(LIBMLX)/glfw_lib/ -L./${LEAK_FINDER} -lft_malloc -lglfw3 -pthread -lm -flto -framework Cocoa -framework OpenGL -framework IOKit -g #-fsanitize=address
+LDFLAGS := -ldl -L $(LIBMLX)/glfw_lib/ -lglfw3 -pthread -lm -flto -framework Cocoa -framework OpenGL -framework IOKit -g #-fsanitize=address
 OBJS := $(SRCS:.c=.o) 
 
 all: $(NAME)

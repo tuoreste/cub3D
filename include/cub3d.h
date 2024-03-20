@@ -4,7 +4,6 @@
 #  define BUFFER_SIZE 42
 # endif
 
-# include "malloc.h"
 # include "MLX42.h"
 # include "libft.h"
 # include <fcntl.h>
@@ -19,6 +18,18 @@
 # define FOV 60
 # define ROTATION_SPEED 0.045
 # define PLAYER_SPEED 4
+
+typedef struct s_temp
+{
+	int		i;
+	char	**t;
+	char	**t1;
+	char	*map;
+	int		fd;
+	char	*line;
+	char	*str;
+	char	*tmp;
+}				t_temp;
 
 typedef struct s_player
 {
@@ -76,6 +87,7 @@ typedef struct s_map
 	int				p_y;
 	int				w_map;
 	int				h_map;
+	t_temp			temp;
 	t_mlx			mlx;
 }					t_map;
 
@@ -102,9 +114,10 @@ void				move_player(t_map *data, double move_x, double move_y);
 void				hook(t_map *data, double move_x, double move_y);
 
 // parcing_utils1.c
-t_map				*manage_data(char *s);
+// t_map				*manage_data(char *s);
+void	manage_data(char *s, t_map *data);
 // char				*get_next_line(int fd);
-t_map				*get_map_data(char *s);
+void				get_map_data(char *s, t_map *data);
 // t_map   *get_map_data(char *s);
 
 // parcing_utils2.c

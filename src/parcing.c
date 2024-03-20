@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:30:07 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/18 15:11:09 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:51:38 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	checklastline(char **s)
 	return (free(str), 1);
 }
 
+// ===================================PROBLEM 1===========================
 int	checkmap(t_map *data)
 {
 	int		i;
@@ -128,3 +129,4 @@ int	checkmap(t_map *data)
 		return (0);
 	return (r);
 }
+// ===================================PROBLEM 1===========================

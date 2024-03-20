@@ -6,11 +6,10 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:02:26 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/18 16:14:08 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:33:07 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
 #include "cub3d.h"
 
 // garbage(address)
@@ -73,28 +72,26 @@ void	start_game(t_map *data)
 int	main(int argc, char **argv)
 {
 	//atexit(v);
-	t_map	*data;
+	t_map	data;
 
 	if (argc != 2)
 		return (printf("Wrong Number of args"), 1);
 	if (!check_sec_arg(argv[1]))
 		return (printf("Map name error,\nchoose btn:\n1.maps/map_a.cub, \
 			\n2.maps/map_b.cub,\n3.maps/map_c.cub\n"), 1);
-	data = get_map_data(argv[1]);
-	if (!data)
-		return(printf("Fetching Data Failed"), 1);
-	if (checkmap(data))
+	get_map_data(argv[1], &data);
+	if (checkmap(&data))
 	{
-		data->mlx.player = calloc(1, sizeof(t_player));
-		if (!data->mlx.player)
-			return (ft_exit(data, "Memo Alloc Error"), 1);
-		data->mlx.ray = calloc(1, sizeof(t_ray));
-		if (!data->mlx.ray)
-			return (ft_exit(data, "Memo Alloc Error"), 1);
-		start_game(data);
+		data.mlx.player = calloc(1, sizeof(t_player));
+		if (!data.mlx.player)
+			return (ft_exit(&data, "Memo Alloc Error"), 1);
+		data.mlx.ray = calloc(1, sizeof(t_ray));
+		if (!data.mlx.ray)
+			return (ft_exit(&data, "Memo Alloc Error"), 1);
+		start_game(&data);
 	}
 	else
-		return (ft_exit(data, "Invalid data"), 1);
-	ft_exit(data, "Game over!!");
+		return (ft_exit(&data, "Invalid data"), 1);
+	ft_exit(&data, "Game over!!");
 	return (0);
 }
