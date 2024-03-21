@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:13:08 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/21 12:27:23 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:05:13 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void	render_wall(t_map *data, int ray)
 	double	b_pix;
 	double	t_pix;
 
-	data->mlx.ray->dist *= cos(fix_angles(data->mlx.player->angle
-			- data->mlx.ray->r_angle));
+	data->mlx.ray->dist *= cos(fix_angles(data->mlx.ray->r_angle
+				- data->mlx.player->angle));
 	wall_h = (TILE_SIZE / data->mlx.ray->dist) * ((S_W / 2)
-		/ tan(data->mlx.player->fov / 2));
+			/ tan(data->mlx.player->fov / 2));
 	b_pix = (S_H / 2) + (wall_h / 2);
 	t_pix = (S_H / 2) - (wall_h / 2);
 	if (b_pix > S_H)

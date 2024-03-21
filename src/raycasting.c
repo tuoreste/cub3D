@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:05:31 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/18 15:11:13 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 16:59:18 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	raycast(t_map *data)
 
 	ray = 0;
 	data->mlx.ray->r_angle = data->mlx.player->angle - (data->mlx.player->fov
-		/ 2);
+			/ 2);
 	while (ray <= S_W)
 	{
 		data->mlx.ray->f = 0;

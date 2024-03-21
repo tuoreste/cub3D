@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:11:52 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/21 15:07:55 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:12:53 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,6 @@ int	is_valid_move(t_map *data, double refresh_x, double refresh_y)
 	return (map_grid_y >= 0 && map_grid_y < data->h_map && map_grid_x >= 0
 		&& map_grid_x < data->w_map
 		&& data->map[map_grid_y][map_grid_x] != '1');
-}
-
-void	move_player(t_map *data, double move_x, double move_y)
-{
-	double	refresh_x;
-	double	refresh_y;
-
-	refresh_x = data->mlx.player->player_x + move_x;
-	refresh_y = data->mlx.player->player_y + move_y;
-	if (is_valid_move(data, refresh_x, refresh_y))
-	{
-		data->mlx.player->player_x = refresh_x;
-		data->mlx.player->player_y = refresh_y;
-	}
 }
 
 void	rotation(t_map *data)

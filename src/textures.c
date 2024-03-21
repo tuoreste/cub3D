@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:16:43 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/18 15:11:20 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:04:09 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,22 @@ double	get_x_o(mlx_texture_t *texture, t_map *data)
 	if (data->mlx.ray->f == 1)
 	{
 		wall_hit_x = data->mlx.player->player_x + (dist_to_wall
-			* cos(data->mlx.ray->r_angle));
+				* cos(data->mlx.ray->r_angle));
 		x_o = fmod(wall_hit_x, TILE_SIZE) / TILE_SIZE * texture->width;
 	}
 	else
 	{
 		wall_hit_y = data->mlx.player->player_y + (dist_to_wall
-			* sin(data->mlx.ray->r_angle));
+				* sin(data->mlx.ray->r_angle));
 		x_o = fmod(wall_hit_y, TILE_SIZE) / TILE_SIZE * texture->width;
 	}
 	return (x_o);
 }
 
-unsigned int reverse_bytes(int c)
+unsigned int	reverse_bytes(int c)
 {
-    return ((c & 0x000000FF) << 24) |
-           ((c & 0x0000FF00) << 8) |
-           ((c & 0x00FF0000) >> 8) |
-           ((c & 0xFF000000) >> 24);
+	return (((c & 0x000000FF) << 24) | ((c & 0x0000FF00) << 8)
+		| ((c & 0x00FF0000) >> 8) | ((c & 0xFF000000) >> 24));
 }
 
 void	draw_wall(t_map *data, int t_pix, int b_pix, double wall_h)
@@ -90,7 +88,6 @@ void	draw_wall(t_map *data, int t_pix, int b_pix, double wall_h)
 	double			factor;
 	double			x_o;
 	double			y_o;
-	int				texture_index;
 
 	texture = get_texture(data, data->mlx.ray->f);
 	if (texture == NULL)
@@ -104,10 +101,10 @@ void	draw_wall(t_map *data, int t_pix, int b_pix, double wall_h)
 	while (t_pix < b_pix)
 	{
 		y_o = fmax(0.1, y_o);
-		texture_index = (int)y_o * texture->width + (int)x_o;
-		if (texture_index < (int)(texture->height * texture->width))
+		data->temp.i = (int)y_o * texture->width + (int)x_o;
+		if (data->temp.i < (int)(texture->height * texture->width))
 			put_pixel_accordingly(data, data->mlx.ray->index, t_pix,
-				reverse_bytes(arr[texture_index]));
+				reverse_bytes(arr[data->temp.i]));
 		y_o += factor;
 		t_pix++;
 	}

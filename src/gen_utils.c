@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:18:19 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/21 12:19:21 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:12:47 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@ void	free_split(char **arr)
 	free(arr);
 }
 
-void	ft_exit(t_map *data, char *sms)
+void	ft_exit(t_map *data, char *sms, int i)
 {
-	int	i;
-
-	i = 0;
 	free(data->c);
 	free(data->s);
 	free(data->f);
@@ -34,19 +31,20 @@ void	ft_exit(t_map *data, char *sms)
 	free(data->south);
 	free(data->east);
 	free(data->west);
-	free(data->texture->ea);
-	free(data->texture->no);
-	free(data->texture->we);
-	free(data->texture->so);
-	free(data->texture);
-	mlx_delete_image(data->mlx.mlx_p, data->mlx.img);
-	mlx_terminate(data->mlx.mlx_p);
-	free(data->mlx.player);
-	free(data->mlx.ray);
-	while (data->map[i])
-		free(data->map[i++]);
-	free(data->map);
-	mlx_close_window(data->mlx.mlx_p);
+	free_split(data->map);
+	if (i == 1)
+	{
+		free(data->texture->ea);
+		free(data->texture->no);
+		free(data->texture->we);
+		free(data->texture->so);
+		free(data->texture);
+		mlx_delete_image(data->mlx.mlx_p, data->mlx.img);
+		mlx_terminate(data->mlx.mlx_p);
+		free(data->mlx.player);
+		free(data->mlx.ray);
+		mlx_close_window(data->mlx.mlx_p);
+	}
 	printf("%s\n", sms);
 	return ;
 }
@@ -77,4 +75,18 @@ int	check_circle(float angle, char c)
 			return (1);
 	}
 	return (0);
+}
+
+void	move_player(t_map *data, double move_x, double move_y)
+{
+	double	refresh_x;
+	double	refresh_y;
+
+	refresh_x = data->mlx.player->player_x + move_x;
+	refresh_y = data->mlx.player->player_y + move_y;
+	if (is_valid_move(data, refresh_x, refresh_y))
+	{
+		data->mlx.player->player_x = refresh_x;
+		data->mlx.player->player_y = refresh_y;
+	}
 }

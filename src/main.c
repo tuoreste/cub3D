@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:02:26 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/21 12:24:37 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:11:40 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,20 @@ int	main(int argc, char **argv)
 		return (printf("Wrong Number of args"), 1);
 	if (!check_sec_arg(argv[1]))
 		return (printf("Map name error,\nchoose btn:\n1.maps/map_a.cub, \
-			\n2.maps/map_b.cub,\n3.maps/map_c.cub\n"),
-				1);
+			\n2.maps/map_b.cub,\n3.maps/map_c.cub\n"), 1);
 	get_map_data(argv[1], &data);
-	if (checkmap(&data))
+	if (data.map[0] && checkmap(&data))
 	{
 		data.mlx.player = calloc(1, sizeof(t_player));
 		if (!data.mlx.player)
-			return (ft_exit(&data, "Memo Alloc Error"), 1);
+			return (ft_exit(&data, "Memo Alloc Error", 0), 1);
 		data.mlx.ray = calloc(1, sizeof(t_ray));
 		if (!data.mlx.ray)
-			return (ft_exit(&data, "Memo Alloc Error"), 1);
+			return (ft_exit(&data, "Memo Alloc Error", 0), 1);
 		start_game(&data);
+		ft_exit(&data, "Game over!!", 1);
 	}
 	else
-		return (ft_exit(&data, "Invalid data"), 1);
-	ft_exit(&data, "Game over!!");
+		return (ft_exit(&data, "Invalid data", 0), 1);
 	return (0);
 }

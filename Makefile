@@ -6,7 +6,7 @@
 #    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/08 14:23:29 by otuyishi          #+#    #+#              #
-#    Updated: 2024/03/21 12:29:31 by otuyishi         ###   ########.fr        #
+#    Updated: 2024/03/21 17:43:11 by otuyishi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS := $(SRC_DIR)/gen_utils.c \
         $(SRC_DIR)/parcing_utils1.c \
         $(SRC_DIR)/parcing_utils2.c \
         $(SRC_DIR)/raycasting.c \
+        $(SRC_DIR)/read.c \
         $(SRC_DIR)/rendering.c \
         $(SRC_DIR)/textures.c
 

@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:30:07 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/21 10:13:20 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:10:55 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	checklastline(char **s)
 	str = ft_strtrim(s[last_line_index], "1 \t");
 	if (ft_strlen(str))
 		return (free(str), 0);
-	while (s[last_line_index][j])
+	while (s[last_line_index][j++])
 	{
 		if (s[last_line_index][j] == ' ' || s[last_line_index][j] == '\t')
 		{
@@ -81,45 +81,41 @@ int	checklastline(char **s)
 				return (free(str), 0);
 			i = last_line_index;
 		}
-		j++;
 	}
 	return (free(str), 1);
 }
 
+void	frees(char *s1, char *s2, char *s3)
+{
+	free(s1);
+	free(s2);
+	free(s3);
+}
+
 int	checkmap(t_map *data)
 {
-	int		i;
-	int		r;
-	int		u;
-	char	*s1;
-	char	*s2;
-	char	*s4;
-
-	i = 0;
-	r = 1;
-	u = 0;
-	if (ft_strlen(data->map[0]) == 0)
-		return (0);
-	r = checkfirstline(data->map);
-	if (r)
-		r = checklastline(data->map);
-	while (data->map[i])
+	data->temp.i = 0;
+	data->temp.r = 1;
+	data->temp.u = 0;
+	data->temp.r = checkfirstline(data->map);
+	if (data->temp.r)
+		data->temp.r = checklastline(data->map);
+	while (data->map[data->temp.i])
 	{
-		s4 = ft_strtrim(data->map[i], "01 \tNSWE");
-		s2 = ft_strtrim(data->map[i],"01 \t");
-		if (ft_strlen(s4) != ft_strlen(s2))
-			u++;
-		if (ft_strlen(s4) || !checkh(data->map[i]))
-			return (free(s2), free(s4), 0);
-		s1 = ft_strtrim(data->map[i], " \t");
-		if (s1[ft_strlen(s1) - 1] != '1' || s1[0] != '1')
-			return (free(s1), free(s2), free(s4), 0);
-		free(s1);
-		free(s2);
-		free(s4);
-		i++;
+		data->temp.s4 = ft_strtrim(data->map[data->temp.i], "01 \tNSWE");
+		data->temp.s2 = ft_strtrim(data->map[data->temp.i], "01 \t");
+		if (ft_strlen(data->temp.s4) != ft_strlen(data->temp.s2))
+			data->temp.u++;
+		if (ft_strlen(data->temp.s4) || !checkh(data->map[data->temp.i]))
+			return (free(data->temp.s2), free(data->temp.s4), 0);
+		data->temp.s1 = ft_strtrim(data->map[data->temp.i], " \t");
+		if (data->temp.s1[ft_strlen(data->temp.s1) - 1] != '1'
+			|| data->temp.s1[0] != '1')
+			return (frees(data->temp.s1, data->temp.s2, data->temp.s4), 0);
+		frees(data->temp.s1, data->temp.s2, data->temp.s4);
+		data->temp.i++;
 	}
-	if (u != 1)
+	if (data->temp.u != 1)
 		return (0);
-	return (r);
+	return (data->temp.r);
 }

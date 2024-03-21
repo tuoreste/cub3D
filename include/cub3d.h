@@ -21,15 +21,22 @@
 
 typedef struct s_temp
 {
-	int		i;
-	char	**t;
-	char	**t1;
-	char	*map;
-	int		fd;
-	char	*line;
-	char	*str;
-	char	*tmp;
-}				t_temp;
+	int				i;
+	char			**t;
+	char			**t1;
+	char			*map;
+	int				fd;
+	char			*line;
+	char			*str;
+	char			*buffer;
+	char			*tmp;
+	int				r;
+	int				u;
+	char			*s1;
+	char			*s2;
+	char			*s4;
+	char			*tmp_map;
+}					t_temp;
 
 typedef struct s_player
 {
@@ -98,10 +105,8 @@ void				start_game(t_map *data);
 int					main(int argc, char **argv);
 
 // gen_utils.c
-void				ft_exit(t_map *data, char *sms);
+void				ft_exit(t_map *data, char *sms, int i);
 void				free_split(char **arr);
-// void				ft_exit(t_map *data);
-// void				init_the_player(t_map *data);
 void				put_pixel_accordingly(t_map *data, int x, int y,
 						unsigned int color);
 int					check_circle(float angle, char c);
@@ -112,13 +117,14 @@ void				mlx_key(mlx_key_data_t keydata, void *ml);
 void				rotate_player(t_map *data, int i);
 void				move_player(t_map *data, double move_x, double move_y);
 void				hook(t_map *data, double move_x, double move_y);
+int					is_valid_move(t_map *data, double refresh_x,
+						double refresh_y);
 
 // parcing_utils1.c
-// t_map				*manage_data(char *s);
-void	manage_data(char *s, t_map *data);
-// char				*get_next_line(int fd);
-void				get_map_data(char *s, t_map *data);
-// t_map   *get_map_data(char *s);
+void				cf(t_map *data);
+int					compass(char *s);
+void				manage_data(char *s, t_map *data);
+void				get_map_data(const char *filename, t_map *data);
 
 // parcing_utils2.c
 void				manage_directions(char *s, t_map *data);
@@ -131,7 +137,6 @@ int					checkh(char *s);
 int					checkfirstline(char **s);
 int					checklastline(char **s);
 int					checkmap(t_map *data);
-// int					checkmap(char **s);
 
 // raycasting.c
 int					check_intersection(float angle, float *inter, float *step,
@@ -140,6 +145,11 @@ int					check_wall_hit(float x, float y, t_map *dt);
 float				get_horizontal_int(t_map *data, float angl);
 float				get_vertical_int(t_map *data, float angl);
 void				raycast(t_map *data);
+
+// read.c
+int					open_file_and_allocate_memory(const char *filename,
+						t_map *data);
+void				read_file_and_join_strings(t_map *data);
 
 // rendering.c
 float				fix_angles(float angle);
@@ -154,7 +164,6 @@ int					get_texture_data(t_map *data);
 mlx_texture_t		*get_texture(t_map *data, int flag);
 double				get_x_o(mlx_texture_t *texture, t_map *data);
 unsigned int		reverse_bytes(int c);
-void				draw_wall(t_map *data, int t_pix, int b_pix,
-						double wall_h);
+void				draw_wall(t_map *data, int t_pix, int b_pix, double wall_h);
 
 #endif /* GAME_H */

@@ -6,11 +6,23 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:03:14 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/21 12:24:52 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:40:55 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	compass(char *s)
+{
+	if (ft_strnstr(s, "NO", 2) || ft_strnstr(s, "SO", 2) || ft_strnstr(s, "WE",
+			2) || ft_strnstr(s, "EA", 2))
+		return (2);
+	else if (ft_strnstr(s, "S", 1) || ft_strnstr(s, "C", 1) || ft_strnstr(s,
+			"F", 1))
+		return (3);
+	else
+		return (0);
+}
 
 void	manage_directions(char *s, t_map *data)
 {
