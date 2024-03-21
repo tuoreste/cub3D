@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:30:07 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/20 22:51:38 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:13:20 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	checklastline(char **s)
 	return (free(str), 1);
 }
 
-// ===================================PROBLEM 1===========================
 int	checkmap(t_map *data)
 {
 	int		i;
@@ -94,7 +93,6 @@ int	checkmap(t_map *data)
 	int		u;
 	char	*s1;
 	char	*s2;
-	// char	*s3;
 	char	*s4;
 
 	i = 0;
@@ -116,17 +114,12 @@ int	checkmap(t_map *data)
 		s1 = ft_strtrim(data->map[i], " \t");
 		if (s1[ft_strlen(s1) - 1] != '1' || s1[0] != '1')
 			return (free(s1), free(s2), free(s4), 0);
+		free(s1);
+		free(s2);
+		free(s4);
 		i++;
 	}
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	// s3 = ft_strtrim(data->map[i - 1], " 1\t");
-	// if (ft_strlen(s3))
-	// 	return (free(s3), 0);
 	if (u != 1)
 		return (0);
 	return (r);
 }
-// ===================================PROBLEM 1===========================

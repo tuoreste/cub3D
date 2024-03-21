@@ -6,31 +6,11 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:02:26 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/20 22:33:07 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:24:37 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// garbage(address)
-// {
-// 	static void *head;
-// 	if !head
-// 		head.value = address;
-// 		head.next = NULL;
-// 	list = head;
-// 	while( list->next)
-	
-// 	list.value = address;
-// 	list.next = NULL;
-
-// 		address = malloc()
-// }
-
-// void	v(void)
-// {
-// 	system("leaks cub3d");
-// }
 
 int	check_sec_arg(char *argv)
 {
@@ -48,7 +28,7 @@ void	game_loop(void *ml)
 	mlx_delete_image(data->mlx.mlx_p, data->mlx.img);
 	data->mlx.img = mlx_new_image(data->mlx.mlx_p, S_W, S_H);
 	if (!data->mlx.img)
-		return(ft_exit(data, "New Image Failed"));
+		return ;
 	hook(data, 0, 0);
 	raycast(data);
 	mlx_image_to_window(data->mlx.mlx_p, data->mlx.img, 0, 0);
@@ -58,7 +38,7 @@ void	start_game(t_map *data)
 {
 	data->mlx.mlx_p = mlx_init(S_W, S_H, "Cub3D", 0);
 	if (!get_texture_data(data))
-		return (ft_exit(data, "Texture Loading Error"));
+		return ;
 	data->mlx.player->player_x = data->p_x * TILE_SIZE + TILE_SIZE / 2;
 	data->mlx.player->player_y = data->p_y * TILE_SIZE + TILE_SIZE / 2;
 	data->mlx.player->fov = (FOV * M_PI) / 180;
@@ -68,17 +48,16 @@ void	start_game(t_map *data)
 	mlx_loop(data->mlx.mlx_p);
 }
 
-
 int	main(int argc, char **argv)
 {
-	//atexit(v);
 	t_map	data;
 
 	if (argc != 2)
 		return (printf("Wrong Number of args"), 1);
 	if (!check_sec_arg(argv[1]))
 		return (printf("Map name error,\nchoose btn:\n1.maps/map_a.cub, \
-			\n2.maps/map_b.cub,\n3.maps/map_c.cub\n"), 1);
+			\n2.maps/map_b.cub,\n3.maps/map_c.cub\n"),
+				1);
 	get_map_data(argv[1], &data);
 	if (checkmap(&data))
 	{

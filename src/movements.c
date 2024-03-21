@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:11:52 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/18 15:11:01 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 15:07:55 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ void	mlx_key(mlx_key_data_t keydata, void *ml)
 	data = ml;
 	if (keydata.key == MLX_KEY_ESCAPE && (keydata.action == MLX_PRESS
 			|| keydata.action == MLX_REPEAT))
-		ft_exit(data, "Exiting...");
+	{
+		printf("Exiting...");
+		mlx_close_window(data->mlx.mlx_p);
+		return ;
+	}
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS))
 		data->mlx.player->l_r = -1;
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS))
@@ -50,27 +54,6 @@ void	mlx_key(mlx_key_data_t keydata, void *ml)
 		data->mlx.player->rot = 1;
 	ft_initkeys(keydata, data);
 }
-
-// void	move_player(t_map *data, double move_x, double move_y)
-// {
-// 	int	map_grid_y;
-// 	int	map_grid_x;
-// 	int	new_x;
-// 	int	new_y;
-
-// 	new_x = round(data->mlx.player->player_x + move_x);
-// 	new_y = round(data->mlx.player->player_y + move_y);
-// 	map_grid_x = (new_x / TILE_SIZE);
-// 	map_grid_y = (new_y / TILE_SIZE);
-// 	if (data->map[map_grid_y][map_grid_x] != '1'
-// 		&& (data->map[map_grid_y][data->mlx.player->player_x / TILE_SIZE] != '1'
-// 			&& data->map[data->mlx.player->player_y
-// 			/ TILE_SIZE][map_grid_x] != '1'))
-// 	{
-// 		data->mlx.player->player_x = new_x;
-// 		data->mlx.player->player_y = new_y;
-// 	}
-// }
 
 int	is_valid_move(t_map *data, double refresh_x, double refresh_y)
 {

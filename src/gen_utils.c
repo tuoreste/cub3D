@@ -6,16 +6,11 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:18:19 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/20 21:00:14 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:19:21 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// void	v(void)
-// {
-// 	system("leaks cub3d");
-// }
 
 void	free_split(char **arr)
 {
@@ -45,18 +40,15 @@ void	ft_exit(t_map *data, char *sms)
 	free(data->texture->so);
 	free(data->texture);
 	mlx_delete_image(data->mlx.mlx_p, data->mlx.img);
-	mlx_close_window(data->mlx.mlx_p);
 	mlx_terminate(data->mlx.mlx_p);
 	free(data->mlx.player);
 	free(data->mlx.ray);
 	while (data->map[i])
 		free(data->map[i++]);
 	free(data->map);
+	mlx_close_window(data->mlx.mlx_p);
 	printf("%s\n", sms);
-	// atexit(v);
-	// show_alloc_mem_ex();
-	// print_leaks();
-	exit(0);
+	return ;
 }
 
 void	put_pixel_accordingly(t_map *data, int x, int y, unsigned int color)

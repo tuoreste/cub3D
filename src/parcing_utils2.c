@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:03:14 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/20 20:54:56 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:24:52 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,37 +42,39 @@ void	manage_sfc(char *s, t_map *data)
 	free_split(t);
 }
 
-int get_x(char *s)
+int	get_x(char *s)
 {
-    int i = 0;
-    while(s[i])
-    {
-        if (s[i] == 'N' || s[i] == 'S' || s[i] == 'W' || s[i] == 'E')
-            return(i);
-        i++;
-    }
-    return(0);
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == 'N' || s[i] == 'S' || s[i] == 'W' || s[i] == 'E')
+			return (i);
+		i++;
+	}
+	return (0);
 }
 
 void	getmapcord(t_map *data)
 {
-	int	i;
-	char *s;
+	int		i;
+	char	*s;
 
 	i = 0;
-    data->w_map = 0;
+	data->w_map = 0;
 	while (data->map[i])
 	{
-        if ((int)ft_strlen(data->map[i]) > data->w_map)
-            data->w_map = ft_strlen(data->map[i]);
+		if ((int)ft_strlen(data->map[i]) > data->w_map)
+			data->w_map = ft_strlen(data->map[i]);
 		s = ft_strtrim(data->map[i], " \t01");
 		if (ft_strlen(s))
 		{
 			data->p_y = i;
-            data->p_x = get_x(data->map[i]);
+			data->p_x = get_x(data->map[i]);
 		}
 		free(s);
-        i++;
+		i++;
 	}
-    data->h_map = i - 1;
+	data->h_map = i - 1;
 }
