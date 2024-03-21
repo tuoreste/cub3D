@@ -6,11 +6,23 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:11:52 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/21 17:12:53 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/22 00:01:45 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	is_valid_move(t_map *data, double refresh_x, double refresh_y)
+{
+	int	map_grid_y;
+	int	map_grid_x;
+
+	map_grid_y = floor(refresh_y / TILE_SIZE);
+	map_grid_x = floor(refresh_x / TILE_SIZE);
+	return (map_grid_y >= 0 && map_grid_y < data->h_map && map_grid_x >= 0
+		&& map_grid_x < data->w_map
+		&& data->map[map_grid_y][map_grid_x] != '1');
+}
 
 void	ft_initkeys(mlx_key_data_t keydata, t_map *data)
 {
@@ -53,18 +65,6 @@ void	mlx_key(mlx_key_data_t keydata, void *ml)
 	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
 		data->mlx.player->rot = 1;
 	ft_initkeys(keydata, data);
-}
-
-int	is_valid_move(t_map *data, double refresh_x, double refresh_y)
-{
-	int	map_grid_y;
-	int	map_grid_x;
-
-	map_grid_y = floor(refresh_y / TILE_SIZE);
-	map_grid_x = floor(refresh_x / TILE_SIZE);
-	return (map_grid_y >= 0 && map_grid_y < data->h_map && map_grid_x >= 0
-		&& map_grid_x < data->w_map
-		&& data->map[map_grid_y][map_grid_x] != '1');
 }
 
 void	rotation(t_map *data)

@@ -1,9 +1,9 @@
-F 97,247,67
-NO ./textures/water1.png
-SO ./textures/water2.png
-WE ./textures/water3.png
-EA ./textures/water4.png
-C 235,115,115
+F 0,0,0
+NO ./textures/photo12.png
+SO ./textures/photo13.png
+WE ./textures/photo12.png
+EA ./textures/photo13.png
+C 255,255,255
 
   111111111111111111
  11000000000000000011

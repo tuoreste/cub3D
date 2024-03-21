@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:02:26 by aguediri          #+#    #+#             */
-/*   Updated: 2024/03/21 17:11:40 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 23:38:16 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	start_game(t_map *data)
 	mlx_loop_hook(data->mlx.mlx_p, &game_loop, data);
 	mlx_key_hook(data->mlx.mlx_p, &mlx_key, data);
 	mlx_loop(data->mlx.mlx_p);
+	mlx_close_window(data->mlx.mlx_p);
 }
 
 int	main(int argc, char **argv)

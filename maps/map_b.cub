@@ -1,9 +1,9 @@
 F 173,164,140
-C 225,30,0
-NO ./textures/ft_i1.png
-SO ./textures/ft_i2.png
-WE ./textures/ft_i3.png
-EA ./textures/ft_i4.png
+C 192,223,239
+NO ./textures/photo8.png
+SO ./textures/photo9.png
+WE ./textures/photo8.png
+EA ./textures/photo9.png
 
 1111111111
 1000000001

@@ -6,11 +6,11 @@
 #    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/08 14:23:29 by otuyishi          #+#    #+#              #
-#    Updated: 2024/03/21 17:43:11 by otuyishi         ###   ########.fr        #
+#    Updated: 2024/03/21 23:52:17 by otuyishi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := cub3d
+NAME := cub3D
 
 CC := gcc
 CFLAGS := -g -Wextra -Wall -Werror -O3 -funroll-loops #-fsanitize=address
@@ -22,6 +22,7 @@ LIBS := $(LIBMLX)/build/libmlx42.a
 
 SRC_DIR := src
 SRCS := $(SRC_DIR)/gen_utils.c \
+        $(SRC_DIR)/keys.c \
         $(SRC_DIR)/main.c \
         $(SRC_DIR)/movements.c \
         $(SRC_DIR)/parcing.c \

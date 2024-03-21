@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/22 00:02:59 by otuyishi          #+#    #+#             */
+/*   Updated: 2024/03/22 00:03:06 by otuyishi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 # ifndef BUFFER_SIZE
@@ -111,17 +123,20 @@ void				put_pixel_accordingly(t_map *data, int x, int y,
 						unsigned int color);
 int					check_circle(float angle, char c);
 
-// movements.c
-void				ft_initkeys(mlx_key_data_t keydata, t_map *data);
+// keys.c
+void				handle_key_release(t_map *data, mlx_key_data_t keydata);
+void				handle_key_press(t_map *data, mlx_key_data_t keydata);
 void				mlx_key(mlx_key_data_t keydata, void *ml);
-void				rotate_player(t_map *data, int i);
+
+// movements.c
+void				mlx_key(mlx_key_data_t keydata, void *ml);
 void				move_player(t_map *data, double move_x, double move_y);
 void				hook(t_map *data, double move_x, double move_y);
 int					is_valid_move(t_map *data, double refresh_x,
 						double refresh_y);
 
 // parcing_utils1.c
-void				cf(t_map *data);
+void				cf_code(t_map *data);
 int					compass(char *s);
 void				manage_data(char *s, t_map *data);
 void				get_map_data(const char *filename, t_map *data);

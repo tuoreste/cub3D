@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 14:18:19 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/21 17:12:47 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/21 23:53:34 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	free_split(char **arr)
 void	ft_exit(t_map *data, char *sms, int i)
 {
 	free(data->c);
-	free(data->s);
 	free(data->f);
 	free(data->north);
 	free(data->south);
@@ -43,7 +42,6 @@ void	ft_exit(t_map *data, char *sms, int i)
 		mlx_terminate(data->mlx.mlx_p);
 		free(data->mlx.player);
 		free(data->mlx.ray);
-		mlx_close_window(data->mlx.mlx_p);
 	}
 	printf("%s\n", sms);
 	return ;
