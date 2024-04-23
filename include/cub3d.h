@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 00:02:59 by otuyishi          #+#    #+#             */
-/*   Updated: 2024/03/22 12:59:09 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/22 13:00:29 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,6 @@ void				free_split(char **arr);
 void				put_pixel_accordingly(t_map *data, int x, int y,
 						unsigned int color);
 int					check_circle(float angle, char c);
-
-// keys.c
-void				handle_key_release(t_map *data, mlx_key_data_t keydata);
-void				handle_key_press(t_map *data, mlx_key_data_t keydata);
-void				mlx_key(mlx_key_data_t keydata, void *ml);
 
 // movements.c
 void				mlx_key(mlx_key_data_t keydata, void *ml);
