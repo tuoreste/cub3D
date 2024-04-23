@@ -52,5 +52,5 @@ C 225,30,0
 The program exits properly and returns "Error\n" followed by an explicit error message in case of any misconfiguration encountered in the scene description file.
 
 ## Contributors
-- [Your Name]
-- [Contributor's Name]
+- [Akram GUEDIRI](https://github.com/akramguediri)
+- [Oreste Tuyishimire](https://github.com/otuyishi)
