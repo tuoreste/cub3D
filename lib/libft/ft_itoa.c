@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 17:08:12 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/04/16 16:44:20 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/03/17 11:16:55 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*ft_itoa(int n)
 {
 	int		n_digits;
 	char	*str;
-	size_t	len;
 
 	if (n == 0)
 		return (ft_strdup("0"));
@@ -29,7 +28,6 @@ char	*ft_itoa(int n)
 		return (ft_strdup("-2147483648"));
 	n_digits = ft_count_digits(n);
 	str = (char *)malloc((n_digits + 1) * sizeof(char));
-	len = 0;
 	if (!str)
 		return (NULL);
 	str[n_digits] = '\0';

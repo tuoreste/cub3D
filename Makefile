@@ -6,34 +6,84 @@
 #    By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/08 14:23:29 by otuyishi          #+#    #+#              #
-#    Updated: 2024/01/13 17:34:34 by otuyishi         ###   ########.fr        #
+#    Updated: 2024/03/25 13:42:02 by otuyishi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := cub3d
+NAME := cub3D
 
-CFLAGS := -Wextra -Wall -Werror -g -O3 -funroll-loops -fsanitize=address
+CC := cc
+CFLAGS := -g -Wextra -Wall -Werror -O3 -funroll-loops #-fsanitize=address
 LIBMLX := lib/MLX42
+LIBFT := lib/libft
 
-HEADERS := -I ./include -I $(LIBMLX)/include -I ./lib/libft -I ./lib/MLX42/include/MLX42
+HEADERS := -I./include -I$(LIBMLX)/include -I./lib/libft -I./lib/MLX42/include/MLX42
 LIBS := $(LIBMLX)/build/libmlx42.a
 
-SRC_DIR = source
-SRCS = $(addprefix $(SRC_DIR)/, \
-main.c \
-cub3d.c \
-cub_utils.c) \
+SRC_DIR := src
+SRCS := $(SRC_DIR)/gen_utils.c \
+        $(SRC_DIR)/main.c \
+        $(SRC_DIR)/movements.c \
+        $(SRC_DIR)/parcing.c \
+        $(SRC_DIR)/parcing_utils1.c \
+        $(SRC_DIR)/parcing_utils2.c \
+        $(SRC_DIR)/raycasting.c \
+        $(SRC_DIR)/read.c \
+        $(SRC_DIR)/rendering.c \
+        $(SRC_DIR)/textures.c
 
-LDFLAGS := -ldl -L $(LIBMLX)/glfw_lib/ -lglfw3 -pthread -lm -flto -framework Cocoa -framework OpenGL -framework IOKit -fsanitize=address
-OBJS := $(SRCS:.c=.o) 
 
-all: $(NAME)
+SRCS += $(LIBFT)/ft_atoi.c \
+        $(LIBFT)/ft_calloc.c \
+        $(LIBFT)/ft_split.c \
+        $(LIBFT)/ft_strdup.c \
+        $(LIBFT)/ft_strjoin.c \
+        $(LIBFT)/ft_strlen.c \
+        $(LIBFT)/ft_strnstr.c \
+        $(LIBFT)/ft_bzero.c \
+        $(LIBFT)/ft_isdigit.c \
+        $(LIBFT)/ft_memcpy.c \
+        $(LIBFT)/ft_strncmp.c \
+        $(LIBFT)/ft_strtrim.c \
+        $(LIBFT)/ft_substr.c \
+        $(LIBFT)/ft_strchr.c \
+        $(LIBFT)/ft_strlcpy.c \
+        $(LIBFT)/ft_lstadd_front.c \
+        $(LIBFT)/ft_memmove.c \
+        $(LIBFT)/ft_lstclear.c \
+        $(LIBFT)/ft_memset.c \
+        $(LIBFT)/ft_lstdelone.c \
+        $(LIBFT)/ft_strrchr.c \
+        $(LIBFT)/ft_lstiter.c \
+        $(LIBFT)/ft_isalnum.c \
+        $(LIBFT)/ft_lstlast.c \
+        $(LIBFT)/ft_isalpha.c \
+        $(LIBFT)/ft_lstmap.c \
+        $(LIBFT)/ft_striteri.c \
+        $(LIBFT)/ft_tolower.c \
+        $(LIBFT)/ft_isascii.c \
+        $(LIBFT)/ft_lstnew.c \
+        $(LIBFT)/ft_toupper.c \
+        $(LIBFT)/ft_lstsize.c \
+        $(LIBFT)/ft_strlcat.c \
+        $(LIBFT)/ft_isprint.c \
+        $(LIBFT)/ft_memchr.c \
+        $(LIBFT)/ft_itoa.c \
+        $(LIBFT)/ft_memcmp.c \
+        $(LIBFT)/ft_lstadd_back.c \
+        $(LIBFT)/ft_strmapi.c
+
+OBJS := $(SRCS:.c=.o)
+
+LDFLAGS := -ldl -L$(LIBMLX)/glfw_lib/ -lglfw3 -pthread -lm -flto -framework Cocoa -framework OpenGL -framework IOKit -g -fsanitize=address
+
+all: MLX $(NAME)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(LIBS) $(HEADERS) $(LDFLAGS) -o $(NAME) && echo "Successful build...!"
+	@$(CC) $(OBJS) $(LIBS) $(LDFLAGS) -o $@ && echo "Successful build...!"
 
 MLX:
 	@if [ ! -e $(LIBMLX)/build/libmlx42.a ]; then \
@@ -42,15 +92,12 @@ MLX:
 		sh setup_libs.sh; \
 	fi
 
-rmlib:
-	rm -rf MLX42
-
 clean:
-	@rm -rf $(OBJS)
+	@rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(OBJS) $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all rmlib clean fclean re MLX
+.PHONY: all MLX libft clean fclean re

@@ -6,7 +6,7 @@
 /*   By: otuyishi <otuyishi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:29:56 by otuyishi          #+#    #+#             */
-/*   Updated: 2023/04/14 21:23:52 by otuyishi         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:10:23 by otuyishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,18 @@ char	*ft_strtrim(char const *s1, char const *set)
 	char	*c_s1;
 
 	count = 0;
-	s1_len = ft_strlen(s1);
-	c_s1 = 0;
+	s1_len = 0;
+	if (s1)
+		s1_len = ft_strlen(s1);
+	c_s1 = NULL;
 	if (s1 != 0 && set != 0)
 	{
 		while (s1[count] && ft_strchr(set, s1[count]))
 		{
 			count++;
 		}
-		while (s1[s1_len - 1]
-			&& ft_strchr(set, s1[s1_len - 1]) && s1_len > count)
+		while (s1[s1_len - 1] && ft_strchr(set, s1[s1_len - 1])
+			&& s1_len > count)
 		{
 			s1_len--;
 		}
